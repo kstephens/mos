@@ -1,5 +1,11 @@
 #!/bin/perl
-# $Id: annot.pl,v 1.3 2000-03-21 07:06:54 stephensk Exp $
+# $Id: annot.pl,v 1.4 2001-09-18 02:47:33 stephens Exp $
+
+#
+# Scans MOS C files for MOS_ANNOT annotation block and
+# generates MOS lib annotation files to be loaded on-the-fly
+# during annotation queries.
+#
 
 $debug = 0;
 $verbose = 0;
@@ -17,7 +23,9 @@ $annot_value_path = "_ system annot ";
 $annot_value_var = "_curAnnot";
 $annot_value = "$annot_value_path $annot_value_var";
 
+
 #############################################################
+
 
 sub eof_check {
   if ( $annot ) {
@@ -27,6 +35,7 @@ sub eof_check {
     @annots = ();
   }
 }
+
 
 $in_file = undef;
 $in_line = undef;
@@ -62,7 +71,9 @@ sub get_line {
  $_;
 }
 
+
 #############################################################
+
 
 sub parse_string {
   my($str);
@@ -128,12 +139,14 @@ sub parse_string {
 
 #############################################################
 
+
 sub annot_file {
   my($file) = "$annot_dir/$in_file";
   $file =~ s/\.[^.\/]*$//;
   $file .= $annot_src_suffix;
   $file;
 }
+
 
 sub save_annot {
   my($key) = @_;
@@ -143,6 +156,7 @@ sub save_annot {
   $files{$key} = $file;
   #print STDERR "save_annot($key) $file\n";
 }
+
 
 sub annot {
   my($obj,$slot,$key) = @_;
@@ -163,7 +177,7 @@ sub annot {
 
   return if ( $pass != 2 );
 
-  # Open ouput file
+  # Open output file
   if ( ! ($FILE = $annot_files{$file}) ) {
     $FILE = $annot_files{$file} = $in_file;
     open($FILE, ">$file");
@@ -190,16 +204,21 @@ sub annot {
   # self is the object's desc, so use the __annot:(For:) selector
   print $FILE "self $obj _annot: ($annot_value)";
   if ( defined $slot ) {
-    print $FILE " For: @\"$slot\";\n";
+    # Use the C symbol escape notation.
+    # See selsupp.c
+    print $FILE " For: \"\\01$slot\";\n";
   }
   print $FILE ";\n";
 }
 
 
+
 #############################################################
 # Scan input file lines
 
+
 @ARGV_save = @ARGV;
+
 
 foreach $pass ( 1..2 ) {
   print STDERR "$0: pass $pass\n";
@@ -295,12 +314,14 @@ foreach $pass ( 1..2 ) {
 eof_check();
 }
 
+
 # Terminate all open annotation files.
 foreach ( keys(%annot_files) ) {
   print $_ "$annot_value: ", '@u', ";\n";
   print $_ "1;\n";
   close($_);
 }
+
 
 # Write annot.def to STDOUT
 print "/* Do not modify. Created by annot.pl @ARGV */\n";

@@ -1,21 +1,26 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_message_c__
 #define __rcs_id_mos_message_c__
-static const char __rcs_id_mos_message_c[] = "$Id: message.c,v 1.6 2001-08-13 09:39:16 stephens Exp $";
+static const char __rcs_id_mos_message_c[] = "$Id: message.c,v 1.7 2001-09-18 02:48:08 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
+
 #include "mos/mos.h"
+
 
 mos_ANNOT("Module: message")
 mos_ANNOT("Doc: The message object.\
 Message objects are created by the system whenever a message is sent to an object. \
-Users can dynamically create messages by cloning the message object.
+Users can dynamically create messages by cloning the message object. \
 ")
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Coerce")
+
 
 mos_METHOD(message,asMessage)
 {
@@ -23,11 +28,15 @@ mos_METHOD(message,asMessage)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Print")
+
 
 mos_METHOD(message,printExprOn_)
 {
@@ -55,6 +64,7 @@ mos_METHOD(message,printExprOn_)
   mos_return(mos_ARGV[0]); 
 }
 mos_METHOD_END
+
 
 mos_METHOD(message,printOn_)
 {
@@ -104,15 +114,19 @@ mos_METHOD(message,backtraceOn_Using_)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 mos_METHOD(message,printShallowOn_)
 {
   mos_return(mos_send(mos_RCVR, mos_s(printIdOn_), mos_ARGV[0]));
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
 
+
 /*******************************************************************/
+
 
 mos_ANNOT("Doc: Send the message to its receiver.")
 mos_METHOD(message,send)
@@ -121,6 +135,7 @@ mos_METHOD(message,send)
 }
 mos_METHOD_END
 mos_ANNOT_END
+
 
 mos_ANNOT("Doc: Send the message to the specified receiver.  Modifies the message's receiver.")
 mos_METHOD(message,forwardTo_)
@@ -187,6 +202,7 @@ mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_END(protos,message,mos_message,basicMeta)
 
+
 mos_INIT(message,10)
 {
   mos_send(mos_o(message), mos_s(selector_), mos_s(_));
@@ -200,4 +216,7 @@ mos_INIT(message,10)
 mos_ANNOT_END
 mos_ANNOT_END
 
+
 /******************************************************************/
+
+

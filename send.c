@@ -1,9 +1,10 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_send_c__
 #define __rcs_id_mos_send_c__
-static const char __rcs_id_mos_send_c[] = "$Id: send.c,v 1.3 1999-12-26 20:06:01 stephensk Exp $";
+static const char __rcs_id_mos_send_c[] = "$Id: send.c,v 1.4 2001-09-18 02:48:08 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
+
 
 #include "mos/mos.h"
 #include "mos/mapfuncs.h"
@@ -16,10 +17,12 @@ static const char __rcs_id_mos_send_c[] = "$Id: send.c,v 1.3 1999-12-26 20:06:01
 
 #define mos_MSG mos_MAKE_REF(msg)
 
+
 /****************************************************************************
 **
 ** Lookup primitive
 */
+
 #define FIND(X,S) _mos_map_find(mos_METHODS(X), S)
 
 __inline__
@@ -166,6 +169,7 @@ mos_value _mos_send(mos_message *msg)
   return rtnval;
 }
 
+
 /*
 ** C-function call interface, see send.h
 */
@@ -176,6 +180,7 @@ mos_value _mos_sendv_(mos_value mos_MSG, mos_value srcInfo, mos_value __mos_mr, 
   mos_message_DECLARE(__mos_msg, sel, __mos_mr, __mos_mr , __mos_msg_args, srcInfo);
   return _mos_send(&__mos_msg);
 }
+
 
 __inline
 mos_value _mos_sendv__(mos_value mos_MSG, mos_value srcInfo, mos_value _CNTX,  mos_value __mos_mr, mos_value sel, size_t nargs, mos_value *argv)
@@ -268,6 +273,7 @@ mos_value mos_send(mos_value rcvr, mos_value sel, ...)
 
   return rtnval;
 }
+
 
 #ifdef mos_send_
 #undef mos_send_

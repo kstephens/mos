@@ -1,16 +1,19 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_str_c__
 #define __rcs_id_mos_str_c__
-static const char __rcs_id_mos_str_c[] = "$Id: str.c,v 1.4 2000-03-21 07:13:44 stephensk Exp $";
+static const char __rcs_id_mos_str_c[] = "$Id: str.c,v 1.5 2001-09-18 02:48:08 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
+
 
 #include "mos/mos.h"
 #include "mos/constant.h"
 #include <string.h>
 #include <ctype.h>
 
+
 /******************************************************************/
+
 
 #define SELF mos_REFT(mos_MIMPL,mos_string)
 #define V mos_string_V(mos_MIMPL)
@@ -20,20 +23,26 @@ static const char __rcs_id_mos_str_c[] = "$Id: str.c,v 1.4 2000-03-21 07:13:44 s
 #define I mos_INT(mos_ARGV[0])
 #define J mos_INT(mos_ARGV[1])
 
+
 /******************************************************************/
+
 
 mos_ANNOT("Module: string")
 mos_ANNOT("Doc: Character string object.  Strings are compact vectors of character objects.")
 
+
 /******************************************************************/
 
+
   mos_ANNOT("Category: Coerce")
+
 
 mos_METHOD(string,asString)
 {
   mos_return(mos_MIMPL);
 }
 mos_METHOD_END
+
 
 mos_METHOD(string,asConstant)
 {
@@ -47,6 +56,7 @@ mos_METHOD(string,asConstant)
 }
 mos_METHOD_END
 
+
 mos_METHOD(string,asChar)
 {
   if ( L ) {
@@ -57,15 +67,19 @@ mos_METHOD(string,asChar)
 }
 mos_METHOD_END
 
+
 mos_METHOD(string,asSelector)
 {
   mos_return(mos_selector_make_(V, L));
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
 
+
 /******************************************************************/
+
 
   mos_ANNOT("Category: Print")
 
@@ -75,6 +89,7 @@ mos_METHOD(string,printOn_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(string,writeOn_)
 {
   mos_return(mos_send(mos_ARGV[0], mos_s(writeString_), mos_MIMPL));
@@ -83,7 +98,9 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
+
 /******************************************************************/
+
 
   mos_ANNOT("Category: Coder")
 
@@ -95,9 +112,12 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
+
 /******************************************************************/
 
+
   mos_ANNOT("Category: Length")
+
 
 mos_METHOD(string,length)
 {
@@ -105,11 +125,13 @@ mos_METHOD(string,length)
 }
 mos_METHOD_END
 
+
 mos_METHOD(string,allocatedLength)
 {
   mos_return(mos_integer_make(AL));
 }
 mos_METHOD_END
+
 
 mos_METHOD(string,length_)
 {
@@ -174,11 +196,15 @@ mos_METHOD(string,allocatedLength_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Equal")
+
 
 mos_METHOD(string,_equal_)
 {
@@ -192,11 +218,15 @@ mos_METHOD(string,_equal_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Get")
+
 
 mos_METHOD(string,get_)
 {
@@ -208,11 +238,15 @@ mos_METHOD(string,get_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Subvector")
+
 
 mos_METHOD(string,sliceFrom_Length_)
 {
@@ -235,11 +269,15 @@ mos_METHOD(string,sliceFrom_Length_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Allocate")
+
 
 mos_METHOD(string,deepen)
 {
@@ -262,11 +300,15 @@ mos_METHOD(string,makeReadonly)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Set")
+
 
 mos_METHOD(string,set_Value_)
 {
@@ -299,6 +341,7 @@ mos_METHOD(string,append_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(string,insert_)
 {
   size_t ol;
@@ -316,12 +359,16 @@ mos_METHOD(string,insert_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Stream")
   mos_ANNOT("Doc: See _ system proto stream for protocol details.")
+
 
 mos_METHOD(string,asStream)
 {
@@ -329,9 +376,12 @@ mos_METHOD(string,asStream)
 }
 mos_METHOD_END
 
+
 /******************************************************************/
 
+
   mos_ANNOT("Category: Output")
+
 
 mos_METHOD(string,writeString_)
 {
@@ -339,17 +389,22 @@ mos_METHOD(string,writeString_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(string,flush)
 {
   mos_return(mos_send(mos_RCVR, mos_s(append_), mos_ARGV[0]));
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Input")
+
 
 mos_METHOD(string,readString_)
 {
@@ -381,11 +436,13 @@ mos_METHOD(string,readString_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(string,readChar)
 {
   mos_return((L > 0) ? mos_char_make((L --, AL --, *(V ++))) : mos_eos);
 }
 mos_METHOD_END
+
 
 mos_METHOD(string,peekChar)
 {
@@ -393,9 +450,12 @@ mos_METHOD(string,peekChar)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
 
+
 /******************************************************************/
+
 
   mos_ANNOT("Category: Structured Stream")
 
@@ -409,22 +469,28 @@ mos_METHOD(string,asStructuredStream)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
 
+
 /******************************************************************/
+
 
   mos_ANNOT_END
   mos_ANNOT_END /* End of "Category: Stream" */
 
+
 /******************************************************************/
 
 mos_ANNOT("Category: Escape")
+
 
 /***********************************************************************
 **
 ** C string conversions
 **
 */
+
 
 static int find_C_escape(int x, int off)
 {
@@ -440,7 +506,9 @@ static int find_C_escape(int x, int off)
   return 0;
 }
 
+
 static const char hexdigits[] = "0123456789abcdef";
+
 
 mos_METHOD(string,escapeC)
 {
@@ -553,7 +621,9 @@ mos_METHOD_END
 
 mos_ANNOT_END /* End of "Category: Escape" */
 
+
 /******************************************************************/
+
 
 mos_OBJECT(string)
 mos_constant_METHODS
@@ -589,11 +659,14 @@ mos_OBJECT_M(string,asStructuredStream)
 mos_OBJECT_SLOTS(string)
 mos_OBJECT_END(protos,string,mos_string,basicMeta)
 
+
 mos_ANNOT_END
 mos_ANNOT_END /* End of "Module: string" */
 
+
 /******************************************************************/
 /* Low-level constructors */
+
 
 mos_value mos_string_make(const char *_v, size_t _l)
 {
@@ -604,6 +677,7 @@ mos_value mos_string_make(const char *_v, size_t _l)
   x->_flags = 0;
   return mos_MAKE_REF(x);
 }
+
 
 mos_value mos_string_make_(const char *v)
 {

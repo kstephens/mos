@@ -1,0 +1,29 @@
+#
+
+_ system _addSlotsIfAbsent: {
+  traits -> { };
+};
+
+_ system traits _addSlots: {
+  point -> {
+    newX: px Y: py { _: (self clone x: px y: py); }
+    + p { _: (newX: (x + p x) Y: (y + p y)); }
+    - p { _: (newX: (x - p x) Y: (y - p y)); }
+    length { _: (((x * x) + (y * y)) asReal sqrt); }
+    printOn: s {
+      x printOn: s;
+      "@" writeOn: s;
+      y printOn: s;
+    }
+  }
+};
+
+_ system protos _addSlots: {
+  point -> _ system metas delegation becomeMetaFor: {
+    _delegate = _ system traits point;
+    x -> 0;
+    y -> 0;
+  }
+};
+
+1;

@@ -1,0 +1,5 @@
+_ system behaviors defaultBehavior _addSlots: {
+  dumpMethodForSelector: sel {
+    (self _meta lookupMethodForSelector: sel InObject: self) dumpToStream: @U;
+  }
+};

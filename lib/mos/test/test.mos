@@ -1,0 +1,74 @@
+@"name" asString; # "name"
+5 + 6; # 11
+5 + 6 * 2; # 22
+_: 5 asReal + 6 * 2; # 22.0
+
+"abc"[2]; # 'c'
+(@V,1,2,3)[2]; # 3
+(@V,"abc","def","hij")[2][1]:'x'; # "hxj"
+
+_addSlot: @"o" Value: { a: i Value: v { _: (`(@V,1,2,3))[i]: v; } };
+
+@t printSlotsOn: _ system os stdio out;
+
+_ system protos selector valueSelectorForNargs: 0;
+_ system protos selector valueSelectorForNargs: 1;
+_ system protos selector valueSelectorForNargs: 2;
+_ system protos selector valueSelectorForNargs: 3;
+_ system protos selector valueSelectorForNargs: 4;
+
+
+{ a = 4 };
+{ a = 4; b };
+{ a = 4; b; c -> 5; };
+{ a = 4; b; c -> 5; d; };
+{ a = 4; b; c -> 5; } b: 1 c: 2;
+{ a = 4; b; c -> 5; d { _: a; } } d;
+{ a = 4; b; c -> 5; d { _: b; } } d;
+{ a = 4; b; c -> 5; d { _: c; } } d;
+{ a = 4; b; c -> 5; dddsef { _: c; } } dddsef;
+{ a = 4; b; c -> 5; d { _: a + c + 2; } } d; # 11
+{ a = 4; b; c -> 5; d: x { _: a + c * 2 - x; } } d: 10; # 8
+{ a = 4; b; c -> 5; d: x { @ y = 3; @ _: (a + c + 2 - x + y); } } d: 10;
+
+{ a = 1; b: x C: y { _msg printOn: _ system os stdio out; }} b: 1 C: 2;
+
+{ a = 1; b { @t ifThen: [ a: 2 ]; _: a } } b; # 2
+
+[5] value;
+[5] value: 20;
+[(x) x + 5] value: 20;
+([_: 5] value) + 4;
+[[5] value] value;
+[[(x) x + 5; ] value: 20 ] value;
+
+_ system compiler parser parseDebug: 1;
+@t _meta methodMapForObject: @t;
+_ system behaviors defaultBehavior _meta;
+_ system behaviors defaultBehavior _meta methodMapForObject: _ system behaviors defaultBehavior;
+_ system gc bytesAllocated;
+_ system gc bytesAllocated asReal / _ system gc blocksAllocated;
+
+_ system debugger sendTrace: 1;
+
+_addSlots: {
+  point -> {
+    x -> 0;
+    y -> 0;
+    newX: px Y: py { _:(self clone x: px y: py); }
+    + p { _:(newX: x + p x Y: y + p y); }
+    - p { _:(newX: x - p x Y: y - p y); }
+    length { _:(((x * x) + (y * y)) asReal sqrt); }
+    printOn: s {
+      x printOn: s;
+      "@" writeOn: s;
+      y printOn: s;
+    }
+  };
+};
+
+_ system trace traceMethod: @"printOn:" InObject: _ point;
+
+(point newX: 1 Y: 2) + (point newX: 3 Y: 4);
+
+(point newX: 3 Y: 4) length;

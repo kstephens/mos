@@ -1,0 +1,11 @@
+
+_ _addSlots: { i -> 0; };
+#_ _addSlots: { t -> [ i < 10 ]; };
+#t print;
+#t value print;
+
+[ _: 5 ] value print;
+
+#[ i < 10 ] whileDo: [ i print; i: i + 1; ];
+
+1;

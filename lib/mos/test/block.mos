@@ -1,0 +1,75 @@
+
+_ _addSlotsIfAbsent: { test -> {} };
+_ test _addSlotsIfAbsent: { block -> {} };
+_ test block _addSlots: {
+  slot1 -> 1;
+  slot2 = 2;
+  slot3 { _: 3; }
+  slot4;
+
+  test1 {
+    "block test1: " write;
+    "block non-local return";
+    [ _:("returned from block\n") ] value;
+    _:("returned from method\n");
+  }
+  test2 {
+    "block test2: " write;
+    "nested block non-local return";
+    [ 
+      [ 
+	_: @T; 
+      ] value; 
+      "(ERROR: in block1, after block2 rtn:) " write;
+    ] value;
+    "(ERROR: in block2, after block2 rtn:) " write;
+    _: @F;
+  }
+  test3 {
+    "block test3: " write;
+    "default rcrv is method's self";
+    _:(slot1 eq: ([ slot1; ] value));
+  }
+  test4 {
+    "block test4: " write;
+    "self is method's self";
+    _:(self eq: ([ self; ] value));
+  }
+  test5: ma {
+    "block test5: " write;
+    "method argument in block from block == method's self";
+    _:(ma eq: ([ ma; ] value));
+  }
+  test6 {
+    "block test6: " write;
+    "last value is returned from (block value)";
+    _:(([ 5 ] value) equal: 5);
+  }
+  test7 {
+    "block test7: " write;
+    "empty block body returns self";
+    _:(self eq: ([] value));
+  }
+  test8 {
+    @ v @
+    "block test8: " write;
+    "nested lexical argument testing";
+    v: ([(a b c) [(a b) a * b * c] value: 2 With: 3] value: 5 With: 7 With: 11);
+    _:(v equal: 66);
+  }
+
+  test {
+    test1 print; "\n" write;
+    test2 print; "\n" write;
+    test3 print; "\n" write;
+    test4 print; "\n" write;
+    (test5: "foo") print; "\n" write;
+    test6 print; "\n" write;
+    test7 print; "\n" write;
+    test8 print; "\n" write;
+  }
+};
+
+_ test block test;
+
+1;

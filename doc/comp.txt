@@ -1,0 +1,98 @@
+OPCODES:
+
+LIT X		| <X>
+DUP		<X> | <X> <X>
+LOBBY		| <lobby>
+EXECLIT X	eval code at X, result is <X>, put <X> into EXECLIT's arg, and rewrite to LIT | <X>
+SEND		<sel> <cntx> <rcvr> <args> ... | <rtnval>
+POP		<X> | 
+RTN		<X> | local exit
+
+constant compile: cntxt
+{
+  
+  cntxt constants append: 
+  cntxt emit: "LIT" arg: 
+}
+
+=================================================================================
+
+@V(<x> <y>)
+
+=>
+
+(((_ system proto vector clone length: 3) set:0 Value:<x>) set:1 Value:<y>)
+
+=>
+CODE 1
+<X>			| <x>
+LIT 0			| 0 <x>
+LIT @"set:Value:"	| @"set:Value:" 0 <x>
+<Y>			| <y> @"set:Value:" 0 <x>
+LIT 1			| 1 <y> @"set:Value:" 0 <x>
+LIT @"set:Value:"	| @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+LIT 2			| 2 @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+LIT @"length:"		| @"length:" 2 @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+LIT @"proto"		| @"proto" @"length:" 2 @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+LOBBY			| _ @"clone" @"length:" 2 @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+SEND			| S(_ proto) @"length:" 2 @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+LIT @"vector"		| @"vector" @"length:" 2 @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+SEND			| S(proto vector) @"length:" 2 @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+LIT @"clone"		| S(proto vector) @"clone" @"length:" 2 @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+SEND			| <clone-of-proto-vector> @"length:" 2 @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+SEND			| @V(@U @U) @"set:Value:" 1 <y> @"set:Value:" 0 <x>
+SEND			| @V(@U <y>) @"set:Value:" 0 <x>
+SEND			| @V(<x> <y>)
+RTN
+
+===========================================================================
+
+a: '@V(<x> <y>)
+
+CODE 2
+EXECLIT 1 
+LIT @"a:" 
+SYSTEM
+SEND
+RTN
+
+=>
+
+============================================================================
+
+a;
+b = <x>;
+c: <y>;
+d {
+  c: a;
+  a: a + b;
+  _: <z>
+}
+}
+
+=>
+
+((((_ proto empty clone) addSlot:@"a") addReadOnlySlot:@"b" Value:<x>) addSlot:@"c" Value:<y>)
+
+CODE 3
+LIT @"c:"	| @"c:"
+RCVR		| <RCVR> @"c:"
+LIT @"a"	| @"a" <RCVR> @"c:"
+RCVR		| <RCVR> @"a" <RCVR> @"c:"
+SEND		| <a> <RCVR> @"c:"
+SEND		| <RCVR>
+POP		|
+LIT @"b"	| @"b"
+RCVR		| <RCVR> @"b"
+SEND		| <b>
+LIT @"+"	| @"+" <b>
+LIT @"a"	| @"a" @"+" <b>
+RCVR		| <RCVR> @"a" @"+" <b>
+SEND		| <a> @"+" <b>
+SEND		| <a+b>
+LIT @"b"	| @"a:" <a+b>
+RCVR		| <RCVR> @"a:" <a+b>
+SEND		| <RCVR>
+POP		|
+<Z>		| <Z>
+RTN		| <Z>

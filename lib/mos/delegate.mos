@@ -1,0 +1,29 @@
+
+_ system metas _addSlots: {
+  delegation = _ system metas basicMeta clone;
+};
+
+_ system metas delegation _addSlots: {
+  previousMeta -> _ system metas basicMeta;
+  lookupMethod: msg {
+    # if the lookup fails using the basicMeta on the current context.
+    ((previousMeta lookupMethod: msg) eq: @u) ifThen: [
+      # Set the messages context to be the context '_delegate' slot.
+      msg context: msg context _delegate;
+      
+      # Attempt to lookup the message using the new context's meta.
+      msg context meta lookupMethod: msg;
+    ];
+    
+    # Return the method
+    _:(msg method);
+  }
+  
+  becomeMetaFor: obj {
+    obj _meta: (self clone previousMeta: obj _meta);
+    _: obj;
+  }
+};
+
+
+1;

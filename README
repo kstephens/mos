@@ -1,0 +1,12 @@
+This is MOS - Meta Object System.
+
+See documentation in doc/mos.html
+
+Requirements:
+	GCC
+	GNU bison
+	perl 5.x
+	GNU readline
+	GNU history
+	System V V8 regexp(3) compatable regular expression package.
+	Boehm GC

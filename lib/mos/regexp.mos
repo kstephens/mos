@@ -1,0 +1,22 @@
+#{Module: regexp
+
+_ system protos regexp _addSlots: {
+  spilt: str {
+    @ vec m @
+
+    # Initialize an empty vector
+    vec: (@V);
+   
+    [ m: self matchesStrings:str; m ] whileDo: [
+      # Put the "before" string in the vec
+      vec append: (m[1]);
+
+      # Continue to search the "after" string
+      str: (m[2]);
+    ];
+
+    _: vec;
+  }
+};
+
+#}

@@ -1,0 +1,6 @@
+
+_ _addSlots: { r; };
+
+r: (_ system protos regexp);
+r: (r new: "ab");
+

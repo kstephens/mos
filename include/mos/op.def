@@ -1,0 +1,38 @@
+
+BOP(__ADD__,+)
+BOP(__SUB__,-)
+BOP(__MUL__,*)
+UOP(__NEG__,-)
+
+#ifdef _op_NO_DIV
+#undef _op_NO_DIV
+#else
+BOP(__DIV__,/)
+IBOP(__MOD__,%)
+#endif
+
+IBOP(__BAND__,&)
+IBOP(__BOR__,|)
+IBOP(__BXOR__,^)
+IBOP(__RSH__,>>)
+IBOP(__LSH__,<<)
+IUOP(__BNOT__,~)
+
+LBOP(__AND__,&&)
+LBOP(__OR__,||)
+LUOP(__NOT__,!)
+
+ROP(__EQ__,==)
+ROP(__NE__,!=)
+ROP(__LT__,<)
+ROP(__GT__,>)
+ROP(__LE__,<=)
+ROP(__GE__,>=)
+
+#undef BOP
+#undef UOP
+#undef IBOP
+#undef IUOP
+#undef LBOP
+#undef LUOP
+#undef ROP

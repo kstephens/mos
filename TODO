@@ -1,0 +1,10 @@
+MOS TODO
+
+1. Change over from allocating message argument vectors and message object on the C stack to an explicit stack.
+This is to insure that locals and args are contigous
+
+                    fp
+                    |
+                    V
+locn .... loc1 loc0 arg0 arg1 arg2 .... argn
+

@@ -1,0 +1,66 @@
+_ system behaviors defaultBehavior _addSlotsIfAbsent: {
+  loop {
+     self value;
+     _restart;
+  }
+
+  loopExit {
+     @ exit @;
+     # Create an exit proc
+     exit: [ _: @u ];
+
+     # Begin a looping block
+     [
+       # Pass self the exit proc
+       self value: exit;
+       _restart;
+     ] value;
+     _: @u;
+  }
+
+  loopExitValue {
+     @ exit @;
+     # Create an exit proc with a return value argument
+     exit: [(v) _: v ];
+
+     # Begin a looping block
+     _: [
+       # Pass self the exit proc
+       #   If (self value: exit) does a (exit: value). 
+       self value: exit;
+       _restart;
+     ] value;
+  }
+
+  whileTrue: body {
+    @ result; @
+    (self value) ifFalse: [ _: result ];
+    result: (body value);
+    _restart;
+  }
+
+  whileFalse: body {
+    @ result; @
+    (self value) ifTrue: [ _: result ];
+    result: (body value);
+    _restart;
+  }
+
+  untilTrue: test {
+    @ result; @
+    result: (self value);
+    (test value) ifTrue: [ _: result ];
+    _restart;
+  }
+
+  untilFalse: test {
+    @ result; @
+    result: (self value);
+    (test value) ifFalse: [ _: result ];
+    _restart;
+  }
+};
+
+#_ _loadFile: "lib/mos/test/while.mos";
+
+1;

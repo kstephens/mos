@@ -1,0 +1,10 @@
+
+#"loading while\n" write; _loadFile: "lib/mos/while.mos";
+#"loading point\n" write; _loadFile: "lib/mos/point.mos";
+#_ _loadFile: "lib/mos/iterator.mos";
+
+"\n" write;
+"**************\n" write;
+"** MOS v" write; _ system defaults systemVersion write; " **\n" write;
+"**************\n" write;
+

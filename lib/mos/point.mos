@@ -1,0 +1,32 @@
+#
+
+_ system _addSlotsIfAbsent: {
+  protos -> { };
+};
+
+_ system protos _addSlots: {
+  point -> {
+    _numberBehavior = {
+      , y { _:(_ system protos point newX: self Y: y); }
+    };
+    x -> 0;
+    y -> 0;
+    newX: px Y: py { _: (self clone x: px y: py); }
+    + p { _: (newX: (x + p x) Y: (y + p y)); }
+    - p { _: (newX: (x - p x) Y: (y - p y)); }
+    length { _: (((x * x) asReal + (y * y) asReal) sqrt); }
+    printOn: s {
+      "(" writeOn: s;
+      x printOn: s;
+      "," writeOn: s;
+      y printOn: s;
+      ")" writeOn: s;
+    }
+  }
+};
+
+_ system protos integer _addSlots: (_ system protos point _numberBehavior);
+_ system protos real _addSlots: (_ system protos point _numberBehavior);
+
+1;
+

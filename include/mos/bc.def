@@ -1,0 +1,33 @@
+/*
+** This file enumerates all the bytecodes for the bytecode compiler.
+*/
+/*mos_BC(NAME,NARGS) */
+mos_BC(nop,0)
+mos_BC(restart,0)
+mos_BC(dup,0)
+mos_BC(pop,0)
+mos_BC(rtn,0)
+mos_BC(rtnBlk,0)
+mos_BC(lobby,0)
+mos_BC(const,0)
+mos_BC(msg,0)
+mos_BC(object,0)
+mos_BC(block,0)
+mos_BC(method,0)
+mos_BC(_lexicalContext,0)
+mos_BC(_lexicalContext_,0)
+mos_BC(_methodContext,0)
+mos_BC(_methodContext_,0)
+mos_BC(rcvr,0)
+mos_BC(rcvrSet,0)
+mos_BC(lit_,1)
+mos_BC(memo_,1)
+mos_BC(memoval_,1)
+mos_BC(arg_,1)
+mos_BC(argSet_,1)
+mos_BC(locs_,1)
+mos_BC(loc_,1)
+mos_BC(locSet_,1)
+mos_BC(send_,1)
+mos_BC(sendDir_,1)
+#undef mos_BC

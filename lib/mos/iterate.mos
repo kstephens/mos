@@ -1,0 +1,26 @@
+
+
+_ system behavior _addSlots: { iterate ->
+  {
+    foreach: blk {
+      @ i -> 0; @
+      [ i < self length ] whileDo: [
+        blk value: (self get: i);
+        i: i + 1;
+      ];
+    }
+    map: blk {
+      @ i -> 0; @
+      [ i < self length ] whileDo: [
+        (self set: i Value: (blk value: (self get: i)));
+        i: i + 1;
+      ];
+    }
+  }
+};
+
+_ system protos string _addSlots: _ system behaviors iterate;
+_ system protos vector _addSlots: _ system behaviors iterate;
+
+1;
+

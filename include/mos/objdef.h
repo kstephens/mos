@@ -1,17 +1,18 @@
 #ifndef _mos_objdef_h
+#define _mos_objdef_h
 
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_objdef_h__
 #define __rcs_id_mos_objdef_h__
-static const char __rcs_id_mos_objdef_h[] = "$Id: objdef.h,v 1.2 1999-02-19 09:26:30 stephensk Exp $";
+static const char __rcs_id_mos_objdef_h[] = "$Id: objdef.h,v 1.3 2000-03-21 07:13:46 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
-
-#define _mos_objdef_h
 
 /************************************************************
 ** Object definition
 */
+
+#ifndef mos_OBJECT
 
 #define mos_OBJECT(O) \
 mos_map_BEGIN(,_mos_om_##O)
@@ -27,7 +28,6 @@ mos_value _mos_os_##O[] = {
 
 #define mos_OBJECT_S(X) X,
 
-
 #define mos_OBJECT_END(S,O,T,M) \
   0 \
 }; \
@@ -41,6 +41,7 @@ mos_objectDesc _mos_od_##O = { \
 }; \
 T _mos_o_##O = { &_mos_od_##O, _mos_os_##O }; 
 
+#endif
 
 #endif
 

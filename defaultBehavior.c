@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_defaultBehavior_c__
 #define __rcs_id_mos_defaultBehavior_c__
-static const char __rcs_id_mos_defaultBehavior_c[] = "$Id: defaultBehavior.c,v 1.4 1999-12-26 20:05:48 stephensk Exp $";
+static const char __rcs_id_mos_defaultBehavior_c[] = "$Id: defaultBehavior.c,v 1.5 2000-03-21 07:13:44 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -15,7 +15,7 @@ mos_ANNOT("Module: defaultBehavior")
 
 mos_ANNOT("Doc: The basic behavior delegate.  MOS does a very low level, behind-the-scenes lookup delegation to this special object when certain messages cannot be found through the usual lookup semantics.  This is primarly for bootstrapping and low-level object messages that all objects must respond to; like @\"_clone\", @\"_meta\", @\"isConstant\", and the basic printing and encoding facilities.")
 
-/***************************************************************************/
+/*******************************************************************/
 
   mos_ANNOT("Category: Finalize")
 
@@ -36,8 +36,7 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
-/****************************************************************************
-*/
+/*******************************************************************/
 
   mos_ANNOT("Category: Constant")
 
@@ -49,8 +48,7 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
-/****************************************************************************
-*/
+/*******************************************************************/
 
   mos_ANNOT("Category: Print")
 
@@ -190,10 +188,7 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
-/****************************************************************************
-**
-** Cloneing
-*/
+/************************************************************************/
 
   mos_ANNOT("Category: Clone")
 
@@ -211,8 +206,7 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
-/****************************************************************************
-*/
+/************************************************************************/
 
   mos_ANNOT("Category: Value")
  
@@ -255,8 +249,7 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
-
-/*****************************************************************************/
+/*******************************************************************/
 
   mos_ANNOT("Category: Equal")
 
@@ -321,16 +314,22 @@ mos_METHOD_END
   mos_ANNOT_END
 
 
-int mos_EQUAL(mos_value X, mos_value Y)
+mos_value mos_EQUAL_(mos_value X, mos_value Y)
 {
-  mos_return(mos_NE(mos_send((X), mos_s(equal_), (Y)),mos_false));
+  return mos_send((X), mos_s(equal_), (Y));
 }
 
-/*****************************************************************************/
+int mos_EQUAL(mos_value X, mos_value Y)
+{
+  return mos_NE(mos_EQUAL_(X, Y), mos_false);
+}
+
+
+/*******************************************************************/
 
   mos_ANNOT("Category: Meta")
 
-/*****************************************************************************/
+/*******************************************************************/
 
   mos_ANNOT("Category: Object Descriptor")
 
@@ -349,7 +348,7 @@ mos_METHOD(defaultBehavior,_objectDesc_)
     mos_return(mos_RCVR);
 
   /*
-  ** Make sure we don't do, something unsafe like:
+  ** Make sure not to do something unsafe like:
   ** make the object think it has more slots or is bigger than
   ** actually allocated.
   */
@@ -363,7 +362,7 @@ mos_METHOD(defaultBehavior,_objectDesc_)
     mos_return(mos_error(mos_s(rangeError), "new objectDesc has sizeof bigger than previous objectDesc"));
   }
 
-  /* Make the descriptor copy-on-write, since we might be sharing it */
+  /* Make the descriptor copy-on-write, since it might be shared. */
   if ( ! (desc->_flags & (mos_SHARED_DESC)) ) {
     desc->_flags |= (mos_COPY_ON_WRITE);
   }
@@ -539,6 +538,12 @@ mos_OBJECT_M(defaultBehavior,_addMethodSlot_Value_)
 mos_OBJECT_M(defaultBehavior,encodeOn_)
 mos_OBJECT_M(defaultBehavior,encodeOtherOn_)
 mos_OBJECT_M(defaultBehavior,decodeOtherOn_)
+
+mos_OBJECT_M(defaultBehavior,_annot)
+mos_OBJECT_M(defaultBehavior,_annotFor_)
+mos_OBJECT_M(defaultBehavior,_annot_)
+mos_OBJECT_M(defaultBehavior,_annot_For_)
+
 mos_OBJECT_SLOTS(defaultBehavior)
 mos_OBJECT_END(behaviors,defaultBehavior,mos_object,basicMeta)
 

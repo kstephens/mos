@@ -1,17 +1,33 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_message_c__
 #define __rcs_id_mos_message_c__
-static const char __rcs_id_mos_message_c[] = "$Id: message.c,v 1.4 1999-12-26 20:05:57 stephensk Exp $";
+static const char __rcs_id_mos_message_c[] = "$Id: message.c,v 1.5 2000-03-21 07:13:44 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
 #include "mos/mos.h"
+
+mos_ANNOT("Module: message")
+mos_ANNOT("Doc: The message object.\
+Message objects are created by the system whenever a message is sent to an object. \
+Users can dynamically create messages by cloning the message object.
+")
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Coerce")
 
 mos_METHOD(message,asMessage)
 {
   mos_return(mos_MIMPL);
 }
 mos_METHOD_END
+
+  mos_ANNOT_END
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Print")
 
 mos_METHOD(message,printExprOn_)
 {
@@ -71,6 +87,8 @@ mos_METHOD(message,printOn_)
 }
 mos_METHOD_END
 
+
+mos_ANNOT("Doc: Formats a message backtrace on a stream object using a formatting selector.")
 mos_METHOD(message,backtraceOn_Using_)
 {
   mos_value x = mos_RCVR;
@@ -84,6 +102,7 @@ mos_METHOD(message,backtraceOn_Using_)
   
 }
 mos_METHOD_END
+mos_ANNOT_END
 
 mos_METHOD(message,printShallowOn_)
 {
@@ -91,18 +110,27 @@ mos_METHOD(message,printShallowOn_)
 }
 mos_METHOD_END
 
+mos_ANNOT_END
+
+/*******************************************************************/
+
+mos_ANNOT("Doc: Send the message to its receiver.")
 mos_METHOD(message,send)
 {
   mos_return(_mos_send(mos_REFT(mos_RCVR,mos_message)));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT("Doc: Send the message to the specified receiver.  Modifies the message's receiver.")
 mos_METHOD(message,forwardTo_)
 {
   mos_send(mos_RCVR, mos_s(receiver_), mos_ARGV[0]);
   mos_return(_mos_send(mos_REFT(mos_RCVR,mos_message)));
 }
 mos_METHOD_END
+mos_ANNOT_END
+
 
 mos_OBJECT(message)
 mos_OBJECT_M(message,asMessage)
@@ -112,16 +140,36 @@ mos_OBJECT_M(message,printShallowOn_)
 mos_OBJECT_M(message,backtraceOn_Using_)
 mos_OBJECT_M(message,send)
 mos_OBJECT_M(message,forwardTo_)
+mos_ANNOT("Doc: The message that spawned this message.")
 mos_OBJECT_A(previousMessage,0)
+mos_ANNOT_END
+mos_ANNOT("Doc: The selector for the message.")
 mos_OBJECT_A(selector,1)
+mos_ANNOT_END
+mos_ANNOT("Doc: The method lookup context, if @u, then the receiver is assumed to be the implementor of the method.")
 mos_OBJECT_A(context,2)
+mos_ANNOT_END
+mos_ANNOT("Doc: The receiver of the method.")
 mos_OBJECT_A(receiver,3)
+mos_ANNOT_END
+mos_ANNOT("Doc: The vector object containing the arguments.")
 mos_OBJECT_A(arguments,4)
+mos_ANNOT_END
+mos_ANNOT("Doc: The sourceInfor object containing the source location of the generation of this message.")
 mos_OBJECT_A(sourceInfo,5)
+mos_ANNOT_END
+mos_ANNOT("Doc: The method that implements the method for the reciever.")
 mos_OBJECT_A(method,6)
+mos_ANNOT_END
+mos_ANNOT("Doc: The object that implemented the method for the receiver.  This object is usually the receiver, but may not be if some delegate object is implementing the method.")
 mos_OBJECT_A(methodImplementer,7)
+mos_ANNOT_END
+mos_ANNOT("Doc: The return value of the method.")
 mos_OBJECT_A(returnValue,8)
+mos_ANNOT_END
+mos_ANNOT("Doc: The catch object used by blocks to return from this message.")
 mos_OBJECT_A(returnCatch,9)
+mos_ANNOT_END
 mos_OBJECT_SLOTS(message)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_undef)
@@ -144,3 +192,7 @@ mos_INIT(message,10)
   return 0;
 }
 
+mos_ANNOT_END
+mos_ANNOT_END
+
+/******************************************************************/

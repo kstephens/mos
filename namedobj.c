@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_namedobj_c__
 #define __rcs_id_mos_namedobj_c__
-static const char __rcs_id_mos_namedobj_c[] = "$Id: namedobj.c,v 1.3 1999-12-26 20:05:58 stephensk Exp $";
+static const char __rcs_id_mos_namedobj_c[] = "$Id: namedobj.c,v 1.4 2000-03-21 07:13:44 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -10,14 +10,15 @@ static const char __rcs_id_mos_namedobj_c[] = "$Id: namedobj.c,v 1.3 1999-12-26 
 
 #include <string.h>
 
-/*
-All system (non-coder-able) object have "@" as a named object prefix:
-  Methods have names of "@M <obj> <sel>"
-  Protos have names of "@O <parent> <obj>"
-  Proto descriptors have names of "@OD <parent> <obj>"
-  Proto method maps have names of "@OM <parent> <obj>"
-By forcing all static system objects to be named objects, we insure the coder object will properly decode properly into the local environment.
-*/
+mos_ANNOT("Module: namedobj")
+mos_ANNOT("Doc: \
+All system (non-coder-able) objects have \"@\" as a named object prefix: \n\
+  Methods have names of \"@M <obj> <sel>\" \n\
+  Protos have names of \"@O <parent> <obj>\" \n\
+  Proto descriptors have names of \"@OD <parent> <obj>\" \n\
+  Proto method maps have names of \"@OM <parent> <obj>\" \n\
+By forcing all static system objects to be named objects, we insure the coder object will properly decode properly into the local environment. \n\
+")
 
 static mos_map_slot map_slots[] = {
 #define mos_DEF_METHOD(O,S) { 0, mos_m(O,S), (int) "@M " #O " " #S },
@@ -125,3 +126,5 @@ mos_OBJECT_M(named,map)
 mos_OBJECT_SLOTS(named)
 mos_OBJECT_END(system,named,mos_object,basicMeta);
 
+mos_ANNOT_END
+mos_ANNOT_END

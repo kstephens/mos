@@ -1,8 +1,10 @@
+#ifndef _mos_accessor_h
+#define _mos_accessor_h
 
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_accessor_h__
 #define __rcs_id_mos_accessor_h__
-static const char __rcs_id_mos_accessor_h[] = "$Id: accessor.h,v 1.2 1999-02-19 09:26:27 stephensk Exp $";
+static const char __rcs_id_mos_accessor_h[] = "$Id: accessor.h,v 1.3 2000-03-21 07:13:45 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -14,7 +16,7 @@ typedef struct mos_accessor {
 
 typedef struct mos_constantMethod {
   mos_method_HDR;
-  mos_value _value;
+  /* mos_value _value; SEE slot(0) */
 } mos_constantMethod;
 
 mos_value mos_getter_method(unsigned int sloti);
@@ -29,4 +31,7 @@ extern mos_accessor _mos_getter[], _mos_setter[];
   mos_method_METHODS \
   mos_OBJECT_M(constant,clone) \
   mos_OBJECT_M(accessor,asAccessor) \
+  mos_OBJECT_M(accessor,_equal_) \
   mos_OBJECT_M(accessor,slotIndex)
+
+#endif

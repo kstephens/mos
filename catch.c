@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_catch_c__
 #define __rcs_id_mos_catch_c__
-static const char __rcs_id_mos_catch_c[] = "$Id: catch.c,v 1.3 1999-12-26 20:04:11 stephensk Exp $";
+static const char __rcs_id_mos_catch_c[] = "$Id: catch.c,v 1.4 2000-03-21 07:13:43 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -98,8 +98,11 @@ mos_value mos_THROW(mos_value catch, mos_value value)
   }
 }
 
+/******************************************************************/
 
 #define C mos_REFT(mos_MIMPL,mos_catch)
+
+/******************************************************************/
 
 mos_ANNOT("Module: catch")
 mos_ANNOT("Doc: The catch object.  \
@@ -120,12 +123,14 @@ _ system proto catch clone do:[| c |\n\
   c value: value;\n\
   somethingNeverDone;\n\
 ] IfThrown:[| v |\n\
-  "I was thrown " writeOn: _ system os stdio out;\n\
+  \"I was thrown \" writeOn: _ system os stdio out;\n\
   v printOn: _ system os stdio out;\n\
-  "\n" writeOn: _ system os stdio out;\n\
+  \"\n\" writeOn: _ system os stdio out;\n\
 ];\n\
 </CODE>\
 ")
+
+/******************************************************************/
 
   mos_ANNOT("Category: Coerce")
 
@@ -137,7 +142,9 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
-  mos_ANNOT("Category: Catch)
+/******************************************************************/
+
+  mos_ANNOT("Category: Catch")
 
 mos_ANNOT("Doc: Creates a catch object (C) and performs (arg0 value: C).  If (C value: X) is called then return X, otherwise return the value of (arg0 value: C).")
 mos_METHOD(catch,do_)
@@ -174,9 +181,11 @@ mos_ANNOT_END
 
   mos_ANNOT_END
 
+/******************************************************************/
+
   mos_ANNOT("Category: Throw")
 
-mos_ANNOT("Doc: Causes non-local exit to the #\"catch:" or #\"catch:IfThrown:" that created the receiver.")
+mos_ANNOT("Doc: Causes non-local exit to the @\"catch:\" or @\"catch:IfThrown:\" that created the receiver.")
 mos_METHOD(catch,throw_)
 {
   mos_return(mos_THROW(mos_MIMPL,mos_ARGV[0]));
@@ -204,6 +213,8 @@ mos_ANNOT_END
 
   mos_ANNOT_END
 
+/******************************************************************/
+
 #undef C
 
 mos_OBJECT(catch)
@@ -227,3 +238,5 @@ mos_OBJECT_END(protos,catch,mos_catch,basicMeta)
 
 mos_ANNOT_END
 mos_ANNOT_END
+
+/******************************************************************/

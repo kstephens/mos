@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_regexp_c__
 #define __rcs_id_mos_regexp_c__
-static const char __rcs_id_mos_regexp_c[] = "$Id: regexp.c,v 1.3 1999-12-26 20:03:21 stephensk Exp $";
+static const char __rcs_id_mos_regexp_c[] = "$Id: regexp.c,v 1.4 2000-03-21 07:13:44 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -9,15 +9,22 @@ static const char __rcs_id_mos_regexp_c[] = "$Id: regexp.c,v 1.3 1999-12-26 20:0
 #include <stdlib.h> /* free() */
 #include <string.h> /* strchr() */
 
-mos_ANNOT("Module: regexp")
-
-mos_ANNOT("Doc: A regular expression matcher.")
+/******************************************************************/
 
 #define SELF mos_REFT(mos_MIMPL, mos_regexp)
 #define rx SELF->_rx
 #define rb (&SELF->_regexp)
 
+/******************************************************************/
+
+mos_ANNOT("Module: regexp")
+mos_ANNOT("Doc: A regular expression matcher.")
+
+/******************************************************************/
+
   mos_ANNOT("Category: Clone")
+
+/******************************************************************/
 
   mos_ANNOT("Category: Internal")
 
@@ -33,6 +40,8 @@ mos_METHOD_END
 mos_ANNOT_END
 
   mos_ANNOT_END
+
+/******************************************************************/
 
 mos_METHOD(regexp,clone)
 {
@@ -53,6 +62,8 @@ mos_METHOD_END
 mos_ANNOT_END
 
   mos_ANNOT_END
+
+/******************************************************************/
 
   mos_ANNOT("Category: Expression")
 
@@ -77,6 +88,8 @@ mos_METHOD(regexp,expr_)
 mos_METHOD_END
 
   mos_ANNOT_END
+
+/******************************************************************/
 
   mos_ANNOT("Category: Internal")
 
@@ -120,6 +133,8 @@ mos_METHOD(regexp,_resultStrings_)
 mos_METHOD_END
 
   mos_ANNOT_END
+
+/******************************************************************/
 
   mos_ANNOT("Category: Match")
 
@@ -168,15 +183,22 @@ mos_METHOD(regexp,matchesStrings_)
     rx = regcomp(rb, mos_string_V(mos_ARGV[0]), 0);
   }
 
+#if 0
   if ( s && regexec(rb, s) ) {
     mos_return(mos_send(mos_RCVR, mos_s(_resultStrings_), mos_ARGV[0]));
   }
+#endif
+
   mos_return(rtnval);
 }
 mos_METHOD_END
 mos_ANNOT_END
 
+/******************************************************************/
+
 mos_ANNOT_END
+
+/******************************************************************/
 
 #undef SELF
 
@@ -198,7 +220,10 @@ mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_END(protos,regexp,mos_regexp,basicMeta)
 
+/******************************************************************/
 
 mos_ANNOT_END
 mos_ANNOT_END
+
+/******************************************************************/
 

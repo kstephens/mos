@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_bool_c__
 #define __rcs_id_mos_bool_c__
-static const char __rcs_id_mos_bool_c[] = "$Id: bool.c,v 1.3 1999-12-26 20:05:41 stephensk Exp $";
+static const char __rcs_id_mos_bool_c[] = "$Id: bool.c,v 1.4 2000-03-21 07:13:43 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -53,6 +53,7 @@ mos_METHOD_END
 /*******************************************************************/
 
   mos_ANNOT("Category: Invert")
+  mos_ANNOT("Doc: Return the inverse of the boolean value.")
 
 mos_METHOD(true,not)
 {
@@ -67,10 +68,13 @@ mos_METHOD(false,not)
 mos_METHOD_END
 
   mos_ANNOT_END
+  mos_ANNOT_END
 
 /*******************************************************************/
 
   mos_ANNOT("Category: Flow Control")
+
+/*******************************************************************/
 
   mos_ANNOT("Doc: if receiver is true, send argument @\"value\".")
 
@@ -88,6 +92,8 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
+/*******************************************************************/
+
   mos_ANNOT("Doc: if receiver is false, send argument @\"value\".")
 
 mos_METHOD(true,ifFalse_)
@@ -103,6 +109,8 @@ mos_METHOD(false,ifFalse_)
 mos_METHOD_END
 
   mos_ANNOT_END
+
+/*******************************************************************/
 
   mos_ANNOT("Doc: if receiver is true, send argument0 @\"value\"., otherwise send arg1 @\"value\".")
 
@@ -120,6 +128,8 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
+/*******************************************************************/
+
   mos_ANNOT("Doc: if receiver is false, send argument0 @\"value\"., otherwise send arg1 @\"value\".")
 
 mos_METHOD(true,ifFalse_True_)
@@ -136,15 +146,19 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
-  mos_ANNOT_END
+/*******************************************************************/
 
-mos_ANNOT("Doc: Contains the true and false constants.")
+  mos_ANNOT_END /* End of "Category: Flow Control" */
+
+/*******************************************************************/
+
+  mos_ANNOT("Doc: Contains the true and false constants.")
 
 mos_OBJECT(boolean)
 mos_OBJECT_SLOTS(boolean)
 mos_OBJECT_END(constants,boolean,mos_object,basicMeta)
 
-mos_ANNOT_END
+/*******************************************************************/
 
 mos_ANNOT("Doc: Is the true constant.")
 mos_OBJECT(true)
@@ -173,6 +187,8 @@ mos_OBJECT_M(false,ifTrue_False_)
 mos_OBJECT_M(false,ifFalse_True_)
 mos_OBJECT_SLOTS(false)
 mos_OBJECT_END(boolean,false,mos_object,basicMeta)
+mos_ANNOT_END
+
 mos_ANNOT_END
 
 mos_ANNOT_END

@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_slots_c__
 #define __rcs_id_mos_slots_c__
-static const char __rcs_id_mos_slots_c[] = "$Id: slots.c,v 1.2 1999-02-19 09:26:25 stephensk Exp $";
+static const char __rcs_id_mos_slots_c[] = "$Id: slots.c,v 1.3 1999-06-28 14:06:07 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -54,6 +54,7 @@ void _mos_reallocSlots(mos_object *x, int nslots)
 __inline
 void _mos_addMethod(mos_object *x, mos_value sel, mos_value meth)
 {
+  /* IMPLEMENT: Lookup to make sure that sel doesn't already map to meth. */
   _mos_copyDescForWrite(x);
   _mos_map_setOrAdd(&(x->_desc->_methods), sel, meth);
 }
@@ -61,6 +62,7 @@ void _mos_addMethod(mos_object *x, mos_value sel, mos_value meth)
 __inline
 void _mos_removeMethod(mos_object *x, mos_value sel)
 {
+  /* IMPLEMENT: Lookup to make sure that sel maps to something. */
   _mos_copyDescForWrite(x);
   _mos_map_remove(&(x->_desc->_methods), sel);
 }

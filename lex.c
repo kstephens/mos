@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_lex_c__
 #define __rcs_id_mos_lex_c__
-static const char __rcs_id_mos_lex_c[] = "$Id: lex.c,v 1.2 1999-02-19 09:26:22 stephensk Exp $";
+static const char __rcs_id_mos_lex_c[] = "$Id: lex.c,v 1.3 1999-06-28 14:06:05 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -328,81 +328,113 @@ int _mos_yylex(mos_value *_yylval, mos_value stream)
   if ( c == '@' ) {
     GETC();
     c = PEEKC();
-    if ( c == 'U' || c == 'u' ) {
-      GETC();
-      yylval = mos_undef;
-      return(CONSTANT);
-    } else
-    if ( c == 'E' || c == 'e' ) {
-      GETC();
-      yylval = mos_eos;
-      return(CONSTANT);
-    } else
-    if ( c == 'T' || c == 't' ) {
-      GETC();
-      yylval = mos_true;
-      return(CONSTANT);
-    } else
-    if ( c == 'F' || c == 'f' ) {
-      GETC();
-      yylval = mos_false;
-      return(CONSTANT);
-    } else
-    if ( c == 'V' || c == 'v' ) {
-      GETC();
-      yylval = mos_exprVector(mos_o(vector));
-      return(EXPR);
-    } else
-    if ( c == 'M' || c == 'm' ) {
-      GETC();
-      yylval = mos_exprMap();
-      return(EXPR);
-    } else
-    if ( c == 'N' || c == 'n' ) {
-      GETC();
-      /* Parse a named object identifier */
-      _mos_yylex(&yylval, stream);
-      /* Get an object by name */
-      yylval = mos_object_named(yylval);
-      /* It's a constant */
-      yylval = mos_exprConstant(yylval);
-      return(EXPR);
-    } else 
-    if ( c == 'G' || c == 'g' ) {
-      GETC();
-      /* Parse a getter object */
-      _mos_yylex(&yylval, stream);
-      /* Get an object by name */
-      yylval = mos_getter_method(mos_INT(yylval));
-      /* It's a constant */
-      yylval = mos_exprConstant(yylval);
-      return(EXPR);
-    } else 
-    if ( c == 'S' || c == 's' ) {
-      GETC();
-      /* Parse a getter object */
-      _mos_yylex(&yylval, stream);
-      /* Get an object by name */
-      yylval = mos_setter_method(mos_INT(yylval));
-      /* It's a constant */
-      yylval = mos_exprConstant(yylval);
-      return(EXPR);
-    } else 
-    if ( c == '#' ) {
-      GETC();
-      /* Parse a getter object */
-      _mos_yylex(&yylval, stream);
-      /* Get an object by name */
-      yylval = mos_send(yylval, mos_s(asObject));
-      /* It's a constant */
-      yylval = mos_exprConstant(yylval);
-      return(EXPR);
-    } else 
-    if ( c == '"' ) {
-      /* @"xxx" -> `("xxx" asSelector) */
-      _mos_yylex(&yylval, stream);
-      yylval = mos_exprConstant(mos_send(yylval, mos_s(asSelector)));
-      return(EXPR);
+
+    switch ( c ) {
+    case 'U': case 'u': {
+	GETC();
+	yylval = mos_undef;
+	return(CONSTANT);
+    }
+    break;
+    
+    case 'E': case 'e': {
+	GETC();
+	yylval = mos_eos;
+	return(CONSTANT);
+    }
+    break;
+    
+    case 'T': case 't': {
+	GETC();
+	yylval = mos_true;
+	return(CONSTANT);
+    }
+    break;
+    
+    case 'F': case 'f': {
+	GETC();
+	yylval = mos_false;
+	return(CONSTANT);
+    }
+    break;
+    
+    case 'V': case 'v': {
+	GETC();
+	yylval = mos_exprVector(mos_o(vector));
+	return(EXPR);
+    }
+    break;
+    
+    case 'M': case 'm': {
+	GETC();
+	yylval = mos_exprMap();
+	return(EXPR);
+    }
+    break;
+    
+    case 'N': case 'n': {
+	GETC();
+	/* Parse a named object identifier */
+	_mos_yylex(&yylval, stream);
+
+	/* Get an object by name */
+	yylval = mos_object_named(yylval);
+
+	/* It's a constant */
+	yylval = mos_exprConstant(yylval);
+	return(EXPR);
+    }
+    break; 
+    
+    case 'G': case 'g': {
+	GETC();
+	/* Parse a getter object */
+	_mos_yylex(&yylval, stream);
+
+	/* Get an object by name */
+	yylval = mos_getter_method(mos_INT(yylval));
+
+	/* It's a constant */
+	yylval = mos_exprConstant(yylval);
+	return(EXPR);
+    }
+    break; 
+    
+    case 'S': case 's': {
+	GETC();
+	/* Parse a getter object */
+	_mos_yylex(&yylval, stream);
+
+	/* Get an object by name */
+	yylval = mos_setter_method(mos_INT(yylval));
+
+	/* It's a constant */
+	yylval = mos_exprConstant(yylval);
+	return(EXPR);
+    }
+    break; 
+    
+    case '#': {
+	GETC();
+	/* Parse a getter object */
+	_mos_yylex(&yylval, stream);
+
+	/* Get an object by name */
+	yylval = mos_send(yylval, mos_s(asObject));
+
+	/* It's a constant */
+	yylval = mos_exprConstant(yylval);
+	return(EXPR);
+    }
+    break;
+ 
+    case '"': {
+	/* @"xxx" -> `("xxx" asSelector) */
+	_mos_yylex(&yylval, stream);
+	yylval = mos_exprConstant(mos_send(yylval, mos_s(asSelector)));
+	return(EXPR);
+    }
+    break;
     }
     
     yylval = mos_undef;

@@ -2,16 +2,17 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_coder_c__
 #define __rcs_id_mos_coder_c__
-static const char __rcs_id_mos_coder_c[] = "$Id: coder.c,v 1.2 1999-02-19 09:26:21 stephensk Exp $";
+static const char __rcs_id_mos_coder_c[] = "$Id: coder.c,v 1.3 1999-06-28 14:06:05 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
 #include "mos/mos.h"
 
-/*
-A coder object contains a stream (to encode or decode) the objects
-to and a reference table to encode objects with referential integrity.
-*/
+/******************************************************************************/
+
+mos_ANNOT("Module: coder")
+
+mos_ANNOT("Doc: A coder object contains a stream (to encode or decode) the objects to and a reference table to encode objects with referential integrity.")
 
 mos_METHOD(coder,asCoder)
 {
@@ -21,12 +22,18 @@ mos_METHOD_END
 #define STREAM mos_send(mos_RCVR, mos_s(stream))
 #define TABLE mos_send(mos_RCVR, mos_s(table))
 
+mos_ANNOT("Category: Clone")
+
 mos_METHOD(coder,clone)
 {
   mos_RCVR = mos_send(mos_RCVR, mos_s(_clone));
   mos_send(mos_RCVR, mos_s(table_), mos_send(TABLE, mos_s(clone)));
 }
 mos_METHOD_END
+
+mos_ANNOT_END
+
+mos_ANNOT("Category: Internal")
 
 mos_METHOD(coder,reset)
 {
@@ -39,8 +46,12 @@ mos_METHOD(coder,flush)
 }
 mos_METHOD_END
 
+mos_ANNOT_END
+
 /******************************************************************/
 /* Low-level coder functions */
+
+mos_ANNOT("Category: Low-level")
 
 mos_METHOD(coder,encodeRawInteger_)
 {
@@ -100,8 +111,13 @@ mos_METHOD(coder,decodeRawString)
 }
 mos_METHOD_END
 
+mos_ANNOT_END
 
 /******************************************************************/
+
+mos_ANNOT("Category: Encode")
+
+mos_ANNOT("Category: Atomic")
 
 mos_METHOD(coder,encodeAsInteger_)
 {
@@ -159,8 +175,12 @@ mos_METHOD(coder,encodeAsObject_WithName_)
 }
 mos_METHOD_END
 
+mos_ANNOT_END
+
 /**********************************************************************/
 /* Complex object encoding */
+
+mos_ANNOT("Category: Complex")
 
 mos_METHOD(coder,encodeAsReference_)
 {
@@ -212,6 +232,7 @@ mos_METHOD(coder,encodeAsObject_)
 }
 mos_METHOD_END
 
+mos_ANNOT_END
 
 /********************************************************************/
 
@@ -220,6 +241,12 @@ mos_METHOD(coder,encode_)
   mos_send(mos_RCVR, mos_s(encodeAsReference_), mos_ARGV[0]);
 }
 mos_METHOD_END
+
+mos_ANNOT_END
+
+/********************************************************************/
+
+mos_ANNOT("Category: Decode")
 
 mos_METHOD(coder,decode)
 {
@@ -310,12 +337,16 @@ mos_METHOD(coder,decode)
 }
 mos_METHOD_END
 
+mos_ANNOT_END
+
+mos_ANNOT("Category: Test")
+
 mos_METHOD(coder,_test_)
 {
   mos_value encoder, stream, decoder, o, o2;
 
   encoder = mos_send(mos_RCVR, mos_s(clone));
-  mos_send(encoder, mos_s(stream_), mos_string_make(0,0));
+  mos_send(encoder, mos_s(stream_), mos_string_make(0, 0));
   mos_send(encoder, mos_s(encode_), mos_ARGV[0]);
   mos_send(encoder, mos_s(encode_), mos_ARGV[0]);
 
@@ -333,6 +364,8 @@ mos_METHOD(coder,_test_)
   mos_return(o);
 }
 mos_METHOD_END
+
+mos_ANNOT_END
 
 /********************************************************************/
 
@@ -363,3 +396,10 @@ mos_OBJECT_SLOTS(coder)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_o(map))
 mos_OBJECT_END(protos,coder,mos_object,basicMeta);
+
+/******************************************************************************/
+
+mos_ANNOT_END
+mos_ANNOT_END
+
+

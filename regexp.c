@@ -1,8 +1,7 @@
-
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_regexp_c__
 #define __rcs_id_mos_regexp_c__
-static const char __rcs_id_mos_regexp_c[] = "$Id: regexp.c,v 1.2 1999-02-19 09:26:24 stephensk Exp $";
+static const char __rcs_id_mos_regexp_c[] = "$Id: regexp.c,v 1.3 1999-12-26 20:03:21 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -15,17 +14,18 @@ mos_ANNOT("Module: regexp")
 mos_ANNOT("Doc: A regular expression matcher.")
 
 #define SELF mos_REFT(mos_MIMPL, mos_regexp)
-#define rx SELF->_regexp
+#define rx SELF->_rx
+#define rb (&SELF->_regexp)
 
   mos_ANNOT("Category: Clone")
 
   mos_ANNOT("Category: Internal")
 
-mos_ANNOT("Doc: free() the regexp struct when collected.")
+mos_ANNOT("Doc: free the regexp struct when collected.")
 mos_METHOD(regexp,_regexpFinalize)
 {
   if ( rx ) {
-    free(rx);
+    regfree(rb);
     rx = 0;
   }
 }
@@ -37,7 +37,6 @@ mos_ANNOT_END
 mos_METHOD(regexp,clone)
 {
   mos_value x = mos_send(mos_MIMPL, mos_s(_clone));
-  rx = 0;
   mos_send(x, mos_s(_finalize_), mos_s(_regexpFinalize));
   mos_return(x);
 }
@@ -55,7 +54,6 @@ mos_ANNOT_END
 
   mos_ANNOT_END
 
-
   mos_ANNOT("Category: Expression")
 
 mos_METHOD(regexp,expr)
@@ -70,9 +68,10 @@ mos_METHOD(regexp,expr_)
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asConstant));
 
   if ( rx ) {
-    free(rx);
+    regfree(rb);
     rx = 0;
   }
+
   mos_return(mos_send(mos_RCVR, mos_s(_expr_), mos_ARGV[0]));
 }
 mos_METHOD_END
@@ -91,17 +90,17 @@ mos_METHOD(regexp,_resultStrings_)
   s = mos_string_V(mos_ARGV[0]);
   s_end = strchr(s, '\0');
 
-
+#if 0
   /* Put the remainder string first */
-  if ( rx && rx->endp[0] ) {
+  if ( rx && rb->endp[0] ) {
     int i = 0;
 
     /* Matched string */
-    str = mos_string_make(rx->startp[i], rx->endp[i] - rx->startp[i]);
+    str = mos_string_make(rb->startp[i], rb->endp[i] - rb->startp[i]);
     mos_send(rtnval, mos_s(append_), str);
 	
     /* Before match */
-    str = mos_string_make(s, rx->startp[0] - s);
+    str = mos_string_make(s, rb->startp[0] - s);
     mos_send(rtnval, mos_s(append_), str);
 
     /* After match */
@@ -114,6 +113,7 @@ mos_METHOD(regexp,_resultStrings_)
       mos_send(rtnval, mos_s(append_), str);
     }
   }
+#endif
 
   mos_return(rtnval);
 }
@@ -134,10 +134,10 @@ mos_METHOD(regexp,matches_)
   s = mos_string_V(mos_ARGV[0]);
 
   if ( ! rx ) {
-    rx = regcomp(mos_string_V(mos_ARGV[0]));
+    rx = regcomp(rb, mos_string_V(mos_ARGV[0]), 0);
   }
 
-  if ( s && (result = regexec(rx, s)) ) {
+  if ( s && (result = regexec(rb, s, 0, 0, 0)) ) {
 #if 0
     int i;
 
@@ -165,10 +165,10 @@ mos_METHOD(regexp,matchesStrings_)
   s = mos_string_V(mos_ARGV[0]);
 
   if ( ! rx ) {
-    rx = regcomp(mos_string_V(mos_ARGV[0]));
+    rx = regcomp(rb, mos_string_V(mos_ARGV[0]), 0);
   }
 
-  if ( s && regexec(rx, s) ) {
+  if ( s && regexec(rb, s) ) {
     mos_return(mos_send(mos_RCVR, mos_s(_resultStrings_), mos_ARGV[0]));
   }
   mos_return(rtnval);

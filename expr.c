@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_expr_c__
 #define __rcs_id_mos_expr_c__
-static const char __rcs_id_mos_expr_c[] = "$Id: expr.c,v 1.2 1999-02-19 09:26:22 stephensk Exp $";
+static const char __rcs_id_mos_expr_c[] = "$Id: expr.c,v 1.3 1999-10-13 17:08:06 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -391,6 +391,7 @@ mos_OBJECT_S(mos_undef)
 mos_OBJECT_END(expr,exprBlock,mos_object,basicMeta)
 mos_ANNOT_END
 
+mos_ANNOT_END
 mos_ANNOT_END
 
 /************************************************************************

@@ -1,8 +1,8 @@
-# $Id: init.mos,v 1.5 1999-07-27 02:06:01 stephensk Exp $
+# $Id: init.mos,v 1.6 1999-10-13 17:08:07 stephensk Exp $
 
 #"loading while\n" write; _loadFile: "lib/mos/while.mos";
 #"loading point\n" write; _loadFile: "lib/mos/point.mos";
-#_ _loadFile: "lib/mos/iterator.mos";
+#_ _loadFile: "lib/mos/iterate.mos";
 
 "\n" write;
 "**************\n" write;

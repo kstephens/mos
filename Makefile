@@ -1,9 +1,9 @@
-# $Id: Makefile,v 1.6 1999-12-26 19:57:36 stephensk Exp $
+# $Id: Makefile,v 1.7 2000-03-21 07:03:32 stephensk Exp $
 # 
 #
 all:
 
-EXE=.exe
+EXE=#.exe
 
 NAME = mos
 
@@ -12,6 +12,8 @@ CFILES_OPTIMIZED =
 CFILES_DEBUG = 
 
 GC=../GC
+GC_BEGIN=
+GC_END=
 
 CFILES_DEBUG_OPTIMIZED = \
 	share.c \
@@ -217,7 +219,7 @@ all : $(MOS)
 $(MOS) : defs $(OFILES) Makefile
 	@-$(RM) -f $(NAME)old$(EXE)
 	@-$(MV) $@ $(NAME)old$(EXE)
-	$(CC) $(LDFLAGS) -o $@ $(GC)/gc_begin.c $(OFILES) $(LIBS) $(GC)/gc_end.c
+	$(CC) $(LDFLAGS) -o $@ $(GC_BEGIN) $(OFILES) $(LIBS) $(GC_END)
 	@-$(RM) -f $(NAME)old$(EXE)
 
 $(DEFS) : Makefile
@@ -251,7 +253,17 @@ $(mos_ANNOT_DIR) :
 	$(MKDIRS) $@
 
 annot.def : parse.c annot.pl
-	$(CAT) $(DEFSCANFILES) | $(PERL) annot.pl > $@
+	for f in $(DEFSCANFILES) ; \
+	do \
+	  $(CPP) \
+		-Dmos_ANNOT=mos_ANNOT \
+		-Dmos_METHOD=mos_METHOD \
+		-Dmos_OBJECT=mos_OBJECT \
+		$$f || exit 1; \
+	done > /tmp/$$$$ ;\
+	$(PERL) annot.pl /tmp/$$$$ > $@.temp ;\
+        $(RM) /tmp/$$$$
+	$(MV) $@.temp $@
 
 $(INC_DIR)/sel.def : sel.pl $(INC_DIR)/meth.def $(INC_DIR)/obj.def $(INC_DIR)/sel2def.h
 	for f in $(DEFSCANFILES) $(INC_DIR)/sel2def.h ; \

@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.8 2000-05-10 03:59:18 stephensk Exp $
+# $Id: Makefile,v 1.9 2001-09-18 02:46:05 stephens Exp $
 # 
 #
 all:
@@ -33,6 +33,7 @@ CFILES_DEBUG_OPTIMIZED = \
 	char.c \
 	str.c \
 	vector.c \
+	selsupp.c \
 	selector.c \
 	method.c \
 	accessor.c \
@@ -252,7 +253,7 @@ init.def : parse.c init.pl $(mos_ANNOT_DIR)
 $(mos_ANNOT_DIR) :
 	$(MKDIRS) $@
 
-annot.def : parse.c annot.pl
+annot.def : parse.c annot.pl selesc$(EXE)
 	for f in $(DEFSCANFILES) ; \
 	do \
 	  $(CPP) \
@@ -283,6 +284,9 @@ $(INC_DIR)/meth.def : meth.pl
 	done | \
 	$(PERL) meth.pl > $@.temp
 	$(MV) $@.temp $@
+
+selesc$(EXE) : selesc.c selsupp.c
+	$(CC) $(LDFLAGS) -o $@ selesc.c selsupp.c
 
 clean :
 	$(RM) -f $(GARBAGE)

@@ -1,117 +1,15 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_selector_c__
 #define __rcs_id_mos_selector_c__
-static const char __rcs_id_mos_selector_c[] = "$Id: selector.c,v 1.3 1999-12-26 20:06:01 stephensk Exp $";
+static const char __rcs_id_mos_selector_c[] = "$Id: selector.c,v 1.4 2001-09-18 02:46:05 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
+
 
 #include "mos/mos.h"
 #include "mos/constant.h"
 #include <string.h>
 
-const char _mos_selector_op_charset[] = "~!$%^&*+-<>?/,|=";
-
-static struct strmap {
-  const char *search;
-  const char *replace;
-  int searchlen;
-  int replacelen;
-} maps[] = {
-  { "__NEG__", "neg" },
-  { "__BNOT__", "bnot" },
-  { "__NOT__", "not" },
-#define BOP(NAME,OP) { #NAME, #OP },
-#define UOP(NAME,OP) BOP(NAME,OP)
-#define IBOP(NAME,OP) BOP(NAME,OP)
-#define IUOP(NAME,OP) BOP(NAME,OP)
-#define LBOP(NAME,OP) BOP(NAME,OP)
-#define LUOP(NAME,OP) BOP(NAME,OP)
-#define ROP(NAME,OP) BOP(NAME,OP)
-#include "mos/op.def"
-  
-  { "__ASN__", "=" },
-  { "__RAR__", "->" },
-  { "__LAR__", "<-" },
-  { "__RTN__", "_:" },
-  { "__DOL__", "$" },
-  { "__COM__", "," },
-  { "__QUE__", "?" },
-  
-  { "__", "_" },
-  
-  { 0, 0 }
-};
-
-static
-const struct strmap *_mos_map_match(const char *s)
-{
-  struct strmap *m = maps;
-  
-  while ( m->search ) {
-    const char *ss = s;
-    const char *se = m->search;
-    
-    while ( *se ) {
-      if ( *(se ++) != *(ss ++) ) {
-	goto next_m;
-      }
-    }
-    
-    if ( ! m->searchlen ) {
-      m->searchlen = strlen(m->search);
-      m->replacelen = strlen(m->replace);
-    }
-    return m;
-    
-    next_m:
-    m ++;
-  }
-  
-  return 0;
-}
-
-const char *_mos_selector_escape(const char *x)
-{
-  static char buf[1024];
-  char *t = buf;
-  const char *s = x;
-  const struct strmap *m;
-  size_t x_len = strlen(x);
-
-#define REPLACE(m) do { \
-  const char *re = m->replace; \
-  while ( *re ) { \
-    *(t ++) = *(re ++); \
-  } \
-  s += m->searchlen; \
-} while(0)
-  
-  if ( (m = _mos_map_match(s)) && m->searchlen == x_len ) {
-    REPLACE(m);
-  } else {
-    /* Skip leading '_' */
-    while ( *s == '_' ) {
-      *(t ++) = *(s ++);
-    }
-  }
-  
-  while ( *s ) {
-    if ( (m = _mos_map_match(s)) ) {
-      REPLACE(m);
-    } else
-    if ( *s == '_' ) {
-      *(t ++) = ':'; s ++;
-    } else  {
-      /* Put the char literally */
-      *(t ++) = *(s ++);
-    }
-  }
-  *t = '\0';
-
-#undef REPLACE
-  
-  return buf;  
-}
 
 /* A cached list of selectors */
 static mos_value _selectors_list;
@@ -146,6 +44,7 @@ mos_value _mos_selector_list(void)
   return _selectors_list;
 }
 
+
 static
 void _mos_selector_init(mos_selector *x)
 {
@@ -174,6 +73,7 @@ void _mos_selector_init(mos_selector *x)
   _selectors_list = mos_UNINITIALIZED;
   _selectors = x;
 }
+
 
 mos_value mos_selector_make_(const char *name, size_t l)
 {
@@ -221,14 +121,18 @@ mos_value mos_selector_make_(const char *name, size_t l)
   return mos_MAKE_REF(s);
 }
 
+
 mos_value mos_getter_selector(mos_value x)
 {
   return mos_send(x, mos_s(getter));
 }
+
+
 mos_value mos_setter_selector(mos_value x)
 {
   return mos_send(x, mos_s(setter));
 }
+
 
 #define mos_DEF_s(X) mos_selector _mos_s_##X =  {mos_object_HDR_INIT_STATIC(selector), #X };
 #include "mos/sel.def"
@@ -238,6 +142,7 @@ static mos_selector *_inits[] = {
 #include "mos/sel.def"
   0
 };
+
 
 mos_INIT(selector,0)
 {
@@ -259,11 +164,13 @@ mos_INIT(selector,0)
   return 0;
 }
 
+
 #define SELF mos_REFT(mos_MIMPL,mos_selector)
 mos_METHOD(selector,asSelector)
 {
 }
 mos_METHOD_END
+
 
 mos_METHOD(selector,equal_)
 {
@@ -271,11 +178,13 @@ mos_METHOD(selector,equal_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(selector,printOn_)
 {
   mos_return(mos_printf(mos_ARGV[0], "@\"%s\"", SELF->_namestr));
 }
 mos_METHOD_END
+
 
 mos_METHOD(selector,encodeOn_)
 {
@@ -283,11 +192,13 @@ mos_METHOD(selector,encodeOn_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(selector,name)
 {
   mos_return(SELF->_name);
 }
 mos_METHOD_END
+
 
 mos_METHOD(selector,asString)
 {
@@ -295,17 +206,20 @@ mos_METHOD(selector,asString)
 }
 mos_METHOD_END
 
+
 mos_METHOD(selector,isOperator)
 {
   mos_return(IS_OP(SELF->_namestr) ? mos_true : mos_false);
 }
 mos_METHOD_END
 
+
 mos_METHOD(selector,nargs)
 {
   mos_return(mos_integer_make(SELF->_nargs));
 }
 mos_METHOD_END
+
 
 mos_METHOD(selector,getter)
 {
@@ -320,6 +234,7 @@ mos_METHOD(selector,getter)
   mos_return(SELF->_getter);
 }
 mos_METHOD_END
+
 
 mos_METHOD(selector,setter)
 {
@@ -336,6 +251,7 @@ mos_METHOD(selector,setter)
   mos_return(SELF->_setter);
 }
 mos_METHOD_END
+
 
 mos_METHOD(selector,split)
 {
@@ -415,6 +331,7 @@ mos_METHOD(selector,valueSelectorForNargs_)
 }
 mos_METHOD_END
 
+
 mos_ANNOT("Returns a vector of all selectors.")
 mos_METHOD(selector,selectors)
 {
@@ -423,7 +340,9 @@ mos_METHOD(selector,selectors)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 #undef SELF
+
 
 mos_OBJECT(selector)
 mos_constant_METHODS

@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_defaults_c__
 #define __rcs_id_mos_defaults_c__
-static const char __rcs_id_mos_defaults_c[] = "$Id: defaults.c,v 1.3 1999-12-26 20:05:49 stephensk Exp $";
+static const char __rcs_id_mos_defaults_c[] = "$Id: defaults.c,v 1.4 2000-01-07 09:46:47 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -43,7 +43,7 @@ mos_INIT(defaults,11)
 #ifndef mos_SRC_SUFFIX 
 #define mos_SRC_SUFFIX ".mos"
 #endif
-    { mos_SRC_SUFFIX, "MOS_SRC_SUFFIX", "mos-src-suffix", "srcDuffix" },
+    { mos_SRC_SUFFIX, "MOS_SRC_SUFFIX", "mos-src-suffix", "srcSuffix" },
 
 #ifndef mos_ANNOT_DIR 
 #define mos_ANNOT_DIR "lib/mos/annot"

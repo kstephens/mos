@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.2 1999-02-19 09:26:19 stephensk Exp $
+# $Id: Makefile,v 1.3 1999-05-07 12:46:32 stephensk Exp $
 # 
 #
 all:
@@ -277,7 +277,7 @@ clean :
 
 veryclean :
 	$(RM) -f $(ALL_GARBAGE)
-	$(RM) -rf $(mos_ANNOT_DIR)
+	$(RM) -rf $(mos_ANNOT_DIR)/*
 
 ad=..
 archive : veryclean

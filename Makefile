@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.5 1999-07-27 02:05:55 stephensk Exp $
+# $Id: Makefile,v 1.6 1999-12-26 19:57:36 stephensk Exp $
 # 
 #
 all:
@@ -134,7 +134,7 @@ CFLAGS_DEBUG_OPTIMIZED = $(LD_C_FLAGS) $(CFLAGS_DEBUG) $(CFLAGS_OPTIMIZE) $(LD_M
 CFLAGS = $(CFLAGS_NDEBUG) $(CFLAGS_DEBUG) $(CFLAGS_OPTIMIZE)
 
 CYGWIN=//e/apps/dev/cygnus/cygwin-b20
-YACC += -S ./bison.simple
+YACC = bison --yacc
 
 #####################################################################
 

@@ -1,14 +1,16 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_annot_c__
 #define __rcs_id_mos_annot_c__
-static const char __rcs_id_mos_annot_c[] = "$Id: annot.c,v 1.4 2000-03-21 07:06:42 stephensk Exp $";
+static const char __rcs_id_mos_annot_c[] = "$Id: annot.c,v 1.5 2001-09-18 02:46:47 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
+
 
 #include "mos/mos.h"
 #include "mos/slots.h"
 #include <string.h> /* strcpy, strcat */
 #include <ctype.h>
+
 
 static
 mos_value mos_parse_annotation(mos_value x)
@@ -93,19 +95,27 @@ mos_value mos_parse_annotation(mos_value x)
   return child;
 }
 
+
 /******************************************************************/
+
 
 #define MAP mos_REFT(mos_MIMPL,mos_objectDesc)->_annot
 
+
+
 /******************************************************************/
+
 
 mos_ANNOT("Module: annot")
 mos_ANNOT("Doc: Annotations.\n\
 Annotations are structured documentation strings attached to objects.   Annotations can be nested.  Nested annotations have parents and children.\n")
 
+
 /******************************************************************/
 
+
   mos_ANNOT("Category: Coerce")
+
 
 mos_METHOD(annot,asAnnotation)
 {
@@ -113,17 +123,22 @@ mos_METHOD(annot,asAnnotation)
 }
 mos_METHOD_END
 
+
 mos_METHOD(string,asAnnotation)
 {
   mos_return(mos_parse_annotation(mos_RCVR));
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /**************************************************************************/
 
+
 mos_ANNOT("Category: Clone")
+
 
 mos_METHOD(annot,clone)
 {
@@ -133,11 +148,15 @@ mos_METHOD(annot,clone)
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
+
 
 /**************************************************************************/
 
+
 mos_ANNOT("Category: Print")
+
 
 mos_METHOD(annot,printOn_)
 {
@@ -153,18 +172,22 @@ mos_METHOD(annot,printOn_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(annot,printShallowOn_)
 {
   mos_return(mos_send(mos_RCVR, mos_s(printOn_), mos_ARGV[0]));
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
 
 
 /**************************************************************************/
 
+
 mos_ANNOT("Category: Children")
+
 
 mos_ANNOT("Doc: Get the annotation's children.")
 mos_METHOD(annot,children)
@@ -177,6 +200,7 @@ mos_METHOD(annot,children)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 mos_ANNOT("Doc: Get the annotation's child by name.")
 mos_METHOD(annot,child_)
 {
@@ -186,13 +210,18 @@ mos_METHOD(annot,child_)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 mos_ANNOT_END
 
+
 /******************************************************************/
+
 
 mos_ANNOT("Category: Annotation")
 
+
 /******************************************************************/
+
 
 mos_ANNOT("Doc: Sets the annotation for the selector.")
 mos_METHOD(objectDesc,annotations)
@@ -207,6 +236,7 @@ mos_METHOD(objectDesc,annotations)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 mos_ANNOT("Doc: Sets the annotation for the selector.")
 mos_METHOD(objectDesc,__annot_For_)
 {
@@ -214,10 +244,15 @@ mos_METHOD(objectDesc,__annot_For_)
     MAP = mos_clone(mos_o(map));
   }
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asAnnotation));
+
+  /* Force the key to be a selector. See sel.pl. */
+  mos_ARGV[1] = mos_send(mos_ARGV[1], mos_s(asSelector));
+
   mos_send(MAP, mos_s(set_Value_), mos_ARGV[1], mos_ARGV[0]);
 }
 mos_METHOD_END
 mos_ANNOT_END
+
 
 mos_ANNOT("Doc: Returns the annotation for the selector.")
 mos_METHOD(objectDesc,__annotFor_)
@@ -246,7 +281,9 @@ mos_METHOD(objectDesc,__annotFor_)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 #define OBL_ANNOT_SEL mos_o(selector)
+
 
 mos_ANNOT("Doc: Returns the annotation.")
 mos_METHOD(objectDesc,__annot)
@@ -262,6 +299,7 @@ mos_METHOD(objectDesc,__annot)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 mos_ANNOT("Doc: Sets the annotation.")
 mos_METHOD(objectDesc,__annot_)
 {
@@ -271,10 +309,13 @@ mos_METHOD(objectDesc,__annot_)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 #undef OBL_ANNOT_SEL
 #undef MAP
 
+
 /**************************************************************************/
+
 
 mos_ANNOT("Doc: Returns the object's annotation.")
 mos_METHOD(defaultBehavior,_annot)
@@ -284,6 +325,7 @@ mos_METHOD(defaultBehavior,_annot)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 mos_ANNOT("Doc: Sets the object's annotation.")
 mos_METHOD(defaultBehavior,_annot_)
 {
@@ -291,6 +333,7 @@ mos_METHOD(defaultBehavior,_annot_)
 }
 mos_METHOD_END
 mos_ANNOT_END
+
 
 mos_ANNOT("Doc: Returns the object's slot's annotation.")
 mos_METHOD(defaultBehavior,_annotFor_)
@@ -300,6 +343,7 @@ mos_METHOD(defaultBehavior,_annotFor_)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 mos_ANNOT("Doc: Sets the object's slot's annotation.")
 mos_METHOD(defaultBehavior,_annot_For_)
 {
@@ -308,13 +352,18 @@ mos_METHOD(defaultBehavior,_annot_For_)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 /**************************************************************************/
+
 
 mos_ANNOT_END /* End of "Catagory: Annotation" */
 
+
 /**************************************************************************/
 
+
 mos_ANNOT("Category: Loading")
+
 
 mos_ANNOT("Doc: Loads an annotation file.")
 mos_METHOD(annot,_loadAnnotFile_)
@@ -345,6 +394,7 @@ mos_METHOD(annot,_loadAnnotFile_)
 }
 mos_METHOD_END
 mos_ANNOT_END
+
 
 mos_ANNOT("Doc: This method handles auto-loading of annotation files for stati system objects.  \
 The annotation source files and annot.def are created by annot.pl.  \
@@ -386,9 +436,12 @@ mos_METHOD(annot,_loadAnnotFileFor_)
 mos_METHOD_END
 mos_ANNOT_END
 
+
 mos_ANNOT_END
 
+
 /******************************************************************/
+
 
 mos_OBJECT(annot)
 mos_OBJECT_M(annot,clone)
@@ -400,25 +453,30 @@ mos_OBJECT_M(annot,child_)
 mos_OBJECT_M(annot,_loadAnnotFileFor_)
 mos_OBJECT_M(annot,_loadAnnotFile_)
 
+
 mos_ANNOT("Category: Loading")
 mos_ANNOT("Doc: A map of static object descriptors to annotation files.")
 mos_OBJECT_A(loadedMap,0)
 mos_ANNOT_END
 mos_ANNOT_END
 
+
 mos_ANNOT("Category: Tree")
 mos_ANNOT("Doc: The name of this annotation.")
 mos_OBJECT_A(name,1)
 mos_ANNOT_END
 
+
 mos_ANNOT("Doc: The parent of this annotation.")
 mos_OBJECT_A(parent,2)
 mos_ANNOT_END
+
 
 mos_ANNOT("Doc: A map of child annotations by their name.")
 mos_OBJECT_A(childrenMap,3)
 mos_ANNOT_END
 mos_ANNOT_END
+
 
 mos_OBJECT_SLOTS(annot)
 mos_OBJECT_S(mos_undef)
@@ -427,12 +485,16 @@ mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_END(system,annot,mos_object,basicMeta)
 
+
 /******************************************************************/
+
 
 mos_ANNOT_END
 mos_ANNOT_END
 
+
 /******************************************************************/
+
 
 static mos_value mos_string_split(const char *b, const char *e, int c, mos_value v)
 {
@@ -467,12 +529,14 @@ static mos_value mos_string_split(const char *b, const char *e, int c, mos_value
   return v;
 }
 
+
 static void add_loadedMap(mos_value loadedMap, mos_value o, const char *f)
 {
   mos_value v = mos_vector_make(0, 0);
   v =  mos_string_split(f, strchr(f, '\0'), '\t', v);
   mos_send(loadedMap, mos_s(set_Value_), o, v);
 }
+
 
 mos_INIT(annotation,98)
 {

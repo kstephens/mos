@@ -1,13 +1,12 @@
 #ifndef _mos_catch_h
+#define _mos_catch_h
 
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_catch_h__
 #define __rcs_id_mos_catch_h__
-static const char __rcs_id_mos_catch_h[] = "$Id: catch.h,v 1.2 1999-02-19 09:26:28 stephensk Exp $";
+static const char __rcs_id_mos_catch_h[] = "$Id: catch.h,v 1.3 1999-12-26 20:04:13 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
-
-#define _mos_catch_h
 
 #include "mos/mos.h"
 
@@ -24,7 +23,7 @@ typedef struct mos_catch {
   mos_catch_HDR;
 } mos_catch;
 
-#define mos_catch_value 0
+#define mos_catch_tvalue 0
 #define mos_catch_thrown 1
 
 extern void _mos_CATCH_BEGIN(mos_value catch);

@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_map_c__
 #define __rcs_id_mos_map_c__
-static const char __rcs_id_mos_map_c[] = "$Id: map.c,v 1.4 1999-12-26 20:05:56 stephensk Exp $";
+static const char __rcs_id_mos_map_c[] = "$Id: map.c,v 1.5 2000-03-21 07:09:41 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -18,6 +18,8 @@ static const char __rcs_id_mos_map_c[] = "$Id: map.c,v 1.4 1999-12-26 20:05:56 s
 
 #define I mos_INT(mos_ARGV[0])
 
+/*******************************************************************/
+
 mos_ANNOT("Module: map")
 mos_ANNOT("Doc: The map object.  Map objects can map one object to another.")
 
@@ -30,6 +32,8 @@ mos_METHOD(map,asMap)
 mos_METHOD_END
 
   mos_ANNOT_END
+
+/*******************************************************************/
 
   mos_ANNOT("Category: Clone")
 
@@ -82,7 +86,7 @@ mos_METHOD_END
 
 /*******************************************************************/
 
-  mos_ANNOT("Category: Encode")
+  mos_ANNOT("Category: Coder")
 
 mos_METHOD(map,encodeOtherOn_)
 {
@@ -131,7 +135,6 @@ mos_METHOD_END
 /*******************************************************************/
 
   mos_ANNOT("Category: Length")
-
 
 mos_METHOD(map,length)
 {
@@ -182,10 +185,16 @@ mos_METHOD_END
 
   mos_ANNOT("Category: Get")
 
-
 mos_METHOD(map,get_Or_)
 {
   mos_map_slot *ms = _mos_map_find(M, mos_ARGV[0]);
+  mos_return(ms ? ms->_value : mos_ARGV[1]);
+}
+mos_METHOD_END
+
+mos_METHOD(map,getEqual_Or_)
+{
+  mos_map_slot *ms = _mos_map_findEqual(M, mos_ARGV[0]);
   mos_return(ms ? ms->_value : mos_ARGV[1]);
 }
 mos_METHOD_END
@@ -200,9 +209,26 @@ mos_METHOD(map,get_)
 }
 mos_METHOD_END
 
+mos_METHOD(map,getEqual_)
+{
+  mos_map_slot *ms = _mos_map_findEqual(M, mos_ARGV[0]);
+  if ( ! ms ) {
+    mos_return(mos_error(mos_s(rangeError), "index: %P", mos_ARGV[0]));
+  }
+  mos_return(ms->_value);
+}
+mos_METHOD_END
+
 mos_METHOD(map,has_)
 {
   mos_map_slot *ms = _mos_map_find(M, mos_ARGV[0]);
+  mos_return(ms ? mos_true : mos_false);
+}
+mos_METHOD_END
+
+mos_METHOD(map,hasEqual_)
+{
+  mos_map_slot *ms = _mos_map_findEqual(M, mos_ARGV[0]);
   mos_return(ms ? mos_true : mos_false);
 }
 mos_METHOD_END
@@ -218,6 +244,16 @@ mos_METHOD(map,getKey_)
 }
 mos_METHOD_END
 
+mos_METHOD(map,getKeyEqual_)
+{
+  mos_map_slot *ms = _mos_map_findByValueEqual(M, mos_ARGV[0]);
+  if ( ! ms ) {
+    mos_return(mos_error(mos_s(rangeError), "index: %P", mos_ARGV[0]));
+  }
+  mos_return(ms->_key);
+}
+mos_METHOD_END
+
 mos_METHOD(map,hasValue_)
 {
   mos_map_slot *ms = _mos_map_findByValue(M, mos_ARGV[0]);
@@ -225,13 +261,18 @@ mos_METHOD(map,hasValue_)
 }
 mos_METHOD_END
 
+mos_METHOD(map,hasValueEqual_)
+{
+  mos_map_slot *ms = _mos_map_findByValueEqual(M, mos_ARGV[0]);
+  mos_return(ms ? mos_true : mos_false);
+}
+mos_METHOD_END
 
   mos_ANNOT_END
 
 /*******************************************************************/
 
   mos_ANNOT("Category: Keys")
-
 
 mos_METHOD(map,keysInto_)
 {
@@ -251,13 +292,11 @@ mos_METHOD(map,keys)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
 /*******************************************************************/
 
   mos_ANNOT("Category: Values")
-
 
 mos_METHOD(map,valuesInto_)
 {
@@ -277,7 +316,6 @@ mos_METHOD(map,values)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
 /*******************************************************************/
@@ -290,7 +328,19 @@ mos_METHOD(map,set_Value_)
 }
 mos_METHOD_END
 
+mos_METHOD(map,setEqual_Value_)
+{
+  _mos_map_setOrAddEqual(M, mos_ARGV[0], mos_ARGV[1]);
+}
+mos_METHOD_END
+
 mos_METHOD(map,remove_)
+{
+  mos_return(_mos_map_remove(M, mos_ARGV[0])  ? mos_RCVR : mos_false);
+}
+mos_METHOD_END
+
+mos_METHOD(map,removeEqual_)
 {
   mos_return(_mos_map_remove(M, mos_ARGV[0])  ? mos_RCVR : mos_false);
 }
@@ -301,9 +351,14 @@ mos_METHOD(map,removeValue_)
   mos_return(_mos_map_removeByValue(M, mos_ARGV[0]) ? mos_RCVR : mos_false);
 }
 mos_METHOD_END
-
-
-  mos_ANNOT_END
+ 
+mos_METHOD(map,removeValueEqual_)
+{
+  mos_return(_mos_map_removeByValue(M, mos_ARGV[0]) ? mos_RCVR : mos_false);
+}
+mos_METHOD_END
+ 
+ mos_ANNOT_END
 
 /*******************************************************************/
 
@@ -321,6 +376,8 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
+/*******************************************************************/
+
 #undef SELF
 #undef M
 #undef V
@@ -337,21 +394,29 @@ mos_OBJECT_M(map,decodeOtherOn_)
 mos_OBJECT_M(map,length)
 mos_OBJECT_M(map,_equal_)
 mos_OBJECT_M(map,has_)
+mos_OBJECT_M(map,hasEqual_)
 mos_OBJECT_M(map,get_)
+mos_OBJECT_M(map,getEqual_)
 mos_OBJECT_M(map,get_Or_)
-mos_OBJECT_M(map,has_)
+mos_OBJECT_M(map,getEqual_Or_)
 mos_OBJECT_M(map,getKey_)
+mos_OBJECT_M(map,getKeyEqual_)
 mos_OBJECT_M(map,hasValue_)
+mos_OBJECT_M(map,hasValueEqual_)
 mos_OBJECT_M(map,keysInto_)
 mos_OBJECT_M(map,keys)
 mos_OBJECT_M(map,valuesInto_)
 mos_OBJECT_M(map,values)
 mos_OBJECT_M(map,set_Value_)
+mos_OBJECT_M(map,setEqual_Value_)
 mos_OBJECT_M(map,remove_)
-mos_OBJECT_M(map,removeValue_)
+mos_OBJECT_M(map,removeEqual_)
+mos_OBJECT_M(map,removeValueEqual_)
 mos_OBJECT_M(map,__COM__)
 mos_OBJECT_SLOTS(map)
 mos_OBJECT_END(protos,map,mos_map,basicMeta)
+
+/*******************************************************************/
 
 mos_ANNOT("Category: Create")
 
@@ -374,22 +439,25 @@ mos_OBJECT_S(mos_undef)
 mos_OBJECT_END(protos,mapMaker,mos_map,basicMeta)
 
 mos_ANNOT_END
+
+/*******************************************************************/
+
 mos_ANNOT_END
 mos_ANNOT_END
 
-     static mos_map_slot _mos_empty_map_slots[] = { { mos_UNINITIALIZED } };
+/*******************************************************************/
+
+static mos_map_slot _mos_empty_map_slots[] = { { mos_UNINITIALIZED } };
 
 mos_INIT(map,-20)
 {
   mos_REFT(mos_o(map),mos_map)->_m_slots = _mos_empty_map_slots;
+  // mos_REFT(mos_o(equalmap),mos_map)->_m_slots = _mos_empty_map_slots;
   return 0;
 }
 
-mos_ANNOT_END
-mos_ANNOT_END
-
 /***************************************************************************/
-/* Map creation. */
+/* Low-level constructors. */
 
 #ifdef mos_map_make
 #undef mos_map_make

@@ -1,3 +1,4 @@
+# $Id: while.mos,v 1.2 1999-02-19 08:51:16 stephensk Exp $
 
 _ _addSlots: { i -> 0; };
 #_ _addSlots: { t -> [ i < 10 ]; };

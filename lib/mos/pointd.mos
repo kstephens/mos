@@ -1,4 +1,4 @@
-#
+# $Id: pointd.mos,v 1.2 1999-02-19 08:51:15 stephensk Exp $
 
 _ system _addSlotsIfAbsent: {
   traits -> { };

@@ -1,3 +1,5 @@
+# $Id: dumpMethod.mos,v 1.2 1999-02-19 08:51:14 stephensk Exp $
+
 _ system behaviors defaultBehavior _addSlots: {
   dumpMethodForSelector: sel {
     (self _meta lookupMethodForSelector: sel InObject: self) dumpToStream: @U;

@@ -1,3 +1,5 @@
+# $Id: test.mos,v 1.2 1999-02-19 08:51:16 stephensk Exp $
+
 @"name" asString; # "name"
 5 + 6; # 11
 5 + 6 * 2; # 22

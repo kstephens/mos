@@ -1,3 +1,5 @@
+# $Id: regexp.mos,v 1.2 1999-02-19 08:51:15 stephensk Exp $
+
 #{Module: regexp
 
 _ system protos regexp _addSlots: {

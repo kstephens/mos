@@ -1,4 +1,3 @@
-# $Id: bison.simple,v 1.2 1999-02-19 09:26:20 stephensk Exp $
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line 3 "/logopolis/monitor/noer/b20/cygwin-b20/share/bison.simple"
 

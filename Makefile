@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.4 1999-05-07 12:51:08 stephensk Exp $
+# $Id: Makefile,v 1.5 1999-07-27 02:05:55 stephensk Exp $
 # 
 #
 all:
@@ -236,9 +236,9 @@ defs : # $(DEFSCANFILES)
 	make $(INC_DIR)/sel.def
 	touch $@
 
-config.h :
+config.h : Makefile PKG
 	. PKG; \
-	$(ECHO) '#define mos_VERSION "'$(VERSION)'"' > config.h
+	$(ECHO) '#define mos_VERSION "'$${VERSION}'"' > config.h
 	$(ECHO) '#define mos_SRC_DIR "'`pwd`'"' >> config.h
 	$(ECHO) '#define mos_ROOT_DIR "'`pwd`'"' >> config.h
 	$(ECHO) '#define mos_ANNOT_DIR "'$(mos_ANNOT_DIR)'"' >> config.h

@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_readline_c__
 #define __rcs_id_mos_readline_c__
-static const char __rcs_id_mos_readline_c[] = "$Id: readline.c,v 1.2 1999-02-19 09:26:24 stephensk Exp $";
+static const char __rcs_id_mos_readline_c[] = "$Id: readline.c,v 1.3 1999-07-27 02:05:56 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -93,7 +93,9 @@ mos_METHOD(readline,_readline)
   b = mos_send(b, mos_s(asString));
   s = readline(mos_string_V(b));
 
-  fprintf(stderr, "readline: %s\n", s ? s : "<NULL>");
+  /*
+    fprintf(stderr, "readline: %s\n", s ? s : "<NULL>");
+  */
 
   if ( s ) {
 
@@ -157,7 +159,7 @@ mos_METHOD(readline,readChar)
   }
 
   if ( mos_EQ(c, mos_char_make('\n')) ) {
-    mos_send(mos_RCVR, mos_s(line_), mos_send(mos_RCVR, mos_s(__ADD__), mos_send(mos_RCVR, mos_s(line))));
+    mos_send(mos_RCVR, mos_s(line_), mos_send(mos_RCVR, mos_s(line)), mos_s(__ADD__), mos_integer_make(1));
   }
 
   mos_return(c);

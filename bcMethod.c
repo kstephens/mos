@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_bcMethod_c__
 #define __rcs_id_mos_bcMethod_c__
-static const char __rcs_id_mos_bcMethod_c[] = "$Id: bcMethod.c,v 1.4 2000-05-10 03:59:19 stephensk Exp $";
+static const char __rcs_id_mos_bcMethod_c[] = "$Id: bcMethod.c,v 1.5 2001-09-15 21:59:10 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -14,13 +14,16 @@ static const char __rcs_id_mos_bcMethod_c[] = "$Id: bcMethod.c,v 1.4 2000-05-10 
 /******************************************************************/
 /* Debugging support */
 
+
 #ifndef _mos_bcExecDebug
 int _mos_bcExecDebug = 0;
 #endif
 
+
 #ifndef _mos_bcSendDebug
 int _mos_bcSendDebug = 0;
 #endif
+
 
 char _mos_bcExecCodeDebug[] = {
 #define mos_BC(NAME,NARGS) 0,
@@ -28,8 +31,10 @@ char _mos_bcExecCodeDebug[] = {
   0
 };
 
+
 /******************************************************************/
 /* Enumerate bcMethod slot indexes */
+
 
 enum {
 BYTECODES = 0,
@@ -41,8 +46,10 @@ MEMOCODES,
 MEMOVALS,
 };
 
+
 /******************************************************************/
 /* The system value stack */
+
 
 /* NOT THREAD SAFE */
 #ifndef vstack_LEN
@@ -53,9 +60,12 @@ static mos_value _mos_vstack[vstack_LEN];
 mos_value *_mos_sp = _mos_vstack + (sizeof(_mos_vstack)/sizeof(_mos_vstack[0])-1);
 mos_value *_mos_sp_top = _mos_vstack;
 
+
 /******************************************************************/
 
+
 #define sp _mos_sp
+
 
 static __inline__
 mos_value _mos_bcMethod_run(mos_value mos_MSG, mos_value BCS, mos_value *fp)
@@ -336,6 +346,7 @@ mos_value _mos_bcMethod_run(mos_value mos_MSG, mos_value BCS, mos_value *fp)
   return mos_undef;
 }
 
+
 mos_METHOD(bcMethod,__applyMethod_)
 {
   /* If we need to create a return catch, do it here */
@@ -365,18 +376,23 @@ mos_METHOD(bcMethod,__applyMethod_)
 }
 mos_METHOD_END
 
+
 #undef sp
+
 
 mos_METHOD(bcMethod,lobby)
 {
   mos_return(mos_send(mos_send(mos_RCVR, mos_s(constants)), mos_s(get_), mos_integer_make(0)));
 }
 mos_METHOD_END
+
+
 mos_METHOD(bcMethod,lobby_)
 {
   mos_return(mos_send(mos_send(mos_RCVR, mos_s(constants)), mos_s(set_Value_), mos_integer_make(0), mos_ARGV[0]));
 }
 mos_METHOD_END
+
 
 mos_METHOD(bcMethod,argumentAt_)
 {
@@ -388,6 +404,7 @@ mos_METHOD(bcMethod,argumentAt_)
   }
 }
 mos_METHOD_END
+
 
 mos_METHOD(bcMethod,dumpToStream_)
 {
@@ -420,11 +437,13 @@ mos_METHOD(bcMethod,dumpToStream_)
 } 
 mos_METHOD_END
 
+
 mos_METHOD(bcMethod,decodeOtherOn_)
 {
   mos_REFT(mos_MIMPL,mos_method)->_func = _mos_mf_bcMethod___applyMethod_;
 }
 mos_METHOD_END
+
 
 mos_OBJECT(bcMethod)
 mos_OBJECT_M(bcMethod,argumentAt_)

@@ -1,16 +1,21 @@
 
-# $Id: delegate.mos,v 1.4 1999-06-28 14:06:08 stephensk Exp $
+# $Id: delegate.mos,v 1.5 2001-09-15 21:59:10 stephens Exp $
 
-_ system metas _addSlots: {
+_ system metas _addSlots: 
+{
   delegation = _ system metas basicMeta clone;
 };
 
-_ system metas delegation _addSlots: {
+_ system metas delegation _addSlots: 
+{
   previousMeta -> _ system metas basicMeta;
-  lookupMethod: msg {
+
+
+  lookupMethod: msg 
+  {
     # if the lookup fails using the basicMeta on the current context.
     ((previousMeta lookupMethod: msg) eq: @u) ifThen: [
-      # Set the messages context to be the context '_delegate' slot.
+      # Set the message's context to be the context '_delegate' slot.
       msg context: msg context _delegate;
       
       # Attempt to lookup the message using the new context's meta.
@@ -21,7 +26,9 @@ _ system metas delegation _addSlots: {
     _:(msg method);
   }
   
-  becomeMetaFor: obj {
+
+  becomeMetaFor: obj
+  {
     obj _meta: (self clone previousMeta: obj _meta);
     _: obj;
   }

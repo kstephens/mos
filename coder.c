@@ -1,27 +1,35 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_coder_c__
 #define __rcs_id_mos_coder_c__
-static const char __rcs_id_mos_coder_c[] = "$Id: coder.c,v 1.4 1999-12-26 20:05:44 stephensk Exp $";
+static const char __rcs_id_mos_coder_c[] = "$Id: coder.c,v 1.5 2001-09-15 21:59:10 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
+
 #include "mos/mos.h"
+
 
 /******************************************************************************/
 
+
 mos_ANNOT("Module: coder")
 
+
 mos_ANNOT("Doc: A coder object contains a stream (to encode or decode) the objects to and a reference table to encode objects with referential integrity.")
+
 
 mos_METHOD(coder,asCoder)
 {
 }
 mos_METHOD_END
 
+
 #define STREAM mos_send(mos_RCVR, mos_s(stream))
 #define TABLE mos_send(mos_RCVR, mos_s(table))
 
+
 mos_ANNOT("Category: Clone")
+
 
 mos_METHOD(coder,clone)
 {
@@ -30,9 +38,12 @@ mos_METHOD(coder,clone)
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
 
+
 mos_ANNOT("Category: Internal")
+
 
 mos_METHOD(coder,reset)
 {
@@ -40,17 +51,22 @@ mos_METHOD(coder,reset)
 }
 mos_METHOD_END
 
+
 mos_METHOD(coder,flush)
 {
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
+
 
 /******************************************************************/
 /* Low-level coder functions */
 
+
 mos_ANNOT("Category: Low-level")
+
 
 mos_METHOD(coder,encodeRawInteger_)
 {
@@ -65,6 +81,7 @@ mos_METHOD(coder,encodeRawInteger_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(coder,decodeRawInteger)
 {
   unsigned long x;
@@ -77,6 +94,7 @@ mos_METHOD(coder,decodeRawInteger)
 }
 mos_METHOD_END
 
+
 mos_METHOD(coder,encodeRawReal_)
 {
   double x = mos_REAL(mos_ARGV[0]);
@@ -84,6 +102,7 @@ mos_METHOD(coder,encodeRawReal_)
   mos_send(STREAM, mos_s(writeString_), mos_MAKE_REF(&str));
 }
 mos_METHOD_END
+
 
 mos_METHOD(coder,decodeRawReal)
 {
@@ -95,12 +114,14 @@ mos_METHOD(coder,decodeRawReal)
 }
 mos_METHOD_END
 
+
 mos_METHOD(coder,encodeRawString_)
 {
   mos_send(mos_RCVR, mos_s(encodeRawInteger_), (mos_send(mos_ARGV[0], mos_s(length))));
   mos_send(STREAM, mos_s(writeString_), mos_ARGV[0]);
 }
 mos_METHOD_END
+
 
 mos_METHOD(coder,decodeRawString)
 {
@@ -110,13 +131,18 @@ mos_METHOD(coder,decodeRawString)
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
+
 
 /******************************************************************/
 
+
 mos_ANNOT("Category: Encode")
 
+
 mos_ANNOT("Category: Atomic")
+
 
 mos_METHOD(coder,encodeAsInteger_)
 {
@@ -126,6 +152,7 @@ mos_METHOD(coder,encodeAsInteger_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(coder,encodeAsReal_)
 {
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asReal));
@@ -133,6 +160,7 @@ mos_METHOD(coder,encodeAsReal_)
   mos_send(mos_RCVR, mos_s(encodeRawReal_), mos_ARGV[0]);
 }
 mos_METHOD_END
+
 
 mos_METHOD(coder,encodeAsChar_)
 {
@@ -142,6 +170,7 @@ mos_METHOD(coder,encodeAsChar_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(coder,encodeAsString_)
 {
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asString));
@@ -149,6 +178,7 @@ mos_METHOD(coder,encodeAsString_)
   mos_send(mos_RCVR, mos_s(encodeRawString_), mos_ARGV[0]);
 }
 mos_METHOD_END
+
 
 mos_METHOD(coder,encodeAsVector_)
 {
@@ -158,6 +188,7 @@ mos_METHOD(coder,encodeAsVector_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(coder,encodeAsSelector_)
 {
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(name));
@@ -165,6 +196,7 @@ mos_METHOD(coder,encodeAsSelector_)
   mos_send(mos_RCVR, mos_s(encodeRawString_), mos_ARGV[0]);
 }
 mos_METHOD_END
+
 
 mos_METHOD(coder,encodeAsObject_WithName_)
 {
@@ -174,12 +206,16 @@ mos_METHOD(coder,encodeAsObject_WithName_)
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
+
 
 /**********************************************************************/
 /* Complex object encoding */
 
+
 mos_ANNOT("Category: Complex")
+
 
 mos_METHOD(coder,encodeAsReference_)
 {
@@ -206,6 +242,7 @@ mos_METHOD(coder,encodeAsReference_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(coder,encodeAsObject_)
 {
   mos_value o = mos_ARGV[0];
@@ -231,9 +268,12 @@ mos_METHOD(coder,encodeAsObject_)
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
 
+
 /********************************************************************/
+
 
 mos_METHOD(coder,encode_)
 {
@@ -241,11 +281,15 @@ mos_METHOD(coder,encode_)
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
+
 
 /********************************************************************/
 
+
 mos_ANNOT("Category: Decode")
+
 
 mos_METHOD(coder,decode)
 {
@@ -328,6 +372,7 @@ mos_METHOD(coder,decode)
     }
     break;
 
+
   default:
     o = mos_error(mos_s(coderError), "%P invalid coding key", o);
     break;
@@ -336,9 +381,12 @@ mos_METHOD(coder,decode)
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
 
+
 mos_ANNOT("Category: Test")
+
 
 mos_METHOD(coder,_test_)
 {
@@ -364,9 +412,12 @@ mos_METHOD(coder,_test_)
 }
 mos_METHOD_END
 
+
 mos_ANNOT_END
 
+
 /********************************************************************/
+
 
 mos_OBJECT(coder)
 mos_OBJECT_M(coder,asCoder)
@@ -396,7 +447,9 @@ mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_o(map))
 mos_OBJECT_END(protos,coder,mos_object,basicMeta);
 
+
 /******************************************************************************/
+
 
 mos_ANNOT_END
 mos_ANNOT_END

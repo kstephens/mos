@@ -1,12 +1,14 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_clone_c__
 #define __rcs_id_mos_clone_c__
-static const char __rcs_id_mos_clone_c[] = "$Id: clone.c,v 1.3 1999-12-26 20:05:43 stephensk Exp $";
+static const char __rcs_id_mos_clone_c[] = "$Id: clone.c,v 1.4 2001-09-15 21:59:10 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
+
 #include "mos/mos.h"
 #include "mos/memcpy.h"
+
 
 void _mos_deepenSlots(mos_object *x)
 {
@@ -24,6 +26,7 @@ void _mos_deepenSlots(mos_object *x)
   }
 }
 
+
 mos_objectDesc *_mos_clone_desc(mos_objectDesc *d)
 {
   mos_objectDesc *nd;
@@ -40,6 +43,7 @@ mos_objectDesc *_mos_clone_desc(mos_objectDesc *d)
   return nd;
 }
 
+
 static
 mos_object *_mos_allocTall(mos_objectDesc *desc)
 {
@@ -49,6 +53,7 @@ mos_object *_mos_allocTall(mos_objectDesc *desc)
   y->_slots = mos_malloc(sizeof(y->_slots[0]) * desc->_nslots);
   return y;
 }
+
 
 static
 mos_object *_mos_cloneTall(mos_object *x)
@@ -61,6 +66,7 @@ mos_object *_mos_cloneTall(mos_object *x)
   return y;
 }
 
+
 static
 mos_object *_mos_allocFlat(mos_objectDesc *desc)
 {
@@ -69,6 +75,7 @@ mos_object *_mos_allocFlat(mos_objectDesc *desc)
   y->_slots = (mos_value*) (((char*) y) + desc->_sizeof);
   return y;
 }
+
 
 static
 mos_object *_mos_cloneFlat(mos_object *x)
@@ -105,6 +112,7 @@ mos_object *_mos_clone(mos_object *x)
   }
 }
 
+
 mos_object *_mos_create(mos_objectDesc *desc)
 {
   if ( desc->_flags & (mos_SEALED) ) {
@@ -125,10 +133,12 @@ mos_object *_mos_create(mos_objectDesc *desc)
   }
 }
 
+
 mos_value mos_clone(mos_value x)
 {
   return mos_MAKE_REF(_mos_clone(mos_REF(x)));
 }
+
 
 mos_value mos_create(mos_value x)
 {

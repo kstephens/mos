@@ -1,22 +1,48 @@
-# $Id: pointd.mos,v 1.4 1999-06-28 14:06:09 stephensk Exp $
+# $Id: pointd.mos,v 1.5 2001-09-15 21:59:10 stephens Exp $
 
 _ system _addSlotsIfAbsent: {
   traits -> { };
 };
 
 _ system traits _addSlots: {
-  point -> {
-    newX: px Y: py { _: (self clone x: px y: py); }
-    + p { _: (newX: (x + p x) Y: (y + p y)); }
-    - p { _: (newX: (x - p x) Y: (y - p y)); }
-    length { _: (((x * x) + (y * y)) asReal sqrt); }
-    printOn: s {
+  point -> 
+  {
+
+    newX: px Y: py
+    { 
+      _: (self clone x: px y: py);
+    }
+
+
+    + p
+    { 
+      _: (newX: (x + p x) Y: (y + p y));
+    }
+
+
+    - p 
+    { 
+      _: (newX: (x - p x) Y: (y - p y));
+    }
+
+
+    length 
+    { 
+      _: (((x * x) + (y * y)) asReal sqrt);
+    }
+
+
+    printOn: s
+    {
       x printOn: s;
       "@" writeOn: s;
       y printOn: s;
     }
+
+
   }
 };
+
 
 _ system protos _addSlots: {
   point -> _ system metas delegation becomeMetaFor: {
@@ -25,5 +51,6 @@ _ system protos _addSlots: {
     y -> 0;
   }
 };
+
 
 1;

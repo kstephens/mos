@@ -1,11 +1,13 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_accessor_c__
 #define __rcs_id_mos_accessor_c__
-static const char __rcs_id_mos_accessor_c[] = "$Id: accessor.c,v 1.3 2000-03-21 07:13:43 stephensk Exp $";
+static const char __rcs_id_mos_accessor_c[] = "$Id: accessor.c,v 1.4 2001-09-15 21:59:10 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
+
 #include "mos/mos.h"
+
 
 #ifndef mos_MAX_ACCESSORS
 #define mos_MAX_ACCESSORS 256
@@ -14,26 +16,35 @@ static const char __rcs_id_mos_accessor_c[] = "$Id: accessor.c,v 1.3 2000-03-21 
 
 #define SELF mos_REFT(mos_MIMPL,mos_accessor)
 
+
 /******************************************************************/
+
 
 mos_ANNOT("Module: accessor")
 mos_ANNOT("Doc: The value slot accessor method behavior.")
 
+
 /******************************************************************/
 
+
   mos_ANNOT("Category: Coerce")
+
 
 mos_METHOD(accessor,asAccessor)
 {
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: SlotIndex")
   mos_ANNOT("Doc: Returns the value slot index of the accessor method.")
+
 
 mos_METHOD(accessor,slotIndex)
 {
@@ -41,13 +52,17 @@ mos_METHOD(accessor,slotIndex)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Coder")
   mos_ANNOT("Doc: Encodes the slotIndex.")
+
 
 mos_METHOD(accessor,encodeOtherOn_)
 {
@@ -55,12 +70,16 @@ mos_METHOD(accessor,encodeOtherOn_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Equal")
+
 
 mos_METHOD(accessor,_equal_)
 {
@@ -69,30 +88,41 @@ mos_METHOD(accessor,_equal_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
 
+
 /*******************************************************************/
+
 
 #define SLOTI mos_REFT(mos_METH,mos_accessor)->_sloti
 #define SLOT mos_SLOTS(mos_MIMPL)[SLOTI]
 
+
 mos_ANNOT("Module: getter")
 mos_ANNOT("Doc: The value slot getter method.")
 
+
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Coerce")
+
 
 mos_METHOD(getter,asGetter)
 {
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Getter")
+
 
 mos_METHOD(getter,_get)
 {
@@ -100,11 +130,15 @@ mos_METHOD(getter,_get)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Coder")
+
 
 mos_METHOD(getter,decodeOtherOn_)
 {
@@ -114,11 +148,15 @@ mos_METHOD(getter,decodeOtherOn_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Print")
+
 
 mos_METHOD(getter,printOn_)
 {
@@ -126,7 +164,9 @@ mos_METHOD(getter,printOn_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 mos_OBJECT(getter)
 mos_accessor_METHODS
@@ -138,28 +178,38 @@ mos_OBJECT_M(getter,decodeOtherOn_)
 mos_OBJECT_SLOTS(getter)
 mos_OBJECT_END(protos,getter,mos_accessor,methodMeta)
 
+
 mos_ANNOT_END
 mos_ANNOT_END
 
+
 /*******************************************************************/
+
 
 mos_ANNOT("Module: getter")
 mos_ANNOT("Doc: The value slot setter method.")
 
+
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Coerce")
+
 
 mos_METHOD(setter,asSetter)
 {
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Print")
+
 
 mos_METHOD(setter,printOn_)
 {
@@ -167,11 +217,15 @@ mos_METHOD(setter,printOn_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Getter")
+
 
 mos_METHOD(setter,_set_)
 {
@@ -179,11 +233,15 @@ mos_METHOD(setter,_set_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Coder")
+
 
 mos_METHOD(setter,decodeOtherOn_)
 {
@@ -193,7 +251,9 @@ mos_METHOD(setter,decodeOtherOn_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 mos_OBJECT(setter)
 mos_accessor_METHODS
@@ -205,24 +265,32 @@ mos_OBJECT_M(setter,decodeOtherOn_)
 mos_OBJECT_SLOTS(setter)
 mos_OBJECT_END(protos,setter,mos_accessor,methodMeta)
 
+
 mos_ANNOT_END
 mos_ANNOT_END
+
 
 #undef SELF
 #undef SLOTI
 #undef SLOT
 
+
 /*******************************************************************/
+
 
 #define SELF mos_REFT(mos_MIMPL,mos_constantMethod)
 #define SLOT(X)mos_SLOTS(X)[0]
 
+
 mos_ANNOT("Module: constantMethod")
 mos_ANNOT("Doc: A method object that always returns the same value.")
 
+
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Getter")
+
 
 mos_METHOD(constantMethod,_get)
 {
@@ -230,11 +298,15 @@ mos_METHOD(constantMethod,_get)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /******************************************************************/
 
+
   mos_ANNOT("Category: Equal")
+
 
 mos_METHOD(constantMethod,_equal_)
 {
@@ -242,11 +314,15 @@ mos_METHOD(constantMethod,_equal_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Print")
+
 
 mos_METHOD(constantMethod,printOn_)
 {
@@ -254,17 +330,22 @@ mos_METHOD(constantMethod,printOn_)
 }
 mos_METHOD_END
 
+
 mos_METHOD(constantMethod,printOnAsMethodBody_)
 {
   mos_return(mos_printf(mos_ARGV[0], "= %-P;", SLOT(mos_MIMPL)));
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 /*******************************************************************/
 
+
   mos_ANNOT("Category: Coder")
+
 
 mos_METHOD(constantMethod,decodeOtherOn_)
 {
@@ -272,7 +353,9 @@ mos_METHOD(constantMethod,decodeOtherOn_)
 }
 mos_METHOD_END
 
+
   mos_ANNOT_END
+
 
 mos_value mos_constant_method(mos_value x)
 {
@@ -281,8 +364,10 @@ mos_value mos_constant_method(mos_value x)
   return m;
 }
 
+
 #undef SELF
 #undef SLOT
+
 
 mos_OBJECT(constantMethod)
 mos_OBJECT_M(constantMethod,_equal_)
@@ -298,20 +383,27 @@ mos_OBJECT_SLOTS(constantMethod)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_END(protos,constantMethod,mos_constantMethod,methodMeta)
 
+
 mos_ANNOT_END
 mos_ANNOT_END
 
+
 /********************************************************************/
+
 
 /* End of accessor. */
 
+
 mos_ANNOT_END
 mos_ANNOT_END
+
 
 /********************************************************************/
 
+
 mos_accessor _mos_getter[mos_MAX_ACCESSORS];
 mos_accessor _mos_setter[mos_MAX_ACCESSORS];
+
 
 mos_INIT(accessor,1)
 {
@@ -332,6 +424,7 @@ mos_INIT(accessor,1)
   return 0;
 }
 
+
 mos_value mos_getter_method(unsigned int sloti)
 {
   if ( sloti >= mos_MAX_ACCESSORS ) {
@@ -341,6 +434,7 @@ mos_value mos_getter_method(unsigned int sloti)
   }
   return mos_GETTER(sloti);
 }
+
 
 mos_value mos_setter_method(unsigned int sloti)
 {

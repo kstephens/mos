@@ -1,4 +1,5 @@
 #!/bin/perl
+# $Id: annot.pl,v 1.2 1999-02-19 09:26:19 stephensk Exp $
 
 $annot = undef;
 @annots = ();

@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_message_c__
+#define __rcs_id_mos_message_c__
+static const char __rcs_id_mos_message_c[] = "$Id: message.c,v 1.2 1999-02-19 09:26:23 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #include "mos/mos.h"
 
 mos_METHOD(message,asMessage)

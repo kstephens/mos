@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_print_c__
+#define __rcs_id_mos_print_c__
+static const char __rcs_id_mos_print_c[] = "$Id: print.c,v 1.2 1999-02-19 09:26:24 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #include "mos/mos.h"
 #include <stdarg.h>
 #include <string.h>

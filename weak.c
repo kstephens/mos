@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_weak_c__
+#define __rcs_id_mos_weak_c__
+static const char __rcs_id_mos_weak_c[] = "$Id: weak.c,v 1.2 1999-02-19 09:26:27 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #include "mos/weak.h"
 #if MOS_USE_GC
 #include "gc.h"

@@ -1,4 +1,12 @@
 #ifndef _mos_str_h
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_str_h__
+#define __rcs_id_mos_str_h__
+static const char __rcs_id_mos_str_h[] = "$Id: str.h,v 1.2 1999-02-19 09:26:32 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #define _mos_str_h
 
 typedef struct mos_string {

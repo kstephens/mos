@@ -4,6 +4,15 @@
 
 %{
 
+#ifndef __rcs_id__
+#ifndef __rcs_id_old_parse__y__
+#define __rcs_id_old_parse__y__
+static const char __rcs_id_old_parse__y[] = "$Id: parse_.y,v 1.2 1999-02-19 09:26:36 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
+%{
+
 #include "mos/mos.h"
 #include "mos/expr.h"
 

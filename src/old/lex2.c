@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_old_lex2_c__
+#define __rcs_id_old_lex2_c__
+static const char __rcs_id_old_lex2_c[] = "$Id: lex2.c,v 1.2 1999-02-19 09:26:35 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 /*
 lexer = @{
   lexemeProto = @{

@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_basicMeta_h__
+#define __rcs_id_mos_basicMeta_h__
+static const char __rcs_id_mos_basicMeta_h[] = "$Id: basicMeta.h,v 1.2 1999-02-19 09:26:27 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #define mos_basicMeta_METHODS \
 mos_OBJECT_M(basicMeta,lookupMethod_) \
 mos_OBJECT_M(basicMeta,lookupMethodForSelector_InObject_) \

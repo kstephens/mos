@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_os_c__
+#define __rcs_id_mos_os_c__
+static const char __rcs_id_mos_os_c[] = "$Id: os.c,v 1.2 1999-02-19 09:26:24 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #include "mos/mos.h"
 #include <sys/types.h>
 #include <sys/stat.h>

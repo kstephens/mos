@@ -1,4 +1,12 @@
-# $Id: iterate.mos,v 1.2 1999-02-19 08:51:15 stephensk Exp $
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_iterate_mos__
+#define __rcs_id_mos_iterate_mos__
+static const char __rcs_id_mos_iterate_mos[] = "$Id: iterate.mos,v 1.3 1999-02-19 09:26:33 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
+# $Id: iterate.mos,v 1.3 1999-02-19 09:26:33 stephensk Exp $
 
 _ system behavior _addSlots: { iterate ->
   {

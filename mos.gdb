@@ -1,3 +1,4 @@
+# $Id: mos.gdb,v 1.2 1999-02-19 09:26:23 stephensk Exp $
 b abort
 b mos_error
 #b GC_init

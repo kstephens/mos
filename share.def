@@ -1,3 +1,4 @@
+/* $Id: share.def,v 1.2 1999-02-19 09:26:25 stephensk Exp $ */
 #define mos_DEF_OBJECT(P,O,T,M)mos_DEF_SHARED_DESC(O)
 #include "mos/obj.def"
 #undef mos_DEF_SHARED_DESC

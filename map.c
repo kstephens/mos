@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_map_c__
+#define __rcs_id_mos_map_c__
+static const char __rcs_id_mos_map_c[] = "$Id: map.c,v 1.2 1999-02-19 09:26:22 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #include "mos/mos.h"
 #include "mos/memcpy.h"
 #include "mos/mapfuncs.h"

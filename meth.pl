@@ -1,4 +1,5 @@
 #!/bin/perl
+# $Id: meth.pl,v 1.2 1999-02-19 09:26:23 stephensk Exp $
 
 while (<>) {
   while ( s/^mos_METHOD\s*[(]\s*([^\s)]+)\s*[)]// ) {

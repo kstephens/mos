@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_bcDecomp_c__
+#define __rcs_id_mos_bcDecomp_c__
+static const char __rcs_id_mos_bcDecomp_c[] = "$Id: bcDecomp.c,v 1.2 1999-02-19 09:26:20 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 /*
 ** A bytecode decompiler.
 ** Takes a bcMethod object and creates a expr tree, suitable for printing or recompiling.

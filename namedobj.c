@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_namedobj_c__
+#define __rcs_id_mos_namedobj_c__
+static const char __rcs_id_mos_namedobj_c[] = "$Id: namedobj.c,v 1.2 1999-02-19 09:26:23 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #include "mos/mos.h"
 #include "mos/mapfuncs.h"
 

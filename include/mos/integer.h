@@ -1,4 +1,12 @@
 #ifndef _mos_integer_h
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_integer_h__
+#define __rcs_id_mos_integer_h__
+static const char __rcs_id_mos_integer_h[] = "$Id: integer.h,v 1.2 1999-02-19 09:26:29 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #define _mos_integer_h
 
 typedef struct mos_integer {

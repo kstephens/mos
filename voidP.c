@@ -1,3 +1,11 @@
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_voidP_c__
+#define __rcs_id_mos_voidP_c__
+static const char __rcs_id_mos_voidP_c[] = "$Id: voidP.c,v 1.2 1999-02-19 09:26:26 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #include "mos/mos.h"
 
 mos_voidP *_mos_voidP[mos_MAX_VOIDPS];

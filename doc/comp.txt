@@ -1,3 +1,4 @@
+# $Id: comp.txt,v 1.2 1999-02-19 09:26:27 stephensk Exp $
 OPCODES:
 
 LIT X		| <X>

@@ -1,4 +1,12 @@
 #ifndef _mos_send_h
+
+#ifndef __rcs_id__
+#ifndef __rcs_id_mos_send_h__
+#define __rcs_id_mos_send_h__
+static const char __rcs_id_mos_send_h[] = "$Id: send.h,v 1.2 1999-02-19 09:26:31 stephensk Exp $";
+#endif
+#endif /* __rcs_id__ */
+
 #define _mos_send_h
 
 extern mos_value *_mos_sp, *_mos_sp_top;

@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_message_c__
 #define __rcs_id_mos_message_c__
-static const char __rcs_id_mos_message_c[] = "$Id: message.c,v 1.5 2000-03-21 07:13:44 stephensk Exp $";
+static const char __rcs_id_mos_message_c[] = "$Id: message.c,v 1.6 2001-08-13 09:39:16 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -155,22 +155,26 @@ mos_ANNOT_END
 mos_ANNOT("Doc: The vector object containing the arguments.")
 mos_OBJECT_A(arguments,4)
 mos_ANNOT_END
+mos_ANNOT("Doc: The vector object containing the arguments.")
+mos_OBJECT_A(locals,5)
+mos_ANNOT_END
 mos_ANNOT("Doc: The sourceInfor object containing the source location of the generation of this message.")
-mos_OBJECT_A(sourceInfo,5)
+mos_OBJECT_A(sourceInfo,6)
 mos_ANNOT_END
 mos_ANNOT("Doc: The method that implements the method for the reciever.")
-mos_OBJECT_A(method,6)
+mos_OBJECT_A(method,7)
 mos_ANNOT_END
 mos_ANNOT("Doc: The object that implemented the method for the receiver.  This object is usually the receiver, but may not be if some delegate object is implementing the method.")
-mos_OBJECT_A(methodImplementer,7)
+mos_OBJECT_A(methodImplementer,8)
 mos_ANNOT_END
 mos_ANNOT("Doc: The return value of the method.")
-mos_OBJECT_A(returnValue,8)
+mos_OBJECT_A(returnValue,9)
 mos_ANNOT_END
 mos_ANNOT("Doc: The catch object used by blocks to return from this message.")
-mos_OBJECT_A(returnCatch,9)
+mos_OBJECT_A(returnCatch,10)
 mos_ANNOT_END
 mos_OBJECT_SLOTS(message)
+mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_undef)
@@ -189,6 +193,7 @@ mos_INIT(message,10)
   mos_send(mos_o(message), mos_s(context_), mos_o(_));
   mos_send(mos_o(message), mos_s(receiver_), mos_o(_));
   mos_send(mos_o(message), mos_s(arguments_), mos_vector_make(0,0));
+  mos_send(mos_o(message), mos_s(locals_), mos_vector_make(0,0));
   return 0;
 }
 

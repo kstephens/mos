@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_message_h__
 #define __rcs_id_mos_message_h__
-static const char __rcs_id_mos_message_h[] = "$Id: message.h,v 1.2 1999-02-19 09:26:30 stephensk Exp $";
+static const char __rcs_id_mos_message_h[] = "$Id: message.h,v 1.3 2001-08-13 09:39:19 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -25,6 +25,8 @@ typedef struct mos_message_slots {
   mos_value _receiver;
     /* The receiver of the message */
   mos_value _arguments;
+    /* The argument vector of the message */
+  mos_value _locals;
     /* The argument vector of the message */
   mos_value _sourceInfo;
     /* The object that represents the source code info. */
@@ -61,6 +63,9 @@ extern mos_value mos_MSG;
 #define _mos_ARGS mos_MSG_s->_arguments
 #define mos_ARGS _mos_ARGS
 
+#define _mos_LOCS mos_MSG_s->_locals
+#define mos_LOCS _mos_LOCS
+
 #define _mos_METH mos_MSG_s->_method
 #define mos_METH _mos_METH
 
@@ -78,10 +83,12 @@ extern mos_value mos_MSG;
 
 #define _mos_ARGV mos_REFT(mos_ARGS,mos_vector)->_v
 
+#define _mos_LOCV mos_REFT(mos_LOCS,mos_vector)->_v
+
 /*
 #define mos_ARGV _mos_ARGV
 */
 
 #define mos_message_DECLARE(X,_SEL,_CNTX,_RCVR,_ARGS,_SRCINFO) \
-  mos_message_slots X##_s = { mos_MSG, (_SEL), (_CNTX), (_RCVR), _ARGS, _SRCINFO, mos_undef, mos_undef, mos_undef, mos_undef }; \
+  mos_message_slots X##_s = { mos_MSG, (_SEL), (_CNTX), (_RCVR), _ARGS, mos_undef, _SRCINFO, mos_undef, mos_undef, mos_undef, mos_undef }; \
   mos_message X = { &_mos_od_message, (mos_value*)&X##_s }

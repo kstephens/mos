@@ -1,8 +1,7 @@
-
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_objdesc_c__
 #define __rcs_id_mos_objdesc_c__
-static const char __rcs_id_mos_objdesc_c[] = "$Id: objdesc.c,v 1.2 1999-02-19 09:26:23 stephensk Exp $";
+static const char __rcs_id_mos_objdesc_c[] = "$Id: objdesc.c,v 1.3 1999-12-26 20:05:58 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -11,11 +10,28 @@ static const char __rcs_id_mos_objdesc_c[] = "$Id: objdesc.c,v 1.2 1999-02-19 09
 
 #define SELF mos_REFT(mos_MIMPL,mos_objectDesc)
 
+mos_ANNOT("Module: objdesc")
+mos_ANNOT("Doc: The low-level object descriptor.  \
+All objects have an object descriptor.  \
+Object descriptors contain the following information about an object: \n
+  Its meta object. \n\
+  Its number of value slots. \n\
+  The methods that it responds to. \n\
+  Its annotations. \n\
+\n\
+Object descriptors are like classes in class-based objects systems except that objects may share object descriptors until they are modified by copy-on-write operations.")
+
+  mos_ANNOT("Category: Coerce")
+
 mos_METHOD(objectDesc,asObjectDesc)
 {
   mos_return(mos_MIMPL);
 }
 mos_METHOD_END
+
+  mos_ANNOT_END
+
+  mos_ANNOT("Category: Encode")
 
 mos_METHOD(objectDesc,encodeOtherOn_)
 {
@@ -51,6 +67,10 @@ mos_METHOD(objectDesc,decodeOtherOn_)
   o->_methods = *mos_REFT(methods, mos_map);
 }
 mos_METHOD_END
+
+  mos_ANNOT_END
+
+  mos_ANNOT("Category: ObjectDescription")
 
 mos_METHOD(objectDesc,meta)
 {
@@ -88,6 +108,8 @@ mos_METHOD(objectDesc,annotations)
 }
 mos_METHOD_END
 
+  mos_ANNOT_END
+
 #undef SELF
 
 mos_OBJECT(objectDesc)
@@ -103,6 +125,8 @@ mos_OBJECT_M(objectDesc,annotations)
 mos_OBJECT_SLOTS(objectDesc)
 mos_OBJECT_END(protos,objectDesc,mos_objectDesc,basicMeta)
 
+mos_ANNOT_END
+mos_ANNOT_END
 
 mos_INIT(objectDesc,-10)
 {

@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_annot_c__
 #define __rcs_id_mos_annot_c__
-static const char __rcs_id_mos_annot_c[] = "$Id: annot.c,v 1.2 1999-02-19 09:26:19 stephensk Exp $";
+static const char __rcs_id_mos_annot_c[] = "$Id: annot.c,v 1.3 1999-12-26 20:05:37 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -76,7 +76,7 @@ mos_METHOD(objectDesc,__annot)
 mos_METHOD_END
 mos_ANNOT_END
 
-mos_ANNOT("Doc:Sets the annotation.")
+mos_ANNOT("Doc: Sets the annotation.")
 mos_METHOD(objectDesc,__annot_)
 {
   mos_send(mos_RCVR, mos_s(__annot_For_), mos_ARGV[0], OBL_ANNOT_SEL);
@@ -164,7 +164,9 @@ mos_ANNOT_END
 
 mos_OBJECT(annot)
 mos_OBJECT_M(annot,_loadAnnotFileFor_)
+mos_ANNOT("Doc: A map of static object descriptors to annotation maps.")
 mos_OBJECT_A(loadedMap,0)
+mos_ANNOT_END
 mos_OBJECT_SLOTS(annot)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_END(system,annot,mos_object,basicMeta)
@@ -174,7 +176,7 @@ mos_ANNOT_END
 
 mos_INIT(annotation,98)
 {
-  /* Keep an map of all static object desc to dynamically load annotations */
+  /* Keep an map of all static object descriptors to dynamically load annotations */
   {
     mos_value loadedMap;
 

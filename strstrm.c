@@ -1,12 +1,17 @@
-
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_strstrm_c__
 #define __rcs_id_mos_strstrm_c__
-static const char __rcs_id_mos_strstrm_c[] = "$Id: strstrm.c,v 1.2 1999-02-19 09:26:25 stephensk Exp $";
+static const char __rcs_id_mos_strstrm_c[] = "$Id: strstrm.c,v 1.3 1999-12-26 20:06:04 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
 #include "mos/mos.h"
+
+mos_ANNOT("Module: structuredStream")
+
+mos_ANNOT("Doc: The Structured Stream object.<P>A Structured Stream object knows how to keep track of indentations.")
+
+mos_ANNOT("Category: Coerce")
 
 mos_METHOD(structuredStream,asStructuredStream)
 {
@@ -24,6 +29,12 @@ mos_METHOD(structuredStream,asString)
 }
 mos_METHOD_END
 
+mos_ANNOT_END
+
+    /******************************************************************/
+
+mos_ANNOT("Category: Create")
+
 mos_METHOD(structuredStream,newWithStream_)
 {
   mos_RCVR = mos_send(mos_RCVR, mos_s(clone));
@@ -32,19 +43,30 @@ mos_METHOD(structuredStream,newWithStream_)
 }
 mos_METHOD_END
 
+mos_ANNOT_END
+
+    /******************************************************************/
+
+mos_ANNOT("Category: Indentation")
+
+mos_ANNOT("Doc: Resets the indentation stack and currentPosition.")
 mos_METHOD(structuredStream,reset)
 {
   mos_send(mos_RCVR, mos_s(indents_), mos_vector_make_(1, mos_integer_make(0)));
   mos_send(mos_RCVR, mos_s(currentPosition_), mos_integer_make(0));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT("Doc: Returns the current indentation.")
 mos_METHOD(structuredStream,currentIndent)
 {
   mos_return(mos_send(mos_send(mos_RCVR, mos_s(indents)), mos_s(top)));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT("Doc: Pushes a new indentation.")
 mos_METHOD(structuredStream,indentTo_)
 {
   mos_value is;
@@ -54,13 +76,17 @@ mos_METHOD(structuredStream,indentTo_)
   mos_send(is, mos_s(push_), mos_ARGV[0]);
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT("Doc: Pushes a new indentation at the currentPosition.")
 mos_METHOD(structuredStream,indentToCurrentPosition)
 {
   mos_return(mos_send(mos_RCVR, mos_s(indentTo_), mos_send(mos_RCVR, mos_s(currentPosition))));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT("Doc: Pushes a new indentation delta.")
 mos_METHOD(structuredStream,indentBy_)
 {
   mos_value ind = mos_send(mos_RCVR, mos_s(currentIndent));
@@ -68,13 +94,17 @@ mos_METHOD(structuredStream,indentBy_)
   mos_return(mos_send(mos_RCVR, mos_s(indentTo_), ind));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT("Doc: Pushes a new indentation delta by defaultIndent.")
 mos_METHOD(structuredStream,indentByDefault)
 {
   mos_return(mos_send(mos_RCVR, mos_s(indentBy_), mos_send(mos_RCVR, mos_s(defaultIndent))));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT("Doc: Pops the current indentation.")
 mos_METHOD(structuredStream,unindent)
 {
   mos_value is = mos_send(mos_RCVR, mos_s(indents));
@@ -85,7 +115,13 @@ mos_METHOD(structuredStream,unindent)
   mos_send(is, mos_s(pop));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT_END
+
+mos_ANNOT("Category: Write")
+
+mos_ANNOT("Doc: writes the string to substream with indentation.")
 mos_METHOD(structuredStream,writeString_)
 {
   mos_value stream = mos_send(mos_RCVR, mos_s(substream));
@@ -142,13 +178,17 @@ mos_METHOD(structuredStream,writeString_)
   mos_send(mos_RCVR, mos_s(currentPosition_), mos_integer_make(cp));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT("Doc: Flushes substream.")
 mos_METHOD(structuredStream,flush)
 {
   mos_send(mos_send(mos_RCVR, mos_s(substream)), mos_s(flush));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
+mos_ANNOT_END
 
 mos_OBJECT(structuredStream)
 mos_OBJECT_M(structuredStream,asStructuredStream)
@@ -164,10 +204,18 @@ mos_OBJECT_M(structuredStream,indentByDefault)
 mos_OBJECT_M(structuredStream,unindent)
 mos_OBJECT_M(structuredStream,writeString_)
 mos_OBJECT_M(structuredStream,flush)
+mos_ANNOT("Doc: A stream the gets the indented output.")
 mos_OBJECT_A(substream,0)
+mos_ANNOT_END
+mos_ANNOT("Doc: The current position in the current line.")
 mos_OBJECT_A(currentPosition,1)
+mos_ANNOT_END
+mos_ANNOT("Doc: The stack of indentations.")
 mos_OBJECT_A(indents,2)
+mos_ANNOT_END
+mos_ANNOT("Doc: The default indentation.")
 mos_OBJECT_A(defaultIndent,3)
+mos_ANNOT_END
 mos_OBJECT_SLOTS(structuredStream)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_undef)
@@ -183,3 +231,5 @@ mos_INIT(structuredStream,23)
   return 0;
 }
 
+mos_ANNOT_END
+mos_ANNOT_END

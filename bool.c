@@ -1,8 +1,7 @@
-
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_bool_c__
 #define __rcs_id_mos_bool_c__
-static const char __rcs_id_mos_bool_c[] = "$Id: bool.c,v 1.2 1999-02-19 09:26:20 stephensk Exp $";
+static const char __rcs_id_mos_bool_c[] = "$Id: bool.c,v 1.3 1999-12-26 20:05:41 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 

@@ -6,7 +6,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_parse_y__
 #define __rcs_id_mos_parse_y__
-static const char __rcs_id_mos_parse_y[] = "$Id: parse.y,v 1.3 1999-07-27 02:05:55 stephensk Exp $";
+static const char __rcs_id_mos_parse_y[] = "$Id: parse.y,v 1.4 1999-12-26 20:05:59 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -78,7 +78,13 @@ _MOS_PARSE ();
 
 #define yyparse _MOS_PARSE
 extern mos_value yylval;
+#ifdef YYPARSE_PARAM_ARG
+#undef YYPARSE_PARAM_ARG
+#endif
 #define YYPARSE_PARAM_ARG _MOS_PARSE_PARAM_ARG
+#ifdef YYPARSE_PARAM_DECL
+#undef YYPARSE_PAAM_DECL
+#endif
 #define YYPARSE_PARAM_DECL _MOS_PARSE_PARAM_DECL
 
 

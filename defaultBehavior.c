@@ -1,8 +1,7 @@
-
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_defaultBehavior_c__
 #define __rcs_id_mos_defaultBehavior_c__
-static const char __rcs_id_mos_defaultBehavior_c[] = "$Id: defaultBehavior.c,v 1.3 1999-12-04 01:47:39 stephensk Exp $";
+static const char __rcs_id_mos_defaultBehavior_c[] = "$Id: defaultBehavior.c,v 1.4 1999-12-26 20:05:48 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 

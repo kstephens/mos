@@ -1,8 +1,7 @@
-
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_slots_c__
 #define __rcs_id_mos_slots_c__
-static const char __rcs_id_mos_slots_c[] = "$Id: slots.c,v 1.3 1999-06-28 14:06:07 stephensk Exp $";
+static const char __rcs_id_mos_slots_c[] = "$Id: slots.c,v 1.4 1999-12-26 20:06:02 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -127,7 +126,6 @@ void _mos_addSlots(mos_value x, mos_value src, int ifAbsent)
   mos_value mmap;
   int i;
   mos_value meth, sel, val;
-  const char *sep;
   mos_value xmeta;
   int hasSlot;
   

@@ -1,8 +1,7 @@
-
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_map_c__
 #define __rcs_id_mos_map_c__
-static const char __rcs_id_mos_map_c[] = "$Id: map.c,v 1.3 1999-12-04 01:48:01 stephensk Exp $";
+static const char __rcs_id_mos_map_c[] = "$Id: map.c,v 1.4 1999-12-26 20:05:56 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -19,11 +18,20 @@ static const char __rcs_id_mos_map_c[] = "$Id: map.c,v 1.3 1999-12-04 01:48:01 s
 
 #define I mos_INT(mos_ARGV[0])
 
+mos_ANNOT("Module: map")
+mos_ANNOT("Doc: The map object.  Map objects can map one object to another.")
+
+  mos_ANNOT("Category: Coerce")
+
 mos_METHOD(map,asMap)
 {
   mos_return(mos_MIMPL);
 }
 mos_METHOD_END
+
+  mos_ANNOT_END
+
+  mos_ANNOT("Category: Clone")
 
 mos_METHOD(map,clone)
 {
@@ -38,6 +46,12 @@ mos_METHOD(map,clone)
   mos_return(mos_MAKE_REF(m));
 }
 mos_METHOD_END
+
+  mos_ANNOT_END
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Print")
 
 mos_METHOD(map,printOn_)
 {
@@ -63,6 +77,12 @@ mos_METHOD(map,printShallowOn_)
   mos_return(mos_send(mos_RCVR, mos_s(printIdOn_), mos_ARGV[0]));
 }
 mos_METHOD_END
+
+  mos_ANNOT_END
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Encode")
 
 mos_METHOD(map,encodeOtherOn_)
 {
@@ -106,11 +126,24 @@ mos_METHOD(map,decodeOtherOn_)
 }
 mos_METHOD_END
 
+  mos_ANNOT_END
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Length")
+
+
 mos_METHOD(map,length)
 {
   mos_return(mos_integer_make(L));
 }
 mos_METHOD_END
+
+  mos_ANNOT_END
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Equal")
 
 mos_METHOD(map,_equal_)
 {
@@ -142,6 +175,13 @@ mos_METHOD(map,_equal_)
 #undef B
 }
 mos_METHOD_END
+
+  mos_ANNOT_END
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Get")
+
 
 mos_METHOD(map,get_Or_)
 {
@@ -186,6 +226,13 @@ mos_METHOD(map,hasValue_)
 mos_METHOD_END
 
 
+  mos_ANNOT_END
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Keys")
+
+
 mos_METHOD(map,keysInto_)
 {
   {
@@ -203,6 +250,13 @@ mos_METHOD(map,keys)
   mos_return(mos_send(mos_RCVR, mos_s(keysInto_), mos_vector_make(0, 0)));
 }
 mos_METHOD_END
+
+
+  mos_ANNOT_END
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Values")
 
 
 mos_METHOD(map,valuesInto_)
@@ -224,15 +278,17 @@ mos_METHOD(map,values)
 mos_METHOD_END
 
 
+  mos_ANNOT_END
 
+/*******************************************************************/
+
+  mos_ANNOT("Category: Set")
 
 mos_METHOD(map,set_Value_)
 {
   _mos_map_setOrAdd(M, mos_ARGV[0], mos_ARGV[1]);
 }
 mos_METHOD_END
-
-
 
 mos_METHOD(map,remove_)
 {
@@ -247,6 +303,12 @@ mos_METHOD(map,removeValue_)
 mos_METHOD_END
 
 
+  mos_ANNOT_END
+
+/*******************************************************************/
+
+  mos_ANNOT("Category: Create")
+
 mos_METHOD(map,__COM__)
 {
   mos_value mm = mos_send(mos_o(protos), mos_s(mapMaker));
@@ -256,6 +318,8 @@ mos_METHOD(map,__COM__)
   mos_return(mm);
 }
 mos_METHOD_END
+
+  mos_ANNOT_END
 
 #undef SELF
 #undef M
@@ -289,6 +353,8 @@ mos_OBJECT_M(map,__COM__)
 mos_OBJECT_SLOTS(map)
 mos_OBJECT_END(protos,map,mos_map,basicMeta)
 
+mos_ANNOT("Category: Create")
+
 mos_METHOD(mapMaker,__RAR__)
 {
   mos_value map = mos_send(mos_RCVR, mos_s(map));
@@ -307,6 +373,9 @@ mos_OBJECT_S(mos_undef)
 mos_OBJECT_S(mos_undef)
 mos_OBJECT_END(protos,mapMaker,mos_map,basicMeta)
 
+mos_ANNOT_END
+mos_ANNOT_END
+mos_ANNOT_END
 
      static mos_map_slot _mos_empty_map_slots[] = { { mos_UNINITIALIZED } };
 
@@ -315,6 +384,12 @@ mos_INIT(map,-20)
   mos_REFT(mos_o(map),mos_map)->_m_slots = _mos_empty_map_slots;
   return 0;
 }
+
+mos_ANNOT_END
+mos_ANNOT_END
+
+/***************************************************************************/
+/* Map creation. */
 
 #ifdef mos_map_make
 #undef mos_map_make

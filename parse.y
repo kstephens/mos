@@ -6,7 +6,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_parse_y__
 #define __rcs_id_mos_parse_y__
-static const char __rcs_id_mos_parse_y[] = "$Id: parse.y,v 1.5 2000-03-21 07:10:52 stephensk Exp $";
+static const char __rcs_id_mos_parse_y[] = "$Id: parse.y,v 1.6 2001-09-15 22:21:03 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -292,12 +292,16 @@ block :
 
 /******************************************************************/
 
+
 mos_ANNOT("Module: parser")
 mos_ANNOT("Doc: Parse MOS language expressions.")
 
+
 /******************************************************************/
 
+
   mos_ANNOT("Category: Parse")
+
 
 mos_METHOD(parser,parseExprFrom_)
 {
@@ -333,7 +337,9 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
+
 /******************************************************************/
+
 
 mos_OBJECT(parser)
 mos_OBJECT_M(parser,parseExprFrom_)
@@ -344,10 +350,13 @@ mos_OBJECT_SLOTS(parser)
 mos_OBJECT_S(mos_false)
 mos_OBJECT_END(compiler,parser,mos_object,basicMeta)
 
+
 /******************************************************************/
+
 
 mos_ANNOT_END
 mos_ANNOT_END
+
 
 /******************************************************************/
 

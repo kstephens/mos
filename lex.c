@@ -1,9 +1,10 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_lex_c__
 #define __rcs_id_mos_lex_c__
-static const char __rcs_id_mos_lex_c[] = "$Id: lex.c,v 1.5 2000-03-21 07:08:17 stephensk Exp $";
+static const char __rcs_id_mos_lex_c[] = "$Id: lex.c,v 1.6 2001-09-15 22:21:03 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
+
 
 #include "mos/mos.h"
 #include "parse.h"
@@ -17,6 +18,7 @@ static const char __rcs_id_mos_lex_c[] = "$Id: lex.c,v 1.5 2000-03-21 07:08:17 s
 #ifndef PARSE_DEBUG
 #define PARSE_DEBUG _mos_yydebug
 #endif
+
 
 #ifndef PARSE_READ_DEBUG
 #define PARSE_READ_DEBUG 0
@@ -140,7 +142,7 @@ int _mos_yylex(mos_value *_yylval, void *cntx)
     
     goto whitespace;
   }
-  
+
   if ( (isalpha(c) && islower(c)) || (c == '_') ) {
     /* NAME || KEYWORD */
     lexeme = mos_string_make(0,0);
@@ -420,10 +422,10 @@ int _mos_yylex(mos_value *_yylval, void *cntx)
     
     case '#': {
 	GETC();
-	/* Parse a getter object */
+	/* Parse a weak object reference id. */
 	_mos_yylex(&yylval, cntx);
 
-	/* Get an object by name */
+	/* Transform the weak reference id to a live reference. */
 	yylval = mos_send(yylval, mos_s(asObject));
 
 	/* It's a constant */
@@ -450,9 +452,12 @@ int _mos_yylex(mos_value *_yylval, void *cntx)
     return(c);
   }
 }
+
+
 #undef STREAM
 #undef return
 #undef yylval
+
 
 #undef appendLexeme
 #undef isop

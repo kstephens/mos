@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.7 2000-03-21 07:03:32 stephensk Exp $
+# $Id: Makefile,v 1.8 2000-05-10 03:59:18 stephensk Exp $
 # 
 #
 all:
@@ -209,11 +209,11 @@ SRCFILES = Makefile $(CFILES) $(HFILES) $(YFILES)
 
 GARBAGE = .saves* core *.core $(OFILES) $(OFILES:.o=.i) $(OFILES:.o=.s) $(NAME)$(EXE)
 ALL_GARBAGE = $(GARBAGE) $(YFILES:.y=.c) $(YFILES:.y=.h) $(YFILES:.y=.out) defs $(DEFS)
- 
+
 #####################################################################
 
 MOS=$(NAME)$(EXE)
- 
+
 all : $(MOS)
 
 $(MOS) : defs $(OFILES) Makefile

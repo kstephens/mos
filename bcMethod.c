@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_bcMethod_c__
 #define __rcs_id_mos_bcMethod_c__
-static const char __rcs_id_mos_bcMethod_c[] = "$Id: bcMethod.c,v 1.3 1999-12-26 20:05:40 stephensk Exp $";
+static const char __rcs_id_mos_bcMethod_c[] = "$Id: bcMethod.c,v 1.4 2000-05-10 03:59:19 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -69,6 +69,7 @@ mos_value _mos_bcMethod_run(mos_value mos_MSG, mos_value BCS, mos_value *fp)
   _mos_bcExecCodeDebug[mos_bc_memoval_] ++;
   _mos_bcExecCodeDebug[mos_bc_rcvr] ++;
 
+  /* _restart is the sub-primitive for looping. */
   restart:
   pc = mos_string_V(BCS);
 
@@ -100,6 +101,7 @@ mos_value _mos_bcMethod_run(mos_value mos_MSG, mos_value BCS, mos_value *fp)
   case mos_bc_nop:
     goto again;
     
+    /* Restart the method. */
   case mos_bc_restart:
     sp = fp;
     goto restart;

@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_bcCompile_c__
 #define __rcs_id_mos_bcCompile_c__
-static const char __rcs_id_mos_bcCompile_c[] = "$Id: bcCompile.c,v 1.3 1999-12-26 20:05:38 stephensk Exp $";
+static const char __rcs_id_mos_bcCompile_c[] = "$Id: bcCompile.c,v 1.4 2000-05-10 03:59:18 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -364,7 +364,7 @@ mos_ANNOT_END
 mos_ANNOT("The vector of local identifiers.")
 mos_OBJECT_A(locals,3)
 mos_ANNOT_END
-mos_ANNOT("The vector of current constant values.")
+mos_ANNOT("The vector of constant values.")
 mos_OBJECT_A(constants,4)
 mos_ANNOT_END
 mos_ANNOT("The string containing the current bytecodes.")
@@ -484,6 +484,12 @@ mos_METHOD(exprSend,compile_)
       ** a return catch for the method's message.
       */
       if ( inBlock ) {
+        /*
+	** Mark the inclosing method's context that
+	** it generates a block with a return,
+        ** so the compiler can generate code to create a block return catch in
+	** the method's preamble.
+	*/
 	mos_send(mos_send(CC, mos_s(inMethod)), mos_s(hasBlockReturn_), mos_true);
 	mos_send(CC, mos_s(emit_), mos_s(rtnBlk));
       } else {
@@ -523,13 +529,13 @@ mos_METHOD(exprSend,compile_)
     } else
 
     /*
-    ** Scoped messages
+    ** Scoped messages.
     */
     /* (self) -> rcvr */
     if ( mos_EQ(sel_,mos_s(self)) ) {
       /*
       ** 'self' in a block context is really 'self' in the inclosing method's
-      ** active message object
+      ** active message object.
       */
       mos_value msg = inBlock ? mos_exprMethodContext() : mos_exprMsg();
       mos_send(msg, mos_s(compile_), CC);
@@ -537,7 +543,7 @@ mos_METHOD(exprSend,compile_)
       mos_return(mos_RCVR);
     } else
     
-    /* (self:<expr>)) -> rcvrSet */
+    /* (self:<expr>)) -> rcvrSet. */
     if ( mos_EQ(sel_,mos_s(self_)) ) {
       mos_value msg = inBlock ? mos_exprMethodContext() : mos_exprMsg();
       mos_send(msg, mos_s(compile_), CC);
@@ -545,7 +551,7 @@ mos_METHOD(exprSend,compile_)
       mos_return(mos_RCVR);
     } else
     
-    /* Might be a local or argument access message in the block context stack */
+    /* Might be a local or argument access message in the block context stack. */
     {
       mos_value v;
       int i;
@@ -557,23 +563,23 @@ mos_METHOD(exprSend,compile_)
       
       getter = mos_send(sel_, mos_s(getter));
       if ( mos_EQ(getter,mos_undef) ) {
-	/* Must be a getter */
+	/* Must be a getter. */
 	getter = sel_;
 	isGetter = 1;
       } else {
 	isGetter = 0;
       }
       
-      /* Begin search from current context */
+      /* Begin search from current context. */
       cc = CC;
       msgRoot = mos_exprMsg();
       
       do { 
 	/* Look in locals */
 	v = mos_send(cc, mos_s(locals));
-	i = 1; /* Note: arg indexes from 1 */
+	i = 1; /* Note: arg indexes from 1. */
 	mos_vector_LOOP(v,ep)
-	  /* Locals are expr*Slot objects */
+	  /* Locals are expr*Slot objects. */
 	  mos_value s = mos_send(*ep, mos_s(selector));
 	  if ( mos_EQ(s, getter) ) {
 	    mos_send(msgRoot, mos_s(compile_), CC);
@@ -585,7 +591,7 @@ mos_METHOD(exprSend,compile_)
 	  i ++;
 	mos_vector_LOOP_END
   
-	/* Look in arguments */
+	/* Look in arguments. */
 	v = mos_send(cc, mos_s(arguments));
 	i = 0;
 	mos_vector_LOOP(v,ep)
@@ -599,26 +605,26 @@ mos_METHOD(exprSend,compile_)
 	  i ++;
 	mos_vector_LOOP_END
       
-	/* Try previous frame */
+	/* Try previous frame. */
 	if ( (keepGoingUp = mos_NE(mos_send(cc, mos_s(asBlock)), mos_false)) ) {
-	  /* Go up for the cc */
+	  /* Go up for the cc. */
 	  cc = mos_send(cc, mos_s(prevContext));
 	  
-	  /* Go up for the _lexicalContext */
+	  /* Go up for the _lexicalContext. */
 	  msgRoot = mos_exprSend(msgRoot, (mos_s(_lexicalContext)), 0);
 	}
       } while ( keepGoingUp );
     }
     
-    /* Must be a default send to self */
+    /* Must be a default send to self. */
     mos_send(mos_exprSelf(), mos_s(compile_), CC);
   } else {
-    /* rcvr is not root and is specified; compile the rcvr */
+    /* rcvr is not root and is specified; compile the rcvr. */
     mos_send(rcvr, mos_s(compile_), CC);
   }
 
   /*
-  ** Handle special inline methods
+  ** Handle special inline methods.
   */
   /* <_msg> _rcvr -> (current receiver) */
   if ( mos_EQ(sel_,mos_s(_rcvr)) ) {
@@ -803,8 +809,10 @@ mos_METHOD(exprMethod,compile_)
   
   /*
   ** Compile the body of the method in the new context.
-  ** Methods normally return the rcvr if a return stmt is not specified.
-  ** Block methods normally return the last expression in the block's body.
+  ** Methods return the rcvr if a return stmt is not specified.
+  ** Block methods return the last expression in the block's body.
+  ** Block methods return from the lexical method if a return stmt is
+  ** specified.
   */
   args = ARGS;
   locals = LOCALS;
@@ -913,12 +921,14 @@ mos_METHOD(exprBlock,compile_)
   /*
   ** Attach the block object to the current msg 
   ** (<block instance> _lexicalContext: <msg>)
+  ** This allows the block object access to the
+  ** message that created it (and it's return catch).
   */
   e = mos_exprSend(e, (mos_s(_lexicalContext_)), 1, mos_exprMsg());
     
   /*
-  ** If this block is within another block use the parent block's _methodContext
-  ** instead of the current messages (which is the block's value* message!)
+  ** If this block is within another block, use the parent block's _methodContext
+  ** instead of the current message (which is the block's value* message!).
   */
   {
     mos_value mC;

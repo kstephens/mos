@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_message_c__
 #define __rcs_id_mos_message_c__
-static const char __rcs_id_mos_message_c[] = "$Id: message.c,v 1.2 1999-02-19 09:26:23 stephensk Exp $";
+static const char __rcs_id_mos_message_c[] = "$Id: message.c,v 1.3 1999-12-04 01:48:01 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -77,10 +77,8 @@ mos_METHOD(message,backtraceOn_Using_)
   mos_value x = mos_RCVR;
   int l = 1;
   
-  mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asStructuredStream));
-  
   while ( mos_NE(x,mos_undef) ) {
-    mos_printf(mos_ARGV[0], "%3d %{%MO%}\n", l, mos_ARGV[1], x);
+    mos_ARGV[0] = mos_printf(mos_ARGV[0], "%:%3d %{%MO%}\n", l, mos_ARGV[1], x);
     x = mos_send(x, mos_s(previousMessage));
     l ++;
   }

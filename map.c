@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_map_c__
 #define __rcs_id_mos_map_c__
-static const char __rcs_id_mos_map_c[] = "$Id: map.c,v 1.2 1999-02-19 09:26:22 stephensk Exp $";
+static const char __rcs_id_mos_map_c[] = "$Id: map.c,v 1.3 1999-12-04 01:48:01 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -45,9 +45,7 @@ mos_METHOD(map,printOn_)
 
   mos_ARGV[0] = mos_printf(mos_ARGV[0], "");
   
-  ss = mos_send(mos_ARGV[0], mos_s(asStructuredStream));
-  
-  mos_printf(ss, "%[(@M");
+  ss = mos_printf(mos_ARGV[0], "%[(@M");
   
   {
   mos_map_LOOP(M,ms)
@@ -87,7 +85,7 @@ mos_METHOD(map,decodeOtherOn_)
   mos_map *o = SELF;
   size_t m_nslots;
   mos_map_slot *m_slots;
-  static mos_map_slot _zero;
+  static const mos_map_slot _zero;
 
   m_nslots = mos_INT(mos_send(mos_ARGV[0], mos_s(decodeRawInteger)));
 

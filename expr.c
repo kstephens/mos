@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_expr_c__
 #define __rcs_id_mos_expr_c__
-static const char __rcs_id_mos_expr_c[] = "$Id: expr.c,v 1.3 1999-10-13 17:08:06 stephensk Exp $";
+static const char __rcs_id_mos_expr_c[] = "$Id: expr.c,v 1.4 1999-12-04 01:47:39 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -147,9 +147,7 @@ mos_METHOD(exprObject,printExprOn_)
 {
   mos_value v;
   
-  mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asStructuredStream));
-
-  mos_printf(mos_ARGV[0], "%<{");
+  mos_ARGV[0] = mos_printf(mos_ARGV[0], "%<{");
 
   v = mos_send(mos_RCVR, mos_s(slots));
   mos_vector_LOOP(v, ep)
@@ -293,9 +291,7 @@ mos_METHOD(exprMethod,printExprOn_)
   mos_value x;
   int locals = 0;
 
-  mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asStructuredStream));
-
-  mos_printf(mos_ARGV[0], "{%<");
+  mos_ARGV[0] = mos_printf(mos_ARGV[0], "{%<");
   
   x = mos_send(mos_RCVR, mos_s(locals));
   mos_vector_LOOP(x,ep);
@@ -353,9 +349,7 @@ mos_METHOD(exprBlock,printExprOn_)
 {
   mos_value x;
   
-  mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asStructuredStream));
-
-  mos_printf(mos_ARGV[0], "%<[");
+  mos_ARGV[0] = mos_printf(mos_ARGV[0], "%<[");
   
   x = mos_send(mos_RCVR, mos_s(arguments));
   if ( mos_vector_L(x) ) {

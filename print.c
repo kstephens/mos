@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_print_c__
 #define __rcs_id_mos_print_c__
-static const char __rcs_id_mos_print_c[] = "$Id: print.c,v 1.2 1999-02-19 09:26:24 stephensk Exp $";
+static const char __rcs_id_mos_print_c[] = "$Id: print.c,v 1.3 1999-12-04 01:47:39 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -13,7 +13,8 @@ static const char __rcs_id_mos_print_c[] = "$Id: print.c,v 1.2 1999-02-19 09:26:
 mos_value mos_vprintf_(mos_value stream, mos_value format, va_list *vap)
 {
   const char *b, *e, *ef;
-  
+  int asSS = 0;
+
   if ( mos_EQ(stream,mos_undef) ) {
     stream = mos_string_make(0,0);
   }
@@ -124,13 +125,31 @@ mos_value mos_vprintf_(mos_value stream, mos_value format, va_list *vap)
 	  mos_send(stream, mos_s(flush));
 	  break;
 	
+        case ':':
+	  if ( ! asSS ) {
+	    stream = mos_send(stream, mos_s(asStructuredStream));
+	    asSS = 1;
+	  }
+	  break;
 	case '{':
+	  if ( ! asSS ) {
+	    stream = mos_send(stream, mos_s(asStructuredStream));
+	    asSS = 1;
+	  }
 	  mos_send(stream, mos_s(indentToCurrentPosition));
 	  break;
 	case '<':
+	  if ( ! asSS ) {
+	    stream = mos_send(stream, mos_s(asStructuredStream));
+	    asSS = 1;
+	  }
 	  mos_send(stream, mos_s(indentByDefault));
 	  break;
 	case '[':
+	  if ( ! asSS ) {
+	    stream = mos_send(stream, mos_s(asStructuredStream));
+	    asSS = 1;
+	  }
 	  mos_send(stream, mos_s(indentToCurrentPosition));
 	  mos_send(stream, mos_s(indentByDefault));
 	  break;

@@ -2,7 +2,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_defaultBehavior_c__
 #define __rcs_id_mos_defaultBehavior_c__
-static const char __rcs_id_mos_defaultBehavior_c[] = "$Id: defaultBehavior.c,v 1.2 1999-02-19 09:26:21 stephensk Exp $";
+static const char __rcs_id_mos_defaultBehavior_c[] = "$Id: defaultBehavior.c,v 1.3 1999-12-04 01:47:39 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -89,10 +89,7 @@ mos_METHOD(defaultBehavior,printSlots_On_)
   
   mmap = mos_ARGV[0];
   
-  mos_ARGV[1] = mos_printf(mos_ARGV[1], "");
-  mos_ARGV[1] = mos_send(mos_ARGV[1], mos_s(asStructuredStream));
-
-  mos_printf(mos_ARGV[1], "%[{");
+  mos_ARGV[1] = mos_printf(mos_ARGV[1], "%[{");
 
   for ( i = 0; i < mos_NSLOTS(mos_RCVR); i ++ ) {
     val = mos_SLOTS(mos_RCVR)[i];

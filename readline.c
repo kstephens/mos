@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_readline_c__
 #define __rcs_id_mos_readline_c__
-static const char __rcs_id_mos_readline_c[] = "$Id: readline.c,v 1.4 1999-12-26 20:06:00 stephensk Exp $";
+static const char __rcs_id_mos_readline_c[] = "$Id: readline.c,v 1.5 2001-08-13 09:33:48 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -59,7 +59,7 @@ _mos_completion (text, start, end)
 {
   char **matches;
 
-  matches = completion_matches (text, _mos_completion_generator);
+  matches = rl_completion_matches (text, _mos_completion_generator);
 
   return (matches);
 }

@@ -6,17 +6,18 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_parse_y__
 #define __rcs_id_mos_parse_y__
-static const char __rcs_id_mos_parse_y[] = "$Id: parse.y,v 1.4 1999-12-26 20:05:59 stephensk Exp $";
+static const char __rcs_id_mos_parse_y[] = "$Id: parse.y,v 1.5 2000-03-21 07:10:52 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
 #include "mos/mos.h"
 #include "mos/expr.h"
+#include "mos/lex.h"
 #include <stdlib.h> /* malloc, free */
 #include <string.h> /* strcat */
 
 #ifndef PARSE_DEBUG
-extern int yydebug;
+#define yydebug _mos_yydebug
 #define PARSE_DEBUG yydebug
 #endif
 
@@ -61,38 +62,27 @@ mos_value exprMsg(mos_value CNTX, mos_value RCVR, mos_value SEL, mos_value ARGS)
 #error Must use bison
 #endif
 
+#define YYDEBUG 1
+
 #ifndef YYDEBUG
 #define YYDEBUG 1
 #endif
 #define YYERROR_VERBOSE 1
 #define YYPURE 1
 
-extern int _mos_yylex(mos_value *_yylval, mos_value STREAM);
 #define yylex _mos_yylex
-#define YYLEX_PARAM STREAM
+#define YYLEX_PARAM cntx
 
-#define _MOS_PARSE _mos_parseFromStream
-#define _MOS_PARSE_PARAM_ARG STREAM, parsedExpr
-#define _MOS_PARSE_PARAM_DECL mos_value STREAM; mos_value *parsedExpr;
-_MOS_PARSE ();
+#define yyparse _mos_yyparse
+#define YYPARSE_PARAM cntx
 
-#define yyparse _MOS_PARSE
-extern mos_value yylval;
-#ifdef YYPARSE_PARAM_ARG
-#undef YYPARSE_PARAM_ARG
-#endif
-#define YYPARSE_PARAM_ARG _MOS_PARSE_PARAM_ARG
-#ifdef YYPARSE_PARAM_DECL
-#undef YYPARSE_PAAM_DECL
-#endif
-#define YYPARSE_PARAM_DECL _MOS_PARSE_PARAM_DECL
-
-
-static int yyerror(const char *msg)
+static int _mos_yyerror(const char *msg, void *cntx)
 {
   mos_error(mos_s(parseError), msg);
   return 0;
 }
+#define yyerror(X) _mos_yyerror(X, YYPARSE_PARAM)
+
 
 %}
 
@@ -107,9 +97,9 @@ static int yyerror(const char *msg)
 
 start :
     /* NOTHING */
-	{ *parsedExpr = mos_eos; return(0); }
+	{ ((mos_parse_cnxt*) cntx)->expr = mos_eos; return(0); }
   | expr ';'
-  	{ *parsedExpr = $1; return(0); }
+  	{ ((mos_parse_cnxt*) cntx)->expr = $1; return(0); }
   | ';' start
   	{ $$ = $2; }
   ;
@@ -300,28 +290,64 @@ block :
 %%
 
 
+/******************************************************************/
+
+mos_ANNOT("Module: parser")
+mos_ANNOT("Doc: Parse MOS language expressions.")
+
+/******************************************************************/
+
+  mos_ANNOT("Category: Parse")
 
 mos_METHOD(parser,parseExprFrom_)
 {
   extern int yydebug;
-  mos_value expr = mos_undef;
+  mos_parse_cnxt cntx;
+  int yydebug_save;
 
-  int yydebug_save = yydebug;
-  
+  /* Initialize context. */
+  cntx.stream = mos_ARGV[0];
+  cntx.expr = mos_undef;
+  cntx.error = mos_undef;
+
+  /* Save yydebug. */
+  yydebug_save = yydebug;
+
+  /* Set yydebug. */
   yydebug = mos_NE(mos_send(mos_RCVR, mos_s(parseDebug)), mos_false);
-  if ( _mos_parseFromStream(mos_ARGV[0], &expr) ) {
-    expr = mos_undef;
+  // yydebug = 1;
+
+  /* Parse top-level expression. */
+  if ( _mos_yyparse(&cntx) ) {
+    /* Cannot parse. */
+    cntx.expr = mos_undef;
   }
+
+  /* Restore yydebug. */
   yydebug = yydebug_save;
-  mos_return(expr);
+
+  /* Return the expression. */
+  mos_return(cntx.expr);
 }
 mos_METHOD_END
 
+  mos_ANNOT_END
+
+/******************************************************************/
+
 mos_OBJECT(parser)
 mos_OBJECT_M(parser,parseExprFrom_)
+mos_ANNOT("Doc: Controls parse debug output.")
 mos_OBJECT_A(parseDebug,0)
+mos_ANNOT_END
 mos_OBJECT_SLOTS(parser)
 mos_OBJECT_S(mos_false)
 mos_OBJECT_END(compiler,parser,mos_object,basicMeta)
 
+/******************************************************************/
+
+mos_ANNOT_END
+mos_ANNOT_END
+
+/******************************************************************/
 

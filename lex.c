@@ -1,20 +1,21 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_lex_c__
 #define __rcs_id_mos_lex_c__
-static const char __rcs_id_mos_lex_c[] = "$Id: lex.c,v 1.4 1999-12-26 20:05:53 stephensk Exp $";
+static const char __rcs_id_mos_lex_c[] = "$Id: lex.c,v 1.5 2000-03-21 07:08:17 stephensk Exp $";
 #endif
 #endif /* __rcs_id__ */
 
 #include "mos/mos.h"
-#include "mos/parse.h"
+#include "parse.h"
 #include "mos/expr.h"
+#include "mos/lex.h"
 #include <string.h>
 #include <ctype.h>
 #include <math.h> /* pow() */
 
+
 #ifndef PARSE_DEBUG
-extern int yydebug;
-#define PARSE_DEBUG yydebug
+#define PARSE_DEBUG _mos_yydebug
 #endif
 
 #ifndef PARSE_READ_DEBUG
@@ -31,6 +32,7 @@ static int mos_getc(mos_value stream)
   return mos_NE(x,mos_eos) ? mos_CHAR(x) : EOF;
 }
 
+
 static int mos_peekc(mos_value stream)
 {
   mos_value x = mos_send(stream, mos_s(peekChar));
@@ -39,6 +41,7 @@ static int mos_peekc(mos_value stream)
   }
   return mos_NE(x,mos_eos) ? mos_CHAR(x) : EOF;
 }
+
 
 static int digitInRadix(int c, int radix)
 {
@@ -71,8 +74,10 @@ static int digitInRadix(int c, int radix)
   return c;
 }
 
-int _mos_yylex(mos_value *_yylval, mos_value stream)
+
+int _mos_yylex(mos_value *_yylval, void *cntx)
 {
+#define STREAM (((mos_parse_cnxt*) cntx)->stream)
 #define yylval (*_yylval)
   int c;
   mos_value lexeme;
@@ -81,14 +86,14 @@ int _mos_yylex(mos_value *_yylval, mos_value stream)
 #define isop(X) strchr(_mos_selector_op_charset, (X))
 
 #if 1
-#define GETC() mos_getc(stream)
-#define PEEKC() mos_peekc(stream)
+#define GETC() mos_getc(STREAM)
+#define PEEKC() mos_peekc(STREAM)
 #else
 #define GETC() getc(stdin)
 #define PEEKC(X) ungetc(X, stdin)
 #endif
 
-#define return(X) do { if ( PARSE_DEBUG ) { char buf[12]; sprintf(buf, isprint(X) ? "'%c'" : "'\\x%02x'", (int) (X)); mos_printf(mos_FILE(err), "lex: got %s(%s): value %W\n", #X, buf, yylval); } return X; } while(0)
+#define return(X) do { if ( PARSE_DEBUG ) { char buf[12]; sprintf(buf, isprint(X) ? "'%c'" : "'\\x%02x'", (int) (X)); mos_printf(mos_FILE(err), "lex: got %s(%s): value %P\n", #X, buf, yylval); } return X; } while(0)
 
   whitespace:
   c = PEEKC();
@@ -374,7 +379,7 @@ int _mos_yylex(mos_value *_yylval, mos_value stream)
     case 'N': case 'n': {
 	GETC();
 	/* Parse a named object identifier */
-	_mos_yylex(&yylval, stream);
+	_mos_yylex(&yylval, cntx);
 
 	/* Get an object by name */
 	yylval = mos_object_named(yylval);
@@ -388,7 +393,7 @@ int _mos_yylex(mos_value *_yylval, mos_value stream)
     case 'G': case 'g': {
 	GETC();
 	/* Parse a getter object */
-	_mos_yylex(&yylval, stream);
+	_mos_yylex(&yylval, cntx);
 
 	/* Get an object by name */
 	yylval = mos_getter_method(mos_INT(yylval));
@@ -402,7 +407,7 @@ int _mos_yylex(mos_value *_yylval, mos_value stream)
     case 'S': case 's': {
 	GETC();
 	/* Parse a getter object */
-	_mos_yylex(&yylval, stream);
+	_mos_yylex(&yylval, cntx);
 
 	/* Get an object by name */
 	yylval = mos_setter_method(mos_INT(yylval));
@@ -416,7 +421,7 @@ int _mos_yylex(mos_value *_yylval, mos_value stream)
     case '#': {
 	GETC();
 	/* Parse a getter object */
-	_mos_yylex(&yylval, stream);
+	_mos_yylex(&yylval, cntx);
 
 	/* Get an object by name */
 	yylval = mos_send(yylval, mos_s(asObject));
@@ -429,7 +434,7 @@ int _mos_yylex(mos_value *_yylval, mos_value stream)
  
     case '"': {
 	/* @"xxx" -> `("xxx" asSelector) */
-	_mos_yylex(&yylval, stream);
+	_mos_yylex(&yylval, cntx);
 	yylval = mos_exprConstant(mos_send(yylval, mos_s(asSelector)));
 	return(EXPR);
     }
@@ -445,9 +450,9 @@ int _mos_yylex(mos_value *_yylval, mos_value stream)
     return(c);
   }
 }
+#undef STREAM
 #undef return
 #undef yylval
 
 #undef appendLexeme
 #undef isop
-

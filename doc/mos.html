@@ -7,9 +7,8 @@
    <title>MOS Documentation</title>
 </head>
 <body>
-
-<-- $Id: mos.html,v 1.3 1999-03-02 11:31:01 stephensk Exp $ -->
-
+$Id: mos.html,v 1.3 1999/03/02 11:31:01 stephensk
+Exp $
 <center>
 <h1>
 MOS (MetaObjectSystem)</h1></center>
@@ -20,7 +19,7 @@ V0.1</h2></center>
 
 <center>Copyright 1997-1999 <a href="mailto:stephensk@acm.org">Kurt A.
 Stephens</a>
-<br>Updated 1999/02/09</center>
+<br>Updated 1999/10/22</center>
 
 <hr WIDTH="100%">
 <h3>
@@ -47,12 +46,13 @@ to meta-objects.&nbsp; Each MOS object has a "<tt>_meta</tt>" object associated
 with it.&nbsp; Two standard meta-objects are:
 <p><tt>(_ system metas basicMeta)</tt> which implements "<tt>lookupMethod:"</tt>
 <br><tt>(_ system metas methodMeta)</tt> which implements all of&nbsp;
-the basicMeta object and implements the "<tt>applyMethod:</tt>" operation.
+the <tt>basicMeta</tt> object and implements the "<tt>applyMethod:</tt>"
+operation.
 <p>The MOS <tt>send(receiver, selector, arguments)</tt> primitive is implemented
 by creating a "<tt>message</tt>" object containing the message's reciever,
 the message's method selector, and the message's arguments.&nbsp; Then
 the reciever's meta object gets a meta-message to find a method in the
-reciever and store it in the message object.&nbsp; Then the message's method's
+receiver and store it in the message object.&nbsp; Then the message's method's
 meta object gets a meta-message to apply the message's method to the message's
 reciever.&nbsp; In pseudo-code <tt>send()</tt> might be implemented as:
 <blockquote><tt>send(rcvr, sel, args) {</tt>
@@ -184,7 +184,7 @@ of a reciever, selector and arguments.</blockquote>
 </tr>
 
 <tr>
-<td>binaty</td>
+<td>binary</td>
 
 <td><tt>foo +-+ bar</tt></td>
 
@@ -235,7 +235,7 @@ if the selector is <tt>@"_msg"</tt>; the message object is accessed.</li>
 
 <li>
 if the selector is <tt>@"self"</tt>; the message accesses the message's
-reciever.&nbsp; In a block context; <tt>@"self" </tt>access the block's
+reciever.&nbsp; In a block context; <tt>@"self" </tt>accesses the block's
 lexical message's receiver.</li>
 
 <li>
@@ -297,7 +297,7 @@ character.
 <h3>
 Meta-level Programming</h3>
 <tt>(<i>obj</i> _meta)</tt>, <tt>(<i>obj</i> _meta: <i>newMeta</i>)</tt>
-<p>An object's meta can be set or retrieved using the above messages.
+<p>An object's meta-object can be retrieved or set with the above messages.
 <p><tt>(<i>obj</i> _objectDesc)</tt>,&nbsp; <tt>(<i>obj</i> _objectDesc:
 <i>newObjDesc</i>)</tt>
 <p>An object's decscriptor is an object that contains the object's size,
@@ -356,9 +356,8 @@ MOS does a very low-level, behind-the-scenes lookup delegation to this
 special object when certain messages cannot be found through the usual
 lookup semantics.&nbsp; This is primarly for bootstrapping and low-level
 object messages that all objects must respond to; like <tt>@"_clone"</tt>,
-<tt>@"_meta"</tt>,
-<tt>@"isConstant",</tt>
-and the basic printing and encoding facilities.
+<tt>@"_meta"</tt>, <tt>@"isConstant",</tt> and the basic printing and encoding
+facilities.
 <h3>
 <tt>(_ system os)</tt></h3>
 User interface to the host operating system (most ANSI C and POSIX system
@@ -603,8 +602,7 @@ Method slots</dt>
 <br><tt><i>&lt;operator></i> <i>&lt;identifier></i> '{' <i>&lt;method-body></i>
 '}'</tt>
 <br><tt><i>&lt;keyword></i> <i>&lt;identifier></i> <i>&lt;capword-identifier-list></i>
-'{' <i>&lt;method-body></i> '}'</tt>
-<br><tt></tt>&nbsp;</blockquote>
+'{' <i>&lt;method-body></i> '}'</tt></blockquote>
 </blockquote>
 <tt>Object</tt></blockquote>
 

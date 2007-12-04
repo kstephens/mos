@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_bcMethod_c__
 #define __rcs_id_mos_bcMethod_c__
-static const char __rcs_id_mos_bcMethod_c[] = "$Id: bcMethod.c,v 1.5 2001-09-15 21:59:10 stephens Exp $";
+static const char __rcs_id_mos_bcMethod_c[] = "$Id: bcMethod.c,v 1.6 2007-12-04 07:50:42 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -274,7 +274,7 @@ mos_value _mos_bcMethod_run(mos_value mos_MSG, mos_value BCS, mos_value *fp)
 #endif
       /* LOCK */
       PUSH(memovals[i] = _mos_bcMethod_run(mos_MSG, memocodes[i], fp));
-      pc[-5] = mos_bc_memoval_; /* rewrite */
+      ((unsigned char *)pc)[-5] = mos_bc_memoval_; /* rewrite */
       /* UNLOCK */
     }
     goto again;

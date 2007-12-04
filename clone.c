@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_clone_c__
 #define __rcs_id_mos_clone_c__
-static const char __rcs_id_mos_clone_c[] = "$Id: clone.c,v 1.4 2001-09-15 21:59:10 stephens Exp $";
+static const char __rcs_id_mos_clone_c[] = "$Id: clone.c,v 1.5 2007-12-04 07:50:42 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -55,7 +55,6 @@ mos_object *_mos_allocTall(mos_objectDesc *desc)
 }
 
 
-static
 mos_object *_mos_cloneTall(mos_object *x)
 {
   mos_object *y;
@@ -77,7 +76,6 @@ mos_object *_mos_allocFlat(mos_objectDesc *desc)
 }
 
 
-static
 mos_object *_mos_cloneFlat(mos_object *x)
 {
   mos_object *y;

@@ -6,7 +6,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_parse_y__
 #define __rcs_id_mos_parse_y__
-static const char __rcs_id_mos_parse_y[] = "$Id: parse.y,v 1.6 2001-09-15 22:21:03 stephens Exp $";
+static const char __rcs_id_mos_parse_y[] = "$Id: parse.y,v 1.7 2007-12-04 07:50:42 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -71,7 +71,7 @@ mos_value exprMsg(mos_value CNTX, mos_value RCVR, mos_value SEL, mos_value ARGS)
 #define YYPURE 1
 
 #define yylex _mos_yylex
-#define YYLEX_PARAM cntx
+#define YYLEX_PARAM &yylval, cntx
 
 #define yyparse _mos_yyparse
 #define YYPARSE_PARAM cntx

@@ -1,5 +1,5 @@
 NAME=mos
-VERSION=0.1
+VERSION=0.2
 DESC="A prototype-based object system C library with a meta object protocol similar to Self and SmallTalk, yet simpler.  MOS allows changing a object's meta object to redefine new behaviors for method lookup and application."
 CATEGORY="Object Oriented"
 REQUIRES_OTHERS="gcc perl bison readline history"

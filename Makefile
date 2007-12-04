@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.9 2001-09-18 02:46:05 stephens Exp $
+# $Id: Makefile,v 1.10 2007-12-04 07:50:42 stephens Exp $
 # 
 #
 all:
@@ -160,14 +160,14 @@ all:
 .SUFFIXES: .c .h .y .i .s .o
 
 
-_PREPROC_C_ = $(CPP) $*.c | grep -v -e '^#' > $*.i
+_PREPROC_C_ = $(CPP) $*.c | grep -v -e '^\#' > $*.i
 _COMPILE_I_ = $(CC) $(CFLAGS) -c -o $@ $*.i
-_COMPILE_C_ = $(_PREPROC_C_) ; $(_COMPILE_I_); $(RM) $*.i
+_COMPILE_C_ = $(_PREPROC_C_) && $(_COMPILE_I_) && $(RM) $*.i
 _COMPILE_C_ = $(CC) $(CFLAGS) -c -o $@ $*.c
 
 _YACC_FIX_C_=$(MV) y.tab.c $*.c
 #_YACC_FIX_C_=$(CPP) y.tab.c | grep -v -e '^\#' > $*.c
-_YACC_Y_ = $(YACC) -vd $*.y ; $(_YACC_FIX_C_); $(MV) y.tab.h $*.h ; $(MV) y.output $*.out
+_YACC_Y_ = $(YACC) -vd $*.y && $(_YACC_FIX_C_) && $(MV) y.tab.h $*.h && $(MV) y.output $*.out
 
 .y.o:
 	$(_YACC_Y_)

@@ -1,7 +1,7 @@
 #ifndef __rcs_id__
 #ifndef __rcs_id_mos_main_c__
 #define __rcs_id_mos_main_c__
-static const char __rcs_id_mos_main_c[] = "$Id: main.c,v 1.3 1999-12-26 20:05:55 stephensk Exp $";
+static const char __rcs_id_mos_main_c[] = "$Id: main.c,v 1.4 2009-08-01 10:47:31 stephens Exp $";
 #endif
 #endif /* __rcs_id__ */
 
@@ -15,6 +15,7 @@ static const char __rcs_id_mos_main_c[] = "$Id: main.c,v 1.3 1999-12-26 20:05:55
 static
 int main_(int argc, char **argv, char **env)
 {
+  fprintf(stdout, "type: \"_;\" to inspect the lobby.\n\n");
   comptest(argc, argv);
   
   return 0;

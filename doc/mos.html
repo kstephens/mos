@@ -16,7 +16,7 @@ V0.1</h2></center>
 
 <center>Copyright 1997-1999 <a href="mailto:stephensk@acm.org">Kurt A.
 Stephens</a>
-<br>Updated 1999/10/22</center>
+<br>Updated 2008/04/22</center>
 
 <hr width="100%">
 <h3>
@@ -34,7 +34,7 @@ except:
 MOS objects do not have explicit classes (like Self, unlike SmallTalk)</li>
 
 <li>
-MOS objects has no default inheritance or delegation mechanism (Self has
+MOS objects do not have an inheritance or delegation mechanism (Self has
 built-in delegation, SmallTalk has classes and metaclasses)</li>
 </ol>
 MOS has a meta-object protocol that implements the low-level message <tt>send</tt>
@@ -289,10 +289,10 @@ system prompt; user input is <b>bold</b>, results are <b><i><tt>italics</tt></i>
   <p><tt>mos&gt; <b>5 neg + 2 * 3;</b></tt>
 <br><b><i><tt>-21</tt></i></b> <br>
   </p>
-  <p><tt>mos&gt; <b>"xyz" get: 2;</b></tt>
-<br><b><i><tt>'z'</tt></i></b> <br>
+  <p><tt>mos&gt; <b>"xyz" get: 1;</b></tt>
+<br><b><i><tt>'y'</tt></i></b> <br>
   </p>
-  <p><tt>mos&gt; <b>"xyz" set: 2 Value: 'b';</b></tt>
+  <p><tt>mos&gt; <b>"xyz" set: 1 Value: 'b';</b></tt>
 <br><b><i><tt>"xbz"</tt></i></b> <br>
   </p>
   <p><tt>mos&gt; <b>"xyz"[1];<br>
@@ -555,7 +555,7 @@ means <tt>'(5+2)*3'</tt>.</blockquote>
 <h3>
 Memo Expressions</h3>
 The back-quote character (<tt>'`'</tt>) begins a memo expression.&nbsp;
-Memo expressions are expressions that evaluated only once.
+Memo expressions are expressions that are evaluated only once.
 <h3>
 Object Literals</h3>
 An object literal is an expression that creates a memoized object.&nbsp;

@@ -69,9 +69,9 @@ mos_METHOD_END
 mos_METHOD(message,printOn_)
 {
   mos_value
-  	context = mos_send(mos_RCVR, mos_s(context)),
-  	method = mos_send(mos_RCVR, mos_s(method)),
-  	methodImplementer = mos_send(mos_RCVR, mos_s(methodImplementer)),
+    // context = mos_send(mos_RCVR, mos_s(context)),
+    // method = mos_send(mos_RCVR, mos_s(method)),
+    // methodImplementer = mos_send(mos_RCVR, mos_s(methodImplementer)),
   	sourceInfo = mos_send(mos_RCVR, mos_s(sourceInfo)),
   	returnValue = mos_send(mos_RCVR, mos_s(returnValue))
 	;

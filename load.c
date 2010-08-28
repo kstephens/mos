@@ -1,11 +1,5 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_load_c__
-#define __rcs_id_mos_load_c__
-static const char __rcs_id_mos_load_c[] = "$Id: load.c,v 1.3 1999-12-26 20:05:54 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
+#include "mos/basicMeta.h"
 
 static
 mos_value doExpr(mos_value lobby, mos_value rcvr, mos_value expr)
@@ -86,7 +80,7 @@ mos_METHOD(defaultBehavior,_loadFile_)
   instrm = mos_send(instrm, mos_s(open_Mode_), mos_ARGV[0], r);
 
   if ( mos_EQ(instrm, mos_false) ) {
-    mos_error(mos_s(load), "cannot open %W for reading", mos_ARGV[0]);
+    result = mos_error(mos_s(load), "cannot open %W for reading", mos_ARGV[0]);
   } else {
     result = mos_send(mos_RCVR, mos_s(_loadInStream_ResultStream_PromptStream_Prompt_), instrm, mos_undef, mos_undef, mos_undef);
 

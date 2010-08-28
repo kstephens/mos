@@ -1,13 +1,6 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_selector_c__
-#define __rcs_id_mos_selector_c__
-static const char __rcs_id_mos_selector_c[] = "$Id: selector.c,v 1.4 2001-09-18 02:46:05 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 #include "mos/mos.h"
 #include "mos/constant.h"
+#include "mos/selector.h"
 #include <string.h>
 
 
@@ -149,9 +142,9 @@ mos_INIT(selector,0)
   mos_selector **s;
   
   /* Force selector creation */
-  mos_s(__ASN__);
-  mos_s(parseDebug);
-  mos_s(parseDebug_);
+  (void) mos_s(__ASN__);
+  (void) mos_s(parseDebug);
+  (void) mos_s(parseDebug_);
 
   mos_REFT(mos_o(selector),mos_selector)->_namestr = "";
   _mos_selector_init(mos_REFT(mos_o(selector),mos_selector));

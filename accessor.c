@@ -1,12 +1,5 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_accessor_c__
-#define __rcs_id_mos_accessor_c__
-static const char __rcs_id_mos_accessor_c[] = "$Id: accessor.c,v 1.4 2001-09-15 21:59:10 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 #include "mos/mos.h"
+#include "mos/basicMeta.h"
 
 
 #ifndef mos_MAX_ACCESSORS
@@ -310,7 +303,7 @@ mos_METHOD_END
 
 mos_METHOD(constantMethod,_equal_)
 {
-  mos_return(mos_EQUAL_(SLOT(mos_RCVR)));
+  mos_return(mos_EQUAL_(mos_RCVR, SLOT(mos_RCVR)));
 }
 mos_METHOD_END
 

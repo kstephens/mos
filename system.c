@@ -1,11 +1,5 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_system_c__
-#define __rcs_id_mos_system_c__
-static const char __rcs_id_mos_system_c[] = "$Id: system.c,v 1.4 2000-03-21 07:13:45 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
+#include "mos/slots.h"
 
 /**********************************************************************/
 

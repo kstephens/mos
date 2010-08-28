@@ -1,10 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_namedobj_c__
-#define __rcs_id_mos_namedobj_c__
-static const char __rcs_id_mos_namedobj_c[] = "$Id: namedobj.c,v 1.4 2000-03-21 07:13:44 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 #include "mos/mapfuncs.h"
 
@@ -21,16 +14,19 @@ By forcing all static system objects to be named objects, we insure the coder ob
 ")
 
 static mos_map_slot map_slots[] = {
-#define mos_DEF_METHOD(O,S) { 0, mos_m(O,S), (int) "@M " #O " " #S },
+#define mos_DEF_METHOD(O,S)			\
+  { (mos_value) "@M " #O " " #S, mos_m(O,S) },
 #include "mos/meth.def"
-#define mos_DEF_OBJECT(S,O,T,M) \
-{ 0, mos_o(O), (int) "@O " #S " " #O }, \
-{ 0, mos_od(O), (int) "@OD " #S " " #O }, \
-{ 0, mos_om(O), (int) "@OM " #S " " #O }, \
-{ 0, mos_o(O), (int) "@O " #O }, \
-{ 0, mos_od(O), (int) "@OD " #O }, \
-{ 0, mos_om(O), (int) "@OM " #O },
+
+#define mos_DEF_OBJECT(S,O,T,M)						\
+  { (mos_value) "@O " #S " " #O, mos_o(O) },				\
+  { (mos_value) "@OD " #S " " #O, mos_od(O) },				\
+  { (mos_value) "@OM " #S " " #O, mos_om(O) },				\
+  { (mos_value) "@O " #O, mos_o(O) },					\
+  { (mos_value) "@OD " #O, mos_od(O) },					\
+  { (mos_value) "@OM " #O, mos_om(O) },
 #include "mos/obj.def"
+
 { 0 },
 { 0 },
 { 0 },
@@ -51,9 +47,9 @@ mos_INIT(namedobject,-1)
 {
   mos_map_slot *ms;
   
-  for ( ms = map._m_slots; ms->_hits; ms ++ ) {
-    char *s = (void*) mos_strdup((char*) ms->_hits);
-    ms->_hits = 0;
+  /* Rewrite keys as string objects. */
+  for ( ms = map._m_slots; ms->_key; ms ++ ) {
+    char *s = (void*) mos_strdup((char*) ms->_key);
     ms->_key = mos_string_make(s, strlen(s));
   }
   

@@ -7,6 +7,7 @@ static const char __rcs_id_mos_mem_c[] = "$Id: mem.c,v 1.3 1999-12-26 20:05:56 s
 
 #include "mos/mos.h"
 #include <stdlib.h> /* malloc() */
+#include <string.h> /* strcpy(), strlen() */
 #ifdef malloc
 #undef malloc
 #endif
@@ -75,7 +76,7 @@ mos_ANNOT_END
 mos_ANNOT("Doc: Forces a collection.")
 mos_METHOD(gc,collect)
 {
-  GC_gcollect();
+  (void) GC_gcollect();
 }
 mos_METHOD_END
 mos_ANNOT_END

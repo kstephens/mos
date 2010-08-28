@@ -1,6 +1,4 @@
 
-# $Id: delegate.mos,v 1.5 2001-09-15 21:59:10 stephens Exp $
-
 _ system metas _addSlots: 
 {
   delegation = _ system metas basicMeta clone;

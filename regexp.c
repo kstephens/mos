@@ -117,7 +117,7 @@ mos_METHOD_END
 
 mos_METHOD(regexp,_resultStrings_)
 {
-  mos_value rtnval, str;
+  mos_value rtnval; // , str;
   const char *s, *s_end;
   
   rtnval = mos_vector_make(0, 0);

@@ -1,13 +1,8 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_slots_c__
-#define __rcs_id_mos_slots_c__
-static const char __rcs_id_mos_slots_c[] = "$Id: slots.c,v 1.4 1999-12-26 20:06:02 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 #include "mos/memcpy.h"
 #include "mos/mapfuncs.h"
+#include <stdlib.h>
+
 
 extern mos_objectDesc *_mos_clone_desc(mos_objectDesc *d);
 

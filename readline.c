@@ -1,19 +1,16 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_readline_c__
-#define __rcs_id_mos_readline_c__
-static const char __rcs_id_mos_readline_c[] = "$Id: readline.c,v 1.5 2001-08-13 09:33:48 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
+#include "mos/slots.h"
 #include "readline/readline.h" /* readline() */
+#include <stdlib.h> /* abort() */
 #include <string.h> /* strncmp() */
 
 #ifndef HAS_HISTORY
 #define HAS_HISTORY 1
 #endif
 #if HAS_HISTORY
+#if 0
 #include "readline/history.h" /* add_history() */
+#endif
 #endif
 
 /*************************************************************************/
@@ -28,7 +25,7 @@ _mos_completion_generator (text, state)
   static int list_index, len;
   static mos_value selectors;
 
-  char *name;
+  // char *name;
 
   /* If this is a new word to complete, initialize now.  This includes
      saving the length of TEXT for efficiency, and initializing the index
@@ -118,7 +115,7 @@ mos_ANNOT_END
 mos_METHOD(readline,readString_)
 {
   mos_value s;
-  size_t bytes_read;
+  // size_t bytes_read;
   
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asInteger));
   s = mos_send(mos_string_make(0, 0), mos_s(length_), mos_ARGV[0]);

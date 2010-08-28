@@ -452,6 +452,8 @@ mos_METHOD(exprSend,compile_)
   mos_value op;
   int inBlock = mos_NE(mos_send(CC, mos_s(asBlock)), mos_false);
   
+  (void) mos_s(__block);
+
   /* Compile the args in reverse order */
   mos_vector_LOOP_REVERSE(args,ep);
   {

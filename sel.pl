@@ -1,8 +1,10 @@
-#!/bin/perl
-# $Id: sel.pl,v 1.2 1999-02-19 09:26:24 stephensk Exp $
+#!/usr/bin/env perl
 while (<>) {
-  while ( s/(^|\W)mos_s\s*[(]\s*([^\s)]+)\s*[)]// ) {
-    $sels{$2} ++;
+  while ( s/(^|\W)mos_s\s*\(\s*([^\s)]+)\s*\)// ) {
+    my $name = $2;
+    if ( $name =~ /^[a-z0-9_]+$/i ) {
+      $sels{$name} ++;
+    }
   }
 }
 for ( sort(keys(%sels)) ) {

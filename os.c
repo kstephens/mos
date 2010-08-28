@@ -1,14 +1,11 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_os_c__
-#define __rcs_id_mos_os_c__
-static const char __rcs_id_mos_os_c[] = "$Id: os.c,v 1.3 1999-12-26 20:05:58 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
+#include "mos/basicMeta.h"
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <string.h>
+
 
 mos_ANNOT("Module: os")
 mos_ANNOT("Doc: Is the user interface to the host operating system (most ANSI C and POSIX system calls).")
@@ -175,7 +172,6 @@ mos_METHOD_END
 mos_ANNOT("Doc: The object to get the environment variables.")
 mos_METHOD(env,get_)
 {
-  extern const char *getenv(const char *);
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asString));
   mos_return(mos_string_make_(getenv(mos_string_V(mos_ARGV[0]))));
 }

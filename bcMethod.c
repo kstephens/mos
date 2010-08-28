@@ -1,10 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_bcMethod_c__
-#define __rcs_id_mos_bcMethod_c__
-static const char __rcs_id_mos_bcMethod_c[] = "$Id: bcMethod.c,v 1.6 2007-12-04 07:50:42 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 #include "mos/basicMeta.h"
 #include "mos/bc.h"
@@ -81,7 +74,7 @@ mos_value _mos_bcMethod_run(mos_value mos_MSG, mos_value BCS, mos_value *fp)
 
   /* _restart is the sub-primitive for looping. */
   restart:
-  pc = mos_string_V(BCS);
+  pc = (void*) mos_string_V(BCS);
 
 #define TOP *sp
 #define PUSH(X) *(-- sp) = (X)
@@ -95,7 +88,7 @@ mos_value _mos_bcMethod_run(mos_value mos_MSG, mos_value BCS, mos_value *fp)
 
   again:
   if ( _mos_bcExecDebug > 1 || (_mos_bcExecDebug == 1 && _mos_bcExecCodeDebug[*pc]) ) {
-    PRINTF((stderr, "exec_bc: %8p: %3d: %3ld: %s", (void*) mos_string_V(BCS), fp - sp, (long) ((char*) pc - mos_string_V(BCS)), mos_bc_NAME(*pc)));
+    PRINTF((stderr, "exec_bc: %8p: %3ld: %3ld: %s", (void*) mos_string_V(BCS), fp - sp, (long) ((char*) pc - mos_string_V(BCS)), mos_bc_NAME(*pc)));
     if ( mos_bc_NARGS(*pc) ) {
       const void *pcs = pc;
       int i = mos_bc_NARGS(*(pc ++));

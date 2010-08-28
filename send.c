@@ -1,14 +1,8 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_send_c__
-#define __rcs_id_mos_send_c__
-static const char __rcs_id_mos_send_c[] = "$Id: send.c,v 1.4 2001-09-18 02:48:08 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 #include "mos/mos.h"
 #include "mos/mapfuncs.h"
 #include <assert.h>
+#include <stdlib.h> /* abort() */
+
 
 #ifndef mos_TRACE_ENABLED
 #define mos_TRACE_ENABLED 1
@@ -107,7 +101,7 @@ mos_value _mos_send(mos_message *msg)
   static unsigned long msgid;
   static unsigned long traceLevel;
   unsigned long this_traceLevel = traceLevel;
-  unsigned long this_msgid;
+  unsigned long this_msgid = 0;
 #endif
 
   /* save and set global mos_MSG for message stack chaining */

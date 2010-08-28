@@ -1,5 +1,4 @@
-#!/bin/perl
-# $Id: annot.pl,v 1.4 2001-09-18 02:47:33 stephens Exp $
+#!/usr/bin/env perl
 
 #
 # Scans MOS C files for MOS_ANNOT annotation block and

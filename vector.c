@@ -563,7 +563,6 @@ mos_value mos_vector_makev(size_t _l, va_list *_vap)
 {
   mos_value *_v = mos_malloc(sizeof(_v[0]) * _l);
   size_t i;
-  mos_value v;
   
   for ( i = 0; i < _l; i ++ ) {
     _v[i] = va_arg(*_vap,mos_value);

@@ -82,7 +82,7 @@ mos_INIT(defaults,11)
     const char *arg = (*argvp)[argi];
 
     if ( arg[0] == '-' ) {
-      const char *name = arg, *name_end, *value;
+      const char *name = arg, *name_end, *value = "";
       size_t name_len;
 
       /* skip /--?/ to get to the name */

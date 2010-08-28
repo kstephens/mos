@@ -1,11 +1,6 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_error_c__
-#define __rcs_id_mos_error_c__
-static const char __rcs_id_mos_error_c[] = "$Id: error.c,v 1.3 1999-12-26 20:05:50 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
+#include <stdlib.h> /* abort() */
+
 
 mos_METHOD(error,printOn_)
 {

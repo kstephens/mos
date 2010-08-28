@@ -1,4 +1,3 @@
-# $Id: init.mos,v 1.6 1999-10-13 17:08:07 stephensk Exp $
 
 #"loading while\n" write; _loadFile: "lib/mos/while.mos";
 #"loading point\n" write; _loadFile: "lib/mos/point.mos";

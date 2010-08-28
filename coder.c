@@ -72,7 +72,7 @@ mos_METHOD(coder,encodeRawInteger_)
 {
   unsigned long x = mos_INT(mos_ARGV[0]);
   unsigned char buf[4];
-  mos_string str = { mos_object_HDR_INIT_STATIC(string), buf, sizeof(buf), sizeof(buf) };
+  mos_string str = { mos_object_HDR_INIT_STATIC(string), (char *) buf, sizeof(buf), sizeof(buf) };
   buf[0] = x;
   buf[1] = x >> 8;
   buf[2] = x >> 16;
@@ -88,7 +88,7 @@ mos_METHOD(coder,decodeRawInteger)
   mos_value str;
   unsigned char *buf;
   str = mos_send(STREAM, mos_s(readString_), mos_integer_make(4));
-  buf = mos_string_V(str);
+  buf = (void *) mos_string_V(str);
   x = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
   mos_return(mos_integer_make(x));
 }
@@ -98,7 +98,7 @@ mos_METHOD_END
 mos_METHOD(coder,encodeRawReal_)
 {
   double x = mos_REAL(mos_ARGV[0]);
-  mos_string str = { mos_object_HDR_INIT_STATIC(string), &x, sizeof(x), sizeof(x) };
+  mos_string str = { mos_object_HDR_INIT_STATIC(string), (char *) &x, sizeof(x), sizeof(x) };
   mos_send(STREAM, mos_s(writeString_), mos_MAKE_REF(&str));
 }
 mos_METHOD_END
@@ -310,7 +310,7 @@ mos_METHOD(coder,decode)
     o = mos_send(mos_RCVR, mos_s(decodeRawReal));
     break;
   case 'c':
-    o = mos_char_make(mos_send(mos_RCVR, mos_s(decodeRawInteger)));
+    o = mos_char_make(mos_INT(mos_send(mos_RCVR, mos_s(decodeRawInteger))));
     break;
   case 's':
     o = mos_send(mos_RCVR, mos_s(decodeRawString));

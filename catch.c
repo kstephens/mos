@@ -7,6 +7,7 @@ static const char __rcs_id_mos_catch_c[] = "$Id: catch.c,v 1.4 2000-03-21 07:13:
 
 #include "mos/mos.h"
 #include "mos/catch.h"
+#include <stdlib.h> /* abort() */
 #include <assert.h>
 
 /* NOT THREAD SAFE */

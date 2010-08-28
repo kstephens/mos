@@ -1,5 +1,4 @@
-#!/bin/perl
-# $Id: init.pl,v 1.2 1999-02-19 09:26:22 stephensk Exp $
+#!/usr/bin/env perl
 while (<>) {
   while ( s/^mos_INIT[(]\s*([^\s)]+)\s*[)]// ) {
     $sels{$1} ++;

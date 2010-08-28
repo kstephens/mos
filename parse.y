@@ -3,13 +3,6 @@
 **
 */
 
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_parse_y__
-#define __rcs_id_mos_parse_y__
-static const char __rcs_id_mos_parse_y[] = "$Id: parse.y,v 1.7 2007-12-04 07:50:42 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 #include "mos/expr.h"
 #include "mos/lex.h"
@@ -68,7 +61,10 @@ mos_value exprMsg(mos_value CNTX, mos_value RCVR, mos_value SEL, mos_value ARGS)
 #define YYDEBUG 1
 #endif
 #define YYERROR_VERBOSE 1
+
+#ifndef YYPURE
 #define YYPURE 1
+#endif
 
 #define yylex _mos_yylex
 #define YYLEX_PARAM &yylval, cntx

@@ -1,12 +1,4 @@
 #ifndef _mos_selector_h
-
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_selector_h__
-#define __rcs_id_mos_selector_h__
-static const char __rcs_id_mos_selector_h[] = "$Id: selector.h,v 1.2 1999-02-19 09:26:31 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #define _mos_selector_h
 
 typedef struct mos_selector {
@@ -43,5 +35,8 @@ mos_value _mos_selector_list(void);
 
 /* A string containing all operator selector characters */
 extern const char _mos_selector_op_charset[];
+
+/* Escape selector strings. */
+const char *_mos_selector_escape(const char *x);
 
 #endif

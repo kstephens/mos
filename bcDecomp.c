@@ -50,8 +50,8 @@ mos_METHOD(bcMethod,decompile)
 
   /* Save a frame pointer */
   fp = sp;
- restart:
-  pc = mos_string_V(bytecodes);
+  // restart:
+  pc = (void*) mos_string_V(bytecodes);
 
  again:
   switch ( (mos_bc) *(pc ++) ) {
@@ -101,7 +101,7 @@ mos_METHOD(bcMethod,decompile)
     goto again;
     
   case mos_bc_rcvr: /* msg | msg->rcvr */
-    POP();
+    (void) POP();
     PUSH(mos_exprSend(mos_undef, mos_s(self), 0));
     goto again;
   case mos_bc_rcvrSet: /* msg value | value */

@@ -49,17 +49,20 @@ void _mos_reallocSlots(mos_object *x, int nslots)
 mos_inline
 void _mos_addMethod(mos_object *x, mos_value sel, mos_value meth)
 {
-  /* IMPLEMENT: Lookup to make sure that sel doesn't already map to meth. */
-  _mos_copyDescForWrite(x);
-  _mos_map_setOrAdd(&(x->_desc->_methods), sel, meth);
+  mos_map_slot *slot;
+  if ( ! ((slot = _mos_map_find(&(x->_desc->_methods), sel)) && mos_EQ(slot->_value, meth)) ) {
+    _mos_copyDescForWrite(x);
+    _mos_map_setOrAdd(&(x->_desc->_methods), sel, meth);
+  }
 }
 
 mos_inline
 void _mos_removeMethod(mos_object *x, mos_value sel)
 {
-  /* IMPLEMENT: Lookup to make sure that sel maps to something. */
-  _mos_copyDescForWrite(x);
-  _mos_map_remove(&(x->_desc->_methods), sel);
+  if ( _mos_map_find(&(x->_desc->_methods), sel) ) {
+    _mos_copyDescForWrite(x);
+    _mos_map_remove(&(x->_desc->_methods), sel);
+  }
 }
 
 mos_inline

@@ -432,24 +432,27 @@ decoding.</p>
 <blockquote>
 <h4>Example</h4>
 <pre>
-_addSlots: { encoder; stream; decoder; };
+_addSlots: { myObject; encoder; stream; decoder; };
 
-# Create an encoder object
-encoder: _ system protos encoder clone;
+# Create basic object.
+myObject: { a -> 1; b -> 2; };
 
-# Create an empty string stream
-encoder stream: (("" clone) deepenString);
+# Create a coder object.
+encoder: _ system protos coder clone;
 
-# Encode myObject
+# Create an empty string stream.
+encoder stream: (("" clone) deepen);
+
+# Encode myObject.
 encoder encode: myObject;
 
-# Get the string stream
+# Get the string stream.
 stream: (encoder stream);
 
-# Create a decoder object.  Note: we clone the stream
-decoder: (_ system protos encoder clone stream: stream);
+# Create a decoder object.  Note: we clone the stream.
+decoder: (_ system protos coder clone stream: (stream clone));
 
-# Decode an object (myObject) from the decoder stream
+# Decode an object (myObject) from the decoder stream.
 decoder decode;
 </pre>
 </blockquote>

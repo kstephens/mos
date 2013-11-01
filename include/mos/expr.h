@@ -1,12 +1,3 @@
-
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_expr_h__
-#define __rcs_id_mos_expr_h__
-static const char __rcs_id_mos_expr_h[] = "$Id: expr.h,v 1.2 1999-02-19 09:26:29 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 mos_value mos_exprConstant(mos_value X);
 mos_value mos_exprMemo(mos_value X);
 mos_value mos_exprGroup(mos_value X);

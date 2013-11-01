@@ -1,10 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_bcCompile_c__
-#define __rcs_id_mos_bcCompile_c__
-static const char __rcs_id_mos_bcCompile_c[] = "$Id: bcCompile.c,v 1.4 2000-05-10 03:59:18 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 #include "mos/expr.h"
 
@@ -452,6 +445,9 @@ mos_METHOD(exprSend,compile_)
   mos_value op;
   int inBlock = mos_NE(mos_send(CC, mos_s(asBlock)), mos_false);
   
+#ifdef __block
+#undef __block
+#endif
   (void) mos_s(__block);
 
   /* Compile the args in reverse order */

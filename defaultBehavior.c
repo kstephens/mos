@@ -3,73 +3,40 @@
 #include "mos/slots.h"
 #include <string.h>
 
-
-/***************************************************************************/
-
-
 mos_ANNOT("Module: defaultBehavior")
-
-
 mos_ANNOT("Doc: The basic behavior delegate.  MOS does a very low level, behind-the-scenes lookup delegation to this special object when certain messages cannot be found through the usual lookup semantics.  This is primarly for bootstrapping and low-level object messages that all objects must respond to; like @\"_clone\", @\"_meta\", @\"isConstant\", and the basic printing and encoding facilities.")
 
-
-/*******************************************************************/
-
-
-  mos_ANNOT("Category: Finalize")
-
-
+mos_ANNOT("Category: Finalize")
 mos_METHOD(defaultBehavior,_finalize_)
 {
 }
 mos_METHOD_END
-
-
-  mos_ANNOT_END
+mos_ANNOT_END
 
 
 mos_ANNOT("Category: Weak Pointer")
-
-
 mos_METHOD(defaultBehavior,asWeakPtr)
 {
   mos_return(mos_integer_make(mos_weakPtrForObject(mos_RCVR)));
 }
 mos_METHOD_END
+mos_ANNOT_END
 
-
-  mos_ANNOT_END
-
-
-/*******************************************************************/
-
-
-  mos_ANNOT("Category: Constant")
-
-
+mos_ANNOT("Category: Constant")
 mos_METHOD(defaultBehavior,isConstant)
 {
   mos_return(mos_false);
 }
 mos_METHOD_END
+mos_ANNOT_END
 
-
-  mos_ANNOT_END
-
-
-/*******************************************************************/
-
-
-  mos_ANNOT("Category: Print")
-
-
+mos_ANNOT("Category: Print")
 mos_METHOD(defaultBehavior,printOnAsMethodBody_)
 {
   mos_return(mos_printf(mos_ARGV[0], "{ %-P }", mos_RCVR));
 }
+
 mos_METHOD_END
-
-
 mos_METHOD(defaultBehavior,printOn_AsMethodWithSelector_)
 {
   mos_value selSplit = mos_send(mos_ARGV[1], mos_s(split));
@@ -88,7 +55,6 @@ mos_METHOD(defaultBehavior,printOn_AsMethodWithSelector_)
   mos_return(mos_send(mos_RCVR, mos_s(printOnAsMethodBody_), mos_ARGV[0]));
 }
 mos_METHOD_END
-
 
 mos_METHOD(defaultBehavior,printSlots_On_)
 {
@@ -207,31 +173,22 @@ mos_METHOD(defaultBehavior,write)
 }
 mos_METHOD_END
 
+mos_ANNOT_END
 
-  mos_ANNOT_END
-
-
-/************************************************************************/
-
-
-  mos_ANNOT("Category: Clone")
-
+mos_ANNOT("Category: Clone")
 
 mos_METHOD(defaultBehavior,_clone)
 {
   mos_return(mos_clone(mos_RCVR));
 }
 mos_METHOD_END
-
-
 mos_METHOD(defaultBehavior,clone)
 {
   mos_return(mos_clone(mos_RCVR));
 }
 mos_METHOD_END
 
-
-  mos_ANNOT_END
+mos_ANNOT_END
 
 
 /************************************************************************/

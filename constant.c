@@ -1,10 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_constant_c__
-#define __rcs_id_mos_constant_c__
-static const char __rcs_id_mos_constant_c[] = "$Id: constant.c,v 1.4 2000-03-21 07:13:44 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 #include "mos/constant.h"
 

@@ -1,10 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_print_c__
-#define __rcs_id_mos_print_c__
-static const char __rcs_id_mos_print_c[] = "$Id: print.c,v 1.4 1999-12-26 20:06:00 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 #include <stdarg.h>
 #include <string.h>
@@ -106,6 +99,13 @@ mos_value mos_vprintf_(mos_value stream, mos_value format, va_list *vap)
 	  sprintf(buf, fbuf, va_arg(*vap, void*));
 	  goto doBuf;
 	
+        case 'I':
+          sprintf(buf, "%lld", (long long) va_arg(*vap, mos_int));
+          goto doBuf;
+        case 'U':
+          sprintf(buf, "%llu", (unsigned long long) va_arg(*vap, mos_uint));
+          goto doBuf;
+
 	case 'S':
 	case 'M':
 	  fmtMsg = va_arg(*vap, mos_value);
@@ -172,12 +172,12 @@ mos_value mos_vprintf_(mos_value stream, mos_value format, va_list *vap)
   return stream;
 }
 
+
 mos_value mos_vprintf(mos_value stream, const char *format, va_list *vap)
 {
   mos_string fmt = _mos_o_string;
   fmt._v = (char*) format;
   fmt._l = fmt._al = format ? strlen(format) : 0;
-  
   return mos_vprintf_(stream, mos_MAKE_REF(&fmt), vap);
 }
 
@@ -187,10 +187,7 @@ mos_value mos_printf(mos_value stream, const char *format, ...)
   mos_value x;
   va_list vap;
   va_start(vap,format);
-  
   x = mos_vprintf(stream, format, &vap);
-  
   va_end(vap);
-  
   return x;
 }

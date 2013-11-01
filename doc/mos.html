@@ -1,259 +1,217 @@
 <!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en"><html><head>
    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
    <meta name="Author" content="Kurt A. Stephens">
-   <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win98; I) [Netscape]"><title>MOS Documentation</title></head>
-
+   <title>MOS Documentation</title></head>
 <body>
-$Id: mos.html,v 1.3 1999/03/02 11:31:01 stephensk
-Exp $
-<center>
-<h1>
-MOS (MetaObjectSystem)</h1></center>
 
 <center>
-<h2>
-V0.1</h2></center>
-
-<center>Copyright 1997-1999 <a href="mailto:stephensk@acm.org">Kurt A.
-Stephens</a>
-<br>Updated 2008/04/22</center>
+<h1>MOS (MetaObjectSystem)</h1>
+V0.1<br />
+Copyright 1997-1999
+<a href="mailto:ks.github@kurtstephens.com">Kurt A. Stephens</a><br />
+Updated 2013/10/31<br />
+</center>
 
 <hr width="100%">
-<h3>
-Introduction</h3>
+<h2>Introduction</h2>
+<p>
 MOS is an embeddable, pure, prototype-based object development system with
-a meta-object protocol.&nbsp; Objects in MOS simply contain value and method
-slots.&nbsp; Everything in MOS is a an object; every operation is achieved
+a meta-object protocol.  Objects in MOS simply contain value and method
+slots.  Everything in MOS is a an object; every operation is achieved
 by a message send.
-<h3>
-Semantics</h3>
-The semantics of MOS is similar to the Self and SmallTalk programming environments
-except:
-<ol>
+</p>
+
+<h3>Semantics</h3>
+The semantics of MOS are similar to the Self and SmallTalk programming
+environments except:
+<ul>
 <li>
 MOS objects do not have explicit classes (like Self, unlike SmallTalk)</li>
-
 <li>
 MOS objects do not have an inheritance or delegation mechanism (Self has
 built-in delegation, SmallTalk has classes and metaclasses)</li>
-</ol>
-MOS has a meta-object protocol that implements the low-level message <tt>send</tt>
-operation as a compostion of <tt>lookup</tt> and <tt>apply</tt> messages
-to meta-objects.&nbsp; Each MOS object has a "<tt>_meta</tt>" object associated
-with it.&nbsp; Two standard meta-objects are:
-<ol>
-  <li><tt>(_ system metas basicMeta)</tt> which implements "<tt>lookupMethod:"</tt></li>
-  <li><tt>(_ system metas methodMeta)</tt> which implements all of&nbsp;
-the <tt>basicMeta</tt> object and implements the "<tt>applyMethod:</tt>"
+</ul>
+
+<h3>Meta-Object Protocol</h3>
+<p>
+MOS has a meta-object protocol that implements the low-level message <code>send</code>
+operation as a compostion of <code>lookup</code> and <code>apply</code> messages
+to meta-objects.  Each MOS object has a "<code>_meta</code>" object associated
+with it.  Two standard meta-objects are:</p>
+<ul>
+  <li><code>(_ system metas basicMeta)</code> which implements "<code>lookupMethod:</code>"</li>
+  <li><code>(_ system metas methodMeta)</code> which implements all of 
+the <code>basicMeta</code> object and implements the "<code>applyMethod:</code>"
 operation.
   </li>
-</ol>
-<p>The MOS <tt>send(receiver, selector, arguments)</tt> primitive is implemented
-by creating a "<tt>message</tt>" object containing the message's receiver,
-the message's method selector, and the message's arguments.&nbsp; Then
+</ul>
+<p>The MOS <code>send(receiver, selector, arguments)</code> primitive is implemented
+by creating a "<code>message</code>" object containing the message's receiver,
+the message's method selector, and the message's arguments.  Then
 the receiver's meta object gets a meta-message to find a method in the
-receiver and store it in the message object.&nbsp; Then the message's method's
+receiver and store it in the message object.  Then the message's method's
 meta object gets a meta-message to apply the message's method to the message's
-receiver.&nbsp; In pseudo-code <tt>send()</tt> might be implemented as:
-</p><blockquote><tt>send(rcvr, sel, args) {</tt>
-<br><tt>&nbsp; message = new Message(rcvr, sel, args);</tt>
-<br><tt>&nbsp; message.rcvr._meta.lookupMethod(message);</tt>
-<br><tt>&nbsp; return message.method._meta.applyMethod(message);</tt>
-<br><tt>}</tt></blockquote>
-A MOS object's <tt>_meta</tt> object can be changed to implement different
-method lookup and application behaviors, thus classes, delegation and proxy
-objects can be implemented&nbsp; with meta-objects that implement "<tt>lookupMethod:</tt>"
-methods.&nbsp; Likewise, different method application behaviors, such as:
-tracing and multi-methods can be implemented by defining new method objects
-with new meta-objects that implement "<tt>applyMethod:</tt>" methods.
-<h3>
-Expressions</h3>
-In this section, we will tour some basic MOS programming expressions.
+receiver.  In pseudo-code, <code>send()</code> might be implemented as:
+</p>
 <blockquote>
-<h3>
-Constants</h3>
-Constants always evaluate to themselves.&nbsp; "Constant objects" that
-have state, like strings maybe side-effected.&nbsp; The object reference,
+<pre>
+send(rcvr, sel, args) {
+  message = new Message(rcvr, sel, args);
+  message.rcvr._meta.lookupMethod(message);
+  return message.method._meta.applyMethod(message);
+}
+</pre>
+</blockquote>
+
+<h3>The Meta Object</h3>
+<p>
+A MOS object's <code>_meta</code> object can be changed to implement different
+method lookup and application behaviors, thus classes, delegation and proxy
+objects can be implemented with meta-objects that implement "<code>lookupMethod:</code>"
+methods.  Likewise, different method application behaviors, such as:
+tracing and multi-methods can be implemented by defining new method objects
+with new meta-objects that implement "<code>applyMethod:</code>"
+methods.
+</p>
+
+<h2>Expressions</h2>
+In this section, we will tour the basic MOS programming expressions.
+<h3>Constants</h3>
+<p>
+Constants always evaluate to themselves.  "Constant objects" that
+have state, like strings maybe side-effected.  The object reference,
 not the object contents, are bound to the method object that they appear
 in.
-<p>&nbsp;&nbsp;&nbsp; <code>5</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The integer
-object for the integer "5".
-<br>&nbsp;&nbsp;&nbsp; <code>5.5</code>&nbsp;&nbsp;&nbsp; The real object for the floating
-point value "5.5".
-<br>&nbsp;&nbsp; <code>'c'</code>&nbsp;&nbsp;&nbsp; The character object for the character
-'c'.
-<br>&nbsp;&nbsp; "abc"&nbsp; A string object containing "abc".
-<br>&nbsp;&nbsp;&nbsp; <code>@T</code>&nbsp;&nbsp;&nbsp; The system true value.
-<br>&nbsp;&nbsp;&nbsp; <code>@F</code>&nbsp;&nbsp;&nbsp; The system false value.
-<br>&nbsp;&nbsp;&nbsp; <code>@U</code>&nbsp;&nbsp;&nbsp; The system undefined value.
-<br>&nbsp;&nbsp;&nbsp; <code>@E</code>&nbsp;&nbsp;&nbsp; The system end-of-stream value.
-<br>&nbsp;&nbsp;&nbsp; <code>@"foo"</code>&nbsp; The selector named "foo".
-<br>&nbsp;&nbsp;&nbsp; <code>@N"foo"</code> The object named "foo".
-<br>&nbsp;&nbsp;&nbsp; <code>@#34</code>&nbsp; The object represented by the "weak"
-pointer "34".
-<br>&nbsp;
-</p><h3>
-Objects</h3>
+</p>
+<dl>
+<dt><code>5</code></td><dd>The integer object for the integer "5".</dd>
+<dt><code>5.5</code></td><dd>The real object for the floating point value "5.5".</dd>
+<dt><code>'c'</code></td><dd>The character object for the character 'c'.</dd>
+<dt><code>"abc"</code></td><dd>A string object containing "abc".</dd>
+<dt><code>@T</code></td><dd>The system true value.</dd>
+<dt><code>@F</code></td><dd>The system false value.</dd>
+<dt><code>@U</code></td><dd>The system undefined value.</dd>
+<dt><code>@E</code></td><dd>The system end-of-stream value.</dd>
+<dt><code>@"foo"</code></td><dd>The selector named "foo".</dd>
+<dt><code>@N"foo"</code></td><dd>The object named "foo".</dd>
+<dt><code>@#34</code></td><dd>The object represented by the "weak"
+  pointer "34".</dd>
+</dl>
+<h3>Objects</h3>
 Objects are defined by slot definitions enclosed in a pair of curly braces
-'<tt>{</tt>' '<tt>}</tt>'.&nbsp; The objects are only created once, thus
+'<code>{</code>' '<code>}</code>'.  The objects are only created once, thus
 have a temporal extent of the inner-most inclosing method definition (or
-console expression).&nbsp; An object slot definition can be of 4 types:
+console expression).  An object slot definition can be of 4 types:
   <ol>
     <li>An uninitialized value slot:<br>
-      <tt>x;</tt>&nbsp;&nbsp; <br>
+      <code>x;</code>   <br>
     </li>
-    <li>An initialized value slot:<tt><br>
-x -&gt; 5;</tt>&nbsp; <br>
+    <li>An initialized value slot:<code><br>
+x -&gt; 5;</code>  <br>
     </li>
-    <li>A constant value slot:<tt><br>
-x = 5;&nbsp;</tt></li>
-    <li>A method slot of the following forms:<tt><br>
-      </tt>
+    <li>A constant value slot:<code><br>
+x = 5; </code></li>
+    <li>A method slot of the following forms:<code><br>
+      </code>
       <ol>
         <li>A unary method
 slot:<br>
-          <tt>foo {</tt> .... <tt>}</tt>&nbsp; <br>
+          <code>foo {</code> .... <code>}</code>  <br>
         </li>
         <li>A binary method
 slot:<br>
-          <tt>+ bar {</tt> ... <tt>}</tt> <br>
-or<tt><br>
-baz: arg {</tt> ... <tt>}</tt></li>
+          <code>+ bar {</code> ... <code>}</code> <br>
+or<code><br>
+baz: arg {</code> ... <code>}</code></li>
         <li>A multiary method slot:<br>
-          <tt>a: arg1 B: arg2 C: arg3 { </tt>...<tt> }</tt></li>
+          <code>a: arg1 B: arg2 C: arg3 { </code>...<code> }</code></li>
       </ol>
     </li>
   </ol>
 <p><span style="font-weight: bold;">Example object definitions:</span>
 </p>
   <ul>
-    <li>&nbsp;An empty object:<br>
-      <tt>{}</tt>&nbsp;&nbsp; <br>
+    <li> An empty object:<br>
+      <code>{}</code>   <br>
     </li>
     <li>An object with a uninitialized
 value slot named "x":<br>
-      <tt>{x;}</tt>&nbsp; <br>
+      <code>{x;}</code>  <br>
     </li>
     <li>An object with
 a constant value slot named "x" and a method named "y" that returns "10":<br>
-      <tt>{x=5; y { _: (x + 5); }</tt> </li>
+      <code>{x=5; y { _: (x + 5); }</code> </li>
   </ul>
+
 <h3>Lobby</h3>
-The '<code><tt>_</tt></code>' identifier always is a root receiver expression.&nbsp;
+<p>
+The "<code><code>_</code></code>" identifier always is a root receiver expression. 
 It defaults to the current lobby where the method is defined (or source
-file is loaded).&nbsp; The default lobby always contains a reference to
-itself and the '<tt>system</tt>' object.
-<h3>
-Messages</h3>
+file is loaded).  The default lobby always contains a reference to
+itself and the '<code>system</code>' object.
+</p>
+
+<h3>Messages</h3>
+<p>
 Messages are built from unary, binary and multiary messages consisting
-of a receiver, selector and arguments.</blockquote>
+of a receiver, selector and arguments.
+</p>
 
-<blockquote>&nbsp;
-<table border="1" width="100%">
-<tbody><tr>
+<table border="1" width="100%"><tbody>
+<tr>
 <th>Type</th>
-
 <th>Expression</th>
-
 <th>Receiver Expression</th>
-
 <th>Selector</th>
-
 <th>Argument Expressions</th>
-
-<td><br>
-</td>
 </tr>
 
 <tr>
 <td>unary</td>
-
-<td><tt>system</tt></td>
-
+<td><code>system</code></td>
 <td>_</td>
-
-<td><tt>@"system"</tt></td>
-
-<td><br>
-</td>
-
-<td><br>
-</td>
+<td><code>@"system"</code></td>
+<td></td>
 </tr>
 
 <tr>
 <td>binary</td>
-
-<td><tt>foo get: 5</tt></td>
-
-<td><tt>foo</tt></td>
-
-<td><tt>@"get:"</tt></td>
-
-<td><tt>5</tt></td>
-
-<td><br>
-</td>
+<td><code>foo get: 5</code></td>
+<td><code>foo</code></td>
+<td><code>@"get:"</code></td>
+<td><code>5</code></td>
 </tr>
 
 <tr>
 <td>binary</td>
-
-<td><tt>foo[5]</tt></td>
-
-<td><tt>foo</tt></td>
-
-<td><tt>@"get:"</tt></td>
-
-<td><tt>5</tt></td>
-
-<td><br>
-</td>
+<td><code>foo[5]</code></td>
+<td><code>foo</code></td>
+<td><code>@"get:"</code></td>
+<td><code>5</code></td>
 </tr>
 
 <tr>
 <td>binary</td>
-
-<td><tt>foo +-+ bar</tt></td>
-
-<td><tt>foo</tt></td>
-
-<td><tt>@"+-+"</tt></td>
-
-<td><tt>bar</tt></td>
-
-<td><br>
-</td>
+<td><code>foo +-+ bar</code></td>
+<td><code>foo</code></td>
+<td><code>@"+-+"</code></td>
+<td><code>bar</code></td>
 </tr>
 
 <tr>
 <td>multiary</td>
-
-<td><tt>foo bar a: 1 B: 2 C: 3 bar + baz</tt></td>
-
-<td><tt>foo bar</tt></td>
-
-<td><tt>@"a:B:C:"</tt></td>
-
-<td><tt>1, 2, ((3 bar) + baz)</tt></td>
-
-<td><br>
-</td>
+<td><code>foo bar a: 1 B: 2 C: 3 bar + baz</code></td>
+<td><code>foo bar</code></td>
+<td><code>@"a:B:C:"</code></td>
+<td><code>1, 2, ((3 bar) + baz)</code></td>
 </tr>
 
 <tr>
 <td>multiary</td>
-
-<td><tt>foo bar[x]:y z</tt></td>
-
-<td><tt>foo bar</tt></td>
-
-<td><tt>@"set:Value:"</tt></td>
-
-<td><tt>x, (y z)</tt></td>
-
-<td><br>
-</td>
+<td><code>foo bar[x]:y z</code></td>
+<td><code>foo bar</code></td>
+<td><code>@"set:Value:"</code></td>
+<td><code>x, (y z)</code></td>
 </tr>
 </tbody></table>
 
@@ -262,10 +220,11 @@ of the message depends on the lexical scope of the message.
 </p><p>If the message has a null receiver and
 </p><ul>
 <li>
-if the selector is <tt>@"_msg"</tt>; the message object is accessed.</li>
+if the selector is <code>@"_msg"</code>; the message object is accessed.</li>
 
 <li>
-if the selector is <tt>@"self"</tt>; the message accesses the message's receiver.&nbsp; In a block context; <tt>@"self" </tt>accesses the block's
+if the selector is <code>@"self"</code>; the message accesses the
+message's receiver.  In a block context; <code>@"self"</code> accesses the block's
 lexical message's receiver.</li>
 
 <li>
@@ -279,77 +238,93 @@ in the enclosing method-slot defintion, then the message is a "get:" (or
 "set:Value:") operation on the message's local variable.</li>
 </ul>
 
-<h3>
-Code Examples</h3>
-Here are a few coding examples (the "<tt>mos&gt;</tt> " string is the MOS
-system prompt; user input is <b>bold</b>, results are <b><i><tt>italics</tt></i></b>)
-<p><tt>mos&gt; <b>"xyz" length;</b></tt>
-<br><b><i><tt>3</tt></i></b> <br>
+<h2>Code Examples</h2>
+<p>
+Here are a few coding examples (the "<code>mos&gt;</code> " string is the MOS
+system prompt; user input is <b>bold</b>, results are <b><i><code>italics</code></i></b>).</p>
+
+<blockquote>
+<p>
+<code>mos&gt; <b>"xyz" length;</b></code><br />
+<b><i><code>3</code></i></b><br />
+<br />
+
+<code>mos&gt; <b>5 neg + 2 * 3;</b></code><br />
+<b><i><code>-21</code></i></b><br />
+<br />
+
+<code>mos&gt; <b>"xyz" get: 1;</b></code><br />
+<b><i><code>'y'</code></i></b> <br>
+<br />
+
+<code>mos&gt; <b>"xyz" set: 1 Value: 'b';</b></code> <br />
+<b><i><code>"xbz"</code></i></b> <br />
+<br />
+
+<code>mos&gt; <b>"xyz"[1];</b><br />
+# Note: &lt;foo&gt;[&lt;index&gt;] is the same as (&lt;foo&gt; get: &lt;index&gt;)</code>
+<br><b><i><code>'y'</code></i></b> <br />
+<br />
+
+<code>mos&gt; <b>(@V, 1, "xyz", 3)[2];</b><br />
+# Note: (@V,&lt;a&gt;,...) constructs a vector object.</b></code>
+<br><b><i><code>"xyz"</code></i></b> <br />
+<br />
+
+<code>mos&gt; <b>(@M "a" -&gt; 1, "b" -&gt; 2);</b></code><br />
+<code># Note : (@M, &lt;key&gt; -&gt; &lt;value&gt;,...) constructs a map object.</code><br />
+<b><i><code>(@M, "a" -&gt; 1, "b" -&gt; 2)</code></i></b><br />
+
+<code>mos&gt; <b>(@M "a" -&gt; 1, "b" -&gt; 2)["a"];</b></code><br />
+<b><i><code>1)</code></i></b><br />
+
 </p>
-  <p><tt>mos&gt; <b>5 neg + 2 * 3;</b></tt>
-<br><b><i><tt>-21</tt></i></b> <br>
-  </p>
-  <p><tt>mos&gt; <b>"xyz" get: 1;</b></tt>
-<br><b><i><tt>'y'</tt></i></b> <br>
-  </p>
-  <p><tt>mos&gt; <b>"xyz" set: 1 Value: 'b';</b></tt>
-<br><b><i><tt>"xbz"</tt></i></b> <br>
-  </p>
-  <p><tt>mos&gt; <b>"xyz"[1];<br>
-# Note: &lt;foo&gt;[&lt;index&gt;] is the same as (&lt;foo&gt;
-get: &lt;index&gt;)</b></tt>
-<br><b><i><tt>'y'</tt></i></b> <br>
-  </p>
-  <p><tt>mos&gt; <b>(@V, 1, "xyz", 3)[2];<br>
-# Note: (@V,&lt;a&gt;,...) constructs a
-vector object</b></tt>
-<br><b><i><tt>"xyz"</tt></i></b> <br>
-  </p>
-  <p><tt>mos&gt; <b>(@M "a" -&gt; 1, "b" -&gt; 2);<br>
-# Note : (@M &lt;key&gt; -&gt; &lt;value&gt;,...)
-constructs a map object</b></tt> <br>
-  </p>
-  <p><b><i><tt>(@M "a" -&gt; 1, "b" -&gt; 2)</tt></i></b>
-<br>&nbsp;</p>
 </blockquote>
 
-<h3>
-Object Annotations</h3>
-Annotations are strings that are attached to objects, value slots or methods.&nbsp;
+<h3>Object Annotations</h3>
+<p>
+Annotations are strings that are attached to objects, value slots or methods. 
 Annotations are used for on-line documentation, slot grouping, and for
-browsing.&nbsp; Parts of a annotation are flagged by using keywords like
+browsing.  Parts of an annotation are flagged by using keywords like
 "Doc:" or "Category:".
-<p>Annotations can be accessed for any object by sending it a <tt>(<i>obj</i>
-_annot)</tt> or <tt>(<i>obj</i> _annotFor: <i>slot</i>).</tt>
-</p><p>Annotations can be added to any object bt sending it a <tt>(<i>obj</i>
+</p>
+<p>Annotations can be accessed for any object by sending it a <code>(<i>obj</i>
+_annot)</code> or <code>(<i>obj</i> _annotFor: <i>slot</i>).</code>
+</p><p>Annotations can be added to any object bt sending it a <code>(<i>obj</i>
 _annot: <i>docstring</i>) or (<i>obj</i> _annot: <i>docstring</i> For:
-slot).</tt>
-</p><p>Annotations can be defined in source code by using:
-</p><blockquote><tt>#{this object</tt>
-<br><tt>{ # This object's annotation is "this object"</tt>
-<br><tt>&nbsp; #{this slot</tt>
-<br><tt>&nbsp;&nbsp;&nbsp; x = 5; # This slot's annotation is "this object\0x7f
-this slot"</tt>
-<br><tt>&nbsp; #}</tt>
-<br><tt>}</tt>
-<br><tt>#}annotation end</tt></blockquote>
-Notice how nested annotations are concatenated using the <tt>'\0x7f '</tt>
+slot).</code>
+</p><p>Annotations can be defined in source code by using "<code>#{
+ANNOTATION-TEXT...\n</code>" and delimited scope with "<code>#}</code>".
+</p>
+<p>Example:
+<pre>
+#{this object
+  { # This object's annotation is "this object"
+    #{this slot
+       x = 5; # This slot's annotation is "this object\0x7fthis slot
+    #}
+  }
+#}annotation end
+</pre>
+</p>
+<p>
+Notice how nested annotations are concatenated using the <code>'\0x7f'</code>
 character.
-<h3>
-Meta-level Programming</h3>
-<tt>(<i>obj</i> _meta)</tt>, <tt>(<i>obj</i> _meta: <i>newMeta</i>)</tt>
+</p>
+
+<h3>Meta-level Programming</h3>
+<code>(<i>obj</i> _meta)</code>, <code>(<i>obj</i> _meta: <i>newMeta</i>)</code>
 <p>An object's meta-object can be retrieved or set with the above messages.
-</p><p><tt>(<i>obj</i> _objectDesc)</tt>,&nbsp; <tt>(<i>obj</i> _objectDesc:
-<i>newObjDesc</i>)</tt>
+</p><p><code>(<i>obj</i> _objectDesc)</code>,  <code>(<i>obj</i> _objectDesc:
+<i>newObjDesc</i>)</code>
 </p><p>An object's decscriptor is an object that contains the object's size,
-number of slots and it's method map.&nbsp; Object descriptors may be shared
+number of slots and its method map.  Object descriptors may be shared
 between many objects (to reduce memory usage and to provide type information
 to the compiler) but are shared using copy-on-write updating.
-</p><h3>
-Object Cloning</h3>
-When an object is cloned via the low-level <tt><code>(obj _clone)</code> </tt>message:
-<br>
-<br>
+</p>
+
+<h3>Object Cloning</h3>
+<p>When an object is cloned via the low-level <code><code>(obj _clone)</code> </code>message:
 <ol>
   <li>A bitwise copy of the object is made,
   </li>
@@ -357,324 +332,342 @@ When an object is cloned via the low-level <tt><code>(obj _clone)</code> </tt>me
   </li>
   <li>The object's descriptor object is marked as copy-on-write.</li>
 </ol>
-
-<p>If a object with a copy-on-write descriptor has a method added,
+</p>
+<p>If an object with a copy-on-write descriptor has a method added,
 redefined, or removed; or a value slot is added or deleted, a new clone
 of the descriptor is made and referenced by the object, before any modifications
-to the descriptor are made.&nbsp; Since this new descriptor is not referenced
+to the descriptor are made.  Since this new descriptor is not referenced
 by any other objects, the copy-on-write flag is turned off.
-</p><h3>
-System Objects</h3>
-This section describe the basic system objects.&nbsp; By convention, we
-use "<tt>(_ </tt>...<tt>)</tt>"<tt> </tt>expression syntax to definitively
-name objects.
-<h3>
-<tt>(_)</tt></h3>
-<tt>(_)</tt> is the lobby (user namespace).&nbsp; It always contains a
-reference to the <tt>(_ system)</tt> object and itself <tt>(_ _)</tt>;&nbsp;
-This is where you create new top-level slots.&nbsp; Example:
-<blockquote><tt>_ _addSlots: {</tt>
-<br><tt>&nbsp; foo -&gt; 5;</tt>
-<br><tt>&nbsp; bar;</tt>
-<br><tt>&nbsp; baz = 2;</tt>
-<br><tt>};</tt>
-<p><tt>_ _loadFile: "src/delegate.mos";</tt>
-<br>&nbsp;</p></blockquote>
+</p>
 
-<h3>
-<tt>(_ system)</tt></h3>
+<h2>System Objects</h2>
+<p>
+This section describe the basic system objects.  By convention, we
+use "<code>(_ </code>...<code>)</code>"<code> </code>expression syntax to definitively
+name objects.</p>
+
+<h3><code>(_)</code></h3>
+<p>
+<code>(_)</code> is the lobby (user namespace).  It always contains a
+reference to the <code>(_ system)</code> object and itself <code>(_ _)</code>; 
+This is where you create new top-level slots.  Example:
+<pre>
+_ _addSlots: {
+  foo -&gt; 5;
+  bar;
+  baz = 2;
+};
+_ _loadFile: "src/delegate.mos";
+</pre>
+</p>
+
+<h3><code>(_ system)</code></h3>
 Contains all system objects.
-<h3>
-<tt>(_ system protos)</tt></h3>
+
+<h3><code>(_ system protos)</code></h3>
 Contains the system prototype objects from which new objects are created.
-<h3>
-<tt>(_ system metas)</tt></h3>
+
+<h3><code>(_ system metas)</code></h3>
 Contains the system meta objects.
-<h3>
-<tt>(_ system oddballs)</tt></h3>
-Contains the one-of-a-kind system objects, like <tt>@T</tt>, <tt>@F</tt>,
-<tt>@U</tt>,
-and <tt>@E</tt>.&nbsp; These objects are never cloned.
-<h3>
-<tt>(_ system behaviors)</tt></h3>
+
+<h3><code>(_ system oddballs)</code></h3>
+Contains the one-of-a-kind system objects, like <code>@T</code>, <code>@F</code>,
+<code>@U</code>, and <code>@E</code>.  These objects are never cloned.
+
+<h3><code>(_ system behaviors)</code></h3>
 Contains the system behavior delegates.
-<h3>
-<tt>(_ system behaviors defaultBehavior)</tt></h3>
+
+<h3><code>(_ system behaviors defaultBehavior)</code></h3>
 MOS does a very low-level, behind-the-scenes lookup delegation to this
 special object when certain messages cannot be found through the usual
-lookup semantics.&nbsp; This is primarly for bootstrapping and low-level
-object messages that all objects must respond to; like <tt>@"_clone"</tt>,
-<tt>@"_meta"</tt>, <tt>@"isConstant",</tt> and the basic printing and encoding
+lookup semantics.  This is primarly for bootstrapping and low-level
+object messages that all objects must respond to; like <code>@"_clone"</code>,
+<code>@"_meta"</code>, <code>@"isConstant",</code> and the basic printing and encoding
 facilities.
-<h3>
-<tt>(_ system os)</tt></h3>
+
+<h3><code>(_ system os)</code></h3>
 User interface to the host operating system (most ANSI C and POSIX system
 calls).
-<h3>
-<tt>(_ system named)</tt></h3>
+
+<h3><code>(_ system named)</code></h3>
 User interface to named objects..
-<h3>
-<tt>(_ system gc)</tt></h3>
+
+<h3><code>(_ system gc)</code></h3>
 User interface to the garbage collector.
-<h3>
-<tt>(_ system debugger)</tt></h3>
+
+<h3><code>(_ system debugger)</code></h3>
 User interface to the debugger.
-<h3>
-<tt>(_ system protos selector selectors)</tt></h3>
+
+<h3><code>(_ system protos selector selectors)</code></h3>
 Returns a constant vector of all selectors.
-<h3>
-<tt>(_ system compiler)</tt></h3>
+
+<h3><code>(_ system compiler)</code></h3>
 User interface to the (bytecode) compiler
-<h3>
-<tt>(_ system protos stream)</tt></h3>
 
-<blockquote>Stream objects represent open files (socket, pipes).
-<blockquote>Creates a new stream object opened to filename with mode mode.</blockquote>
-(stream close)
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Closes the stream object's
-file handle
-<br>&nbsp;</p></blockquote>
+<h3><code>(_ system protos stream)</code></h3>
+<p>
+Stream objects represent open files (socket, pipes).
+Creates a new stream object opened to filename with mode mode.</p>
+<p><code>(stream close)</code>
+Closes the stream object's
+file handle.</p>
 
-<h3>
-<tt>(_ system protos coder)</tt></h3>
-
-<blockquote>The coder prototype contains methods for encoding and decoding
-objects to and from a stream.&nbsp; The coder object can be used as an encoder
-or decoder.&nbsp; When a <tt>(coder object)</tt> is used for encoding the
+<h3><code>(_ system protos coder)</code></h3>
+<p>
+The coder prototype contains methods for encoding and decoding
+objects to and from a stream.  The coder object can be used as an encoder
+or decoder.  When a <code>(coder object)</code> is used for encoding the
 coder stream is written to; when a coder object is used for decoding the
-<tt>(coder
-stream)</tt> object is read from.&nbsp; The (stream object) is expected
-to perform <tt>(stream readString: length)</tt> and <tt>(stream writeString:
-string)</tt> messages.
-<br>The <tt>(coder table)</tt> object is used to remember which objects
-have already been written to preserve referential equality after decoding.
-<h4>
-Example</h4>
+<code>(coder stream)</code> object is read from.</p>
 
-<blockquote><tt>_addSlots: { encoder; stream; decoder; };</tt>
-<p><tt># Create an encoder object</tt>
-<br><tt>encoder: _ system protos encoder clone;</tt>
-<br><tt># Create an empty string stream</tt>
-<br><tt>encoder stream: (("" clone) deepenString);</tt>
-</p><p><tt># Encode myObject</tt>
-<br><tt>encoder encode: myObject;</tt>
-</p><p><tt># Get the string stream</tt>
-<br><tt>stream: (encoder stream);</tt>
-</p><p><tt># Crate a decoder object.&nbsp; Note: we clone the stream</tt>
-<br><tt>decoder: (_ system protos encoder clone stream: stream);</tt>
-</p><p><tt># Decode an object (myObject) from the decoder stream</tt>
-<br><tt>decoder decode;</tt></p></blockquote>
+<p>The <code>(stream object)</code> is expected
+to perform <code>(stream readString: length)</code> and <code>(stream writeString:
+string)</code> messages.
+</p>
+
+<p>The <code>(coder table)</code> object is used to remember which objects
+have already been written to preserve referential equality after
+decoding.</p>
+
+<blockquote>
+<h4>Example</h4>
+<pre>
+_addSlots: { encoder; stream; decoder; };
+
+# Create an encoder object
+encoder: _ system protos encoder clone;
+
+# Create an empty string stream
+encoder stream: (("" clone) deepenString);
+
+# Encode myObject
+encoder encode: myObject;
+
+# Get the string stream
+stream: (encoder stream);
+
+# Create a decoder object.  Note: we clone the stream
+decoder: (_ system protos encoder clone stream: stream);
+
+# Decode an object (myObject) from the decoder stream
+decoder decode;
+</pre>
 </blockquote>
 
-<h3>
-Syntax</h3>
-&nbsp;The default MOS syntax is reminicent of Smalltalk (and Self).
-<blockquote>
-<h3>
-Lexical components</h3>
-In this document we will denote all literal strings in a <tt>fixed width
-font</tt> with the single quote character (<tt>"'"</tt>).&nbsp; Lexical
-strings are described by regular expressions in a <tt>fixed width font</tt>
-delimited by forward slash characters (<tt>"/"</tt>).
-<dl><h3>
-Comments</h3>Comments begin at the <tt>'#'</tt>and continue through to the end of the
-line.&nbsp;Multi-line comments can be specified with <tt>'#|'</tt>and
-terminate with <tt>'|#'</tt>.&nbsp;Multi-line comments can nested.&nbsp;Comments are treated as whitespace.
-<br>&nbsp;<h3>
-Numbers:</h3>Numbers must begin with a digit <tt>/[0-9]/</tt>, decimal point <tt>'.'</tt>,<tt>
-'+'</tt>or <tt>'-'</tt>sign.
-<blockquote>
-<h3>
-Integers:</h3>
-Integers can be specified with different radices prefixes; the default
-is base 10:
-<dl><dt>
-<tt>/0[0-8]*/</tt></dt><dd>
-denotes octal (base 8).</dd><dt>
-<tt>/0[xX][0-9a-fA-F]+/</tt></dt><dd>
-denotes hexadecimal (base 16).</dd><dt>
-<tt>/0[bB][0-1]+/</tt></dt><dd>
-denotes binary (base 2).</dd></dl>
+<h2>Syntax</h2>
+<p>The default MOS syntax is reminicent of Smalltalk (and Self).</p>
 
-<h3>
-Reals:</h3>
-Reals are sequences of decimal digits with '.' or exponents specified with
-/[eEfFgG]/.</blockquote><h3>
-Strings:</h3>Strings are delimited by double quote (<tt>'"'</tt>) characters; and use
-the standard C backslash (<tt>'\'</tt>) escape sequences for special characters.
-<h3>
-Characters:</h3>Characters are special string instances specified as one character delimited
-by single quote (<tt>"'"</tt>) characters.
-<h3>
-Special sequences</h3>Special sequences start with the ampersand (<tt>'@'</tt>) character and
-a dispatch character.&nbsp;Standard special sequences are:
-<dl><dt>
-<tt>/@[tT]/</tt></dt><dd>
-The true object constant.</dd><dt>
-<tt>/@[fF]/</tt></dt><dd>
-The false object constant.</dd><dt>
-<tt>/@[eE]/</tt></dt><dd>
-The "end-of-stream" object constant.</dd><dt>
-<tt>/@[uU]/</tt></dt><dd>
-The "undefinedValue" object constant.</dd><dt>
-<tt>/@[vV]/</tt></dt><dd>
-Begins a vector constructor sequence.</dd><dt>
-<tt>/@[mM]/</tt></dt><dd>
-Begins a map constructor sequence.</dd><dt>
-<tt>/@"&lt;selector-charset&gt;*"/</tt></dt><dd>
-A message selector object constant.</dd><dt>
-<tt>/@#&lt;number&gt;/</tt></dt><dd>
-An object referenced by a weak pointer.</dd></dl></dl>
+<h3>Lexical components</h3>
+<p>
+In this section we will denote all literal strings in a <code>fixed width
+font</code> with the single quote character (<code>"'"</code>).  Lexical
+strings are described by regular expressions in a <code>fixed width font</code>
+delimited by forward slash characters (<code>"/"</code>).
 
-<h3>
-Selectors</h3>
-Selectors are used to look up methods for messages and are broken down
-by:
-<blockquote>
-<h3>
-Identifiers</h3>
-<tt>/[_a-z][_a-zA-Z0-9]*/</tt>
-<br>Are used in unary message expressions (no arguments)
-<h3>
-Keywords</h3>
-<tt>/[_a-z][_a-zA-Z0-9]*:/</tt>
+<h3>Comments</h3>
+<p>Comments begin at the <code>'#'</code>and continue through to the end of the
+line. Multi-line comments can be specified with <code>'#|'</code>and
+terminate with <code>'|#'</code>. Multi-line comments can
+nested. Comments are treated as whitespace.
+</p>
+
+<h3>Numbers</h3>
+<p>Numbers must begin with a digit <code>/[0-9]/</code>, decimal point <code>'.'</code>,<code>
+'+'</code>or <code>'-'</code>sign.</p>
+
+<h3>Integers</h3>
+<p>Integers can be specified with different radices prefixes; the default
+is base 10:</p>
+<dl>
+  <dt><code>/0[0-8]*/</code></dt>
+  <dd>denotes octal (base 8).</dd>
+  <dt><code>/0[xX][0-9a-fA-F]+/</code></dt>
+  <dd>denotes hexadecimal (base 16).</dd>
+  <dt><code>/0[bB][0-1]+/</code></dt>
+  <dd>denotes binary (base 2).</dd>
+</dl>
+
+<h3>Reals</h3>
+<p>Reals are sequences of decimal digits with '.' or exponents specified with /[eEfFgG]/.</p>
+
+<h3>Strings</h3>
+<p>
+Strings are delimited by double quote (<code>'"'</code>) characters; and use
+the standard C backslash (<code>'\'</code>) escape sequences for
+special characters.</p>
+
+<h3>Characters</h3>
+Characters are special string instances specified as one character delimited
+by single quote (<code>"'"</code>) characters.
+
+<h3>Special Sequences</h3>
+Special sequences start with the ampersand (<code>'@'</code>) character and
+a dispatch character. Standard special sequences are:
+<dl>
+<dt><code>/@[tT]/</code></dt>
+<dd>The true object constant.</dd>
+<dt><code>/@[fF]/</code></dt>
+<dd>The false object constant.</dd>
+<dt><code>/@[eE]/</code></dt>
+<dd>The "end-of-stream" object constant.</dd>
+<dt><code>/@[uU]/</code></dt>
+<dd>The "undefinedValue" object constant.</dd>
+<dt><code>/@[vV]/</code></dt>
+<dd>Begins a vector constructor sequence.</dd>
+<dt><code>/@[mM]/</code></dt>
+<dd>Begins a map constructor sequence.</dd>
+<dt><code>/@"&lt;selector-charset&gt;*"/</code></dt>
+<dd>A message selector object constant.</dd>
+<dt><code>/@#&lt;number&gt;/</code></dt>
+<dd>An object referenced by a weak pointer.</dd>
+</dl>
+
+<h3>Selectors</h3>
+<p>Selectors are used to look up methods for messages and are broken down
+by:</p>
+
+<h3>Identifiers</h3>
+<code>/[_a-z][_a-zA-Z0-9]*/</code>
+<br>Are used in unary message expressions (no arguments).
+
+<h3>Keywords</h3>
+
+<code>/[_a-z][_a-zA-Z0-9]*:/</code>
 <br>Are used in binary message expressions (one argument) and are used
 to begin multi-argument message expressions (see Capwords).
-<h3>
-Capwords</h3>
-<tt>/[A-Z][_a-zA-Z0-9]*:/</tt>
+
+<h3>Capwords</h3>
+<code>/[A-Z][_a-zA-Z0-9]*:/</code>
 <br>Are used to specify multi-argument message expressions.
-<h3>
-Operators</h3>
-<tt>/[~!$%^&amp;*+-&lt;&gt;?/,|=]+/</tt>
-<br>Are used in binary message expressions.&nbsp; Operator expressions
+
+<h3>Operators</h3>
+<code>/[~!$%^&amp;*+-&lt;&gt;?/,|=]+/</code>
+<br>Are used in binary message expressions.  Operator expressions
 always group left-to-right regardless of expected mathematic precedence.
-<tt>'5+2*3'</tt>
-means <tt>'(5+2)*3'</tt>.</blockquote>
+<code>'5+2*3'</code> means <code>'(5+2)*3'</code>.</blockquote>
 
-<h3>
-Memo Expressions</h3>
-The back-quote character (<tt>'`'</tt>) begins a memo expression.&nbsp;
+<h3>Memo Expressions</h3>
+The back-quote character (<code>'`'</code>) begins a memo expression. 
 Memo expressions are expressions that are evaluated only once.
-<h3>
-Object Literals</h3>
-An object literal is an expression that creates a memoized object.&nbsp;
-The object may have slots.&nbsp; An object literal body is delimited with
-'<tt>{</tt>'<tt> </tt>and '<tt>}</tt>'.&nbsp; Within the object body are
-any number of object slots.
-<blockquote>
-<h3>
-Object Slots</h3>
+
+<h3>Object Literals</h3>
+An object literal is an expression that creates a memoized object. 
+The object may have slots.  An object literal body is delimited with
+'<code>{</code>'<code> </code>and '<code>}</code>'.
+Within the object body are any number of object slots.
+
+<h3>Object Slots</h3>
 Object slots come in four types:
-<blockquote>
-<dt>
-Uninitialzed data slots</dt>
+<dl>
+<dt>Uninitialzed data slots</dt>
+<dd><code><i>&lt;identifier&gt;</i>';'</code></dd>
 
+<dt>Initialized data slots</dt>
+<dd><code><i>&lt;identifier&gt;</i> '-&gt;' <i>&lt;expr&gt;</i> ';'</code></dd>
+
+<dt>Read-only data slots</dt>
+<dd><code><i>&lt;identifier&gt;</i> '=' <i>&lt;expr&gt;</i> ';'</code></dd>
+
+<dt>Method slots</dt>
 <dd>
-<tt><i>&lt;identifier&gt;</i>';'</tt></dd>
+<code><i>&lt;identifier&gt;</i> '{' <i>&lt;method-body&gt;</i> '}'</code>
+<br /><code><i>&lt;operator&gt;</i> <i>&lt;identifier&gt;</i> '{' <i>&lt;method-body&gt;</i>
+'}'</code>
+<br /><code><i>&lt;keyword&gt;</i> <i>&lt;identifier&gt;</i> <i>&lt;capword-identifier-list&gt;</i>
+'{' <i>&lt;method-body&gt;</i> '}'</code>
+</dd>
+</dl>
 
-<dt>
-Initialized data slots</dt>
+<h2>Grammar</h2>
+<p>The MOS grammar is described by the following extended BNF expressions:</p>
+<pre>
+&lt;expr&gt; :
+   &lt;constant&gt; |
+   &lt;object&gt; |
+   &lt;block&gt; |
+   '(' &lt;expr&gt; ')' |
+   &lt;expr&gt; &lt;identifier&gt; |
+   &lt;expr&gt; &lt;keyword&gt; &lt;expr&gt; { &lt;capword&gt; &lt;expr&gt;
+}* |
+   &lt;expr&gt; &lt;operator&gt; expr |
+   &lt;expr&gt; '[' &lt;expr&gt; ']' |
+   &lt;expr&gt; '[' &lt;expr&gt; ']' ':' &lt;expr&gt; |
+   '`' &lt;expr&gt;
+   ;
 
-<dd>
-<tt><i>&lt;identifier&gt;</i> '-&gt;' <i>&lt;expr&gt;</i> ';'</tt></dd>
+&lt;object&gt; :
+  '{' &lt;slot&gt; + '}'
+  ;
 
-<dt>
-Read-only data slots</dt>
+&lt;slot&gt; :
+  &lt;value-slot&gt; |
+  &lt;method-slot&gt;
+  ;
 
-<dd>
-<tt><i>&lt;identifier&gt;</i> '=' <i>&lt;expr&gt;</i> ';'</tt></dd>
+&lt;value-slot&gt; :
+  &lt;uninitialized-slot&gt; |
+  &lt;readonly-slot&gt; |
+  &lt;initialized-slot&gt;
+  ;
 
-<dt>
-Method slots</dt>
+&lt;uninitialized-slot&gt; :
+  &lt;identifier&gt; ';'
+  ;
+&lt;readonly-slot&gt; :
+  &lt;identifier&gt; '=' &lt;expr&gt; ';'
+  ;
+&lt;initialized-slot&gt; :
+  &lt;identifier&gt; '-&gt;' &lt;expr&gt; ';'
+  ;
 
-<blockquote>
-<dt>
-<tt><i>&lt;identifier&gt;</i> '{' <i>&lt;method-body&gt;</i> '}'</tt></dt>
+&lt;method-slot&gt; :
+  &lt;unary-method-slot&gt; |
+  &lt;binary-method-slot&gt; |
+  &lt;multiary-method-slot&gt;
+  ;
 
-<br><tt><i>&lt;operator&gt;</i> <i>&lt;identifier&gt;</i> '{' <i>&lt;method-body&gt;</i>
-'}'</tt>
-<br><tt><i>&lt;keyword&gt;</i> <i>&lt;identifier&gt;</i> <i>&lt;capword-identifier-list&gt;</i>
-'{' <i>&lt;method-body&gt;</i> '}'</tt></blockquote>
-</blockquote>
-<tt>Object</tt></blockquote>
+&lt;unary-method-slot&gt; :
+  &lt;identifier&gt; &lt;method-body&gt;
+  ;
 
-<h3>
-Grammar</h3>
-The MOS grammar is described by the following extended BNF expressions:
-<p><tt>&lt;expr&gt; :</tt>
-<br><tt>&nbsp;&nbsp; &lt;constant&gt; |</tt>
-<br><tt>&nbsp;&nbsp; &lt;object&gt; |</tt>
-<br><tt>&nbsp;&nbsp; &lt;block&gt; |</tt>
-<br><tt>&nbsp;&nbsp; '(' &lt;expr&gt; ')' |</tt>
-<br><tt>&nbsp;&nbsp; &lt;expr&gt; &lt;identifier&gt; |</tt>
-<br><tt>&nbsp;&nbsp; &lt;expr&gt; &lt;keyword&gt; &lt;expr&gt; { &lt;capword&gt; &lt;expr&gt;
-}* |</tt>
-<br><tt>&nbsp;&nbsp; &lt;expr&gt; &lt;operator&gt; expr |</tt>
-<br><tt>&nbsp;&nbsp; &lt;expr&gt; '[' &lt;expr&gt; ']' |</tt>
-<br><tt>&nbsp;&nbsp; &lt;expr&gt; '[' &lt;expr&gt; ']' ':' &lt;expr&gt; |</tt>
-<br><tt>&nbsp;&nbsp; '`' &lt;expr&gt;</tt>
-<br><tt>&nbsp;&nbsp; ;</tt>
-</p><p><tt>&lt;object&gt; :</tt>
-<br><tt>&nbsp; '{' &lt;slot&gt; + '}'</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;slot&gt; :</tt>
-<br><tt>&nbsp; &lt;value-slot&gt; |</tt>
-<br><tt>&nbsp; &lt;method-slot&gt;</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;value-slot&gt; :</tt>
-<br><tt>&nbsp; &lt;uninitialized-slot&gt; |</tt>
-<br><tt>&nbsp; &lt;readonly-slot&gt; |</tt>
-<br><tt>&nbsp; &lt;initialized-slot&gt;</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;uninitialized-slot&gt; :</tt>
-<br><tt>&nbsp; &lt;identifier&gt; ';'</tt>
-<br><tt>&nbsp; ;</tt>
-<br><tt>&lt;readonly-slot&gt; :</tt>
-<br><tt>&nbsp; &lt;identifier&gt; '=' &lt;expr&gt; ';'</tt>
-<br><tt>&nbsp; ;</tt>
-<br><tt>&lt;initialized-slot&gt; :</tt>
-<br><tt>&nbsp; &lt;identifier&gt; '-&gt;' &lt;expr&gt; ';'</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;method-slot&gt; :</tt>
-<br><tt>&nbsp; &lt;unary-method-slot&gt; |</tt>
-<br><tt>&nbsp; &lt;binary-method-slot&gt; |</tt>
-<br><tt>&nbsp; &lt;multiary-method-slot&gt;</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;unary-method-slot&gt; :</tt>
-<br><tt>&nbsp; &lt;identifier&gt; &lt;method-body&gt;</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;binary-method-slot&gt; :</tt>
-<br><tt>&nbsp; &lt;keyword&gt; &lt;formal&gt; &lt;method-body&gt; |</tt>
-<br><tt>&nbsp; &lt;operator&gt; &lt;formal&gt; &lt;method-body&gt;</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;multiary-method-slot&gt; :</tt>
-<br><tt>&nbsp; &lt;keyword&gt; &lt;formal&gt; (&lt;capword&gt; &lt;formal&gt;)+ &lt;method-body&gt;</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;method-body&gt; :</tt>
-<br><tt>&nbsp; '{' &lt;locals&gt;? &lt;stmt&gt;* '}'</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;locals&gt; :</tt>
-<br><tt>&nbsp; '@' &lt;local&gt;* '@'</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;local&gt; :</tt>
-<br><tt>&nbsp; &lt;value_slot&gt;</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;stmt&gt; :</tt>
-<br><tt>&nbsp; &lt;expr&gt; ';'</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;block&gt; :</tt>
-<br><tt>&nbsp; '[' &lt;block-formals&gt; &lt;stmt&gt;* ']'</tt>
-<br><tt>&nbsp; ;</tt>
-</p><p><tt>&lt;block-formals&gt; :</tt>
-<br><tt>&nbsp; '(' &lt;identifier&gt;* ')'</tt>
-<br><tt>&nbsp; ;</tt>
-<br>&nbsp;</p></blockquote>
+&lt;binary-method-slot&gt; :
+  &lt;keyword&gt; &lt;formal&gt; &lt;method-body&gt; |
+  &lt;operator&gt; &lt;formal&gt; &lt;method-body&gt;
+  ;
+
+&lt;multiary-method-slot&gt; :
+  &lt;keyword&gt; &lt;formal&gt; (&lt;capword&gt; &lt;formal&gt;)+ &lt;method-body&gt;
+  ;
+
+&lt;method-body&gt; :
+  '{' &lt;locals&gt;? &lt;stmt&gt;* '}'
+  ;
+
+&lt;locals&gt; :
+  '@' &lt;local&gt;* '@'
+  ;
+
+&lt;local&gt; :
+  &lt;value_slot&gt;
+  ;
+
+&lt;stmt&gt; :
+  &lt;expr&gt; ';'
+  ;
+
+&lt;block&gt; :
+  '[' &lt;block-formals&gt; &lt;stmt&gt;* ']'
+  ;
+
+&lt;block-formals&gt; :
+  '(' &lt;identifier&gt;* ')'
+  ;
+</pre>
 
 <center>
-<hr width="100%">
+<hr width="100%" />
 <br><i>END OF DOCUMENT</i>
-<hr width="100%"></center>
+<hr width="100%" /></center>
 
-<p><br>
-</p></body></html>
+</body>
+</html>

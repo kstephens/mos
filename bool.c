@@ -1,11 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_bool_c__
-#define __rcs_id_mos_bool_c__
-static const char __rcs_id_mos_bool_c[] = "$Id: bool.c,v 1.5 2001-09-15 21:59:10 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 #include "mos/mos.h"
 #include "mos/constant.h"
 

@@ -1,12 +1,4 @@
 #ifndef _mos_mapfuncs_h
-
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_mapfuncs_h__
-#define __rcs_id_mos_mapfuncs_h__
-static const char __rcs_id_mos_mapfuncs_h[] = "$Id: mapfuncs.h,v 1.3 2000-03-21 07:12:22 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #define _mos_mapfuncs_h
 
 #define mos_map_REORDER(map,ms) do { \

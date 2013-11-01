@@ -2,7 +2,7 @@
 
 _ system protos regexp _addSlots: {
   spilt: str {
-    @ vec m @
+    @ vec, m @
 
     # Initialize an empty vector
     vec: (@V);

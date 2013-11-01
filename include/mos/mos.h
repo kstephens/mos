@@ -1,12 +1,4 @@
 #ifndef _mos_mos_h
-
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_mos_h__
-#define __rcs_id_mos_mos_h__
-static const char __rcs_id_mos_mos_h[] = "$Id: mos.h,v 1.2 1999-02-19 09:26:30 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #define _mos_mos_h
 
 #include <stddef.h> /* size_t */

@@ -26,7 +26,7 @@ mos_ANNOT("Doc: Returns the argument identifier by index.")
 mos_METHOD(method,argumentAt_)
 {
   char arg[8];
-  sprintf(arg, "a%ld", (long) mos_INT(mos_ARGV[0]));
+  sprintf(arg, "a%d", (int) mos_INT(mos_ARGV[0]));
   mos_return(mos_selector_make(arg));
 }
 mos_METHOD_END

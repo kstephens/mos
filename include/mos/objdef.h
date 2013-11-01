@@ -1,10 +1,6 @@
 #ifndef _mos_objdef_h
 #define _mos_objdef_h
 
-/************************************************************
-** Object definition
-*/
-
 #ifndef mos_OBJECT
 
 #define mos_OBJECT(O) \
@@ -26,6 +22,7 @@ mos_value _mos_os_##O[] = {
 }; \
 mos_objectDesc _mos_od_##O = { \
   mos_object_HDR_INIT_STATIC(objectDesc), \
+  #O, \
   mos_o(M), \
   mos_map_INIT(_mos_om_##O), \
   mos_ARRAY_LEN(_mos_os_##O) - 1, \

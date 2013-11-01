@@ -4,30 +4,28 @@
 #include "mos/block.h"
 
 
-/******************************************************************/
-/* Debugging support */
-
-
 #ifndef _mos_bcExecDebug
 int _mos_bcExecDebug = 0;
 #endif
-
-
 #ifndef _mos_bcSendDebug
 int _mos_bcSendDebug = 0;
 #endif
-
-
 char _mos_bcExecCodeDebug[] = {
 #define mos_BC(NAME,NARGS) 0,
 #include "mos/bc.def"
   0
 };
 
-
-/******************************************************************/
-/* Enumerate bcMethod slot indexes */
-
+mos_METHOD(bcMethod,execDebug_)
+{
+  mos_return(mos_integer_make(_mos_bcExecDebug = mos_INT(mos_ARGV[0])));
+}
+mos_METHOD_END
+mos_METHOD(bcMethod,sendDebug_)
+{
+  mos_return(mos_integer_make(_mos_bcSendDebug = mos_INT(mos_ARGV[0])));
+}
+mos_METHOD_END
 
 enum {
 BYTECODES = 0,
@@ -39,27 +37,16 @@ MEMOCODES,
 MEMOVALS,
 };
 
-
-/******************************************************************/
-/* The system value stack */
-
-
 /* NOT THREAD SAFE */
 #ifndef vstack_LEN
-#define vstack_LEN 1024
+#define vstack_LEN 8092
 #endif
 static mos_value _mos_vstack[vstack_LEN];
 
 mos_value *_mos_sp = _mos_vstack + (sizeof(_mos_vstack)/sizeof(_mos_vstack[0])-1);
 mos_value *_mos_sp_top = _mos_vstack;
 
-
-/******************************************************************/
-
-
 #define sp _mos_sp
-
-
 static __inline__
 mos_value _mos_bcMethod_run(mos_value mos_MSG, mos_value BCS, mos_value *fp)
 {
@@ -339,7 +326,6 @@ mos_value _mos_bcMethod_run(mos_value mos_MSG, mos_value BCS, mos_value *fp)
   return mos_undef;
 }
 
-
 mos_METHOD(bcMethod,__applyMethod_)
 {
   /* If we need to create a return catch, do it here */
@@ -368,25 +354,18 @@ mos_METHOD(bcMethod,__applyMethod_)
   }
 }
 mos_METHOD_END
-
-
 #undef sp
-
 
 mos_METHOD(bcMethod,lobby)
 {
   mos_return(mos_send(mos_send(mos_RCVR, mos_s(constants)), mos_s(get_), mos_integer_make(0)));
 }
 mos_METHOD_END
-
-
 mos_METHOD(bcMethod,lobby_)
 {
   mos_return(mos_send(mos_send(mos_RCVR, mos_s(constants)), mos_s(set_Value_), mos_integer_make(0), mos_ARGV[0]));
 }
 mos_METHOD_END
-
-
 mos_METHOD(bcMethod,argumentAt_)
 {
   mos_value a = mos_send(mos_RCVR, mos_s(arguments));
@@ -397,46 +376,36 @@ mos_METHOD(bcMethod,argumentAt_)
   }
 }
 mos_METHOD_END
-
-
 mos_METHOD(bcMethod,dumpToStream_)
 {
 #ifndef bcDumpVersion
 #define bcDumpVersion 1.1
 #endif
-
   mos_ARGV[0] = mos_printf(mos_ARGV[0], "{\n");
   mos_printf(mos_ARGV[0], "  version = %g;\n", (double) bcDumpVersion);
   mos_printf(mos_ARGV[0], "  arguments = %O;\n", mos_send(mos_RCVR, mos_s(arguments)));
   mos_printf(mos_ARGV[0], "  locals = %O;\n", mos_send(mos_RCVR, mos_s(locals)));
   mos_printf(mos_ARGV[0], "  bytecodes = %O;\n", mos_send(mos_RCVR, mos_s(bytecodes)));
   mos_printf(mos_ARGV[0], "  memocodes = %O;\n", mos_send(mos_RCVR, mos_s(memocodes)));
-
   /* make the lobby go away in the constants vector */
   {
     mos_value constants = mos_send(mos_RCVR, mos_s(constants));
     constants = mos_send(constants, mos_s(clone));
     mos_send(constants, mos_s(deepen));
     mos_send(constants, mos_s(set_Value_), mos_integer_make(0), mos_undef);
-
     mos_printf(mos_ARGV[0], "  constants = %O;\n", constants);
   }
-
   mos_printf(mos_ARGV[0], "  hasBlockReturn = %O;\n", mos_send(mos_RCVR, mos_s(hasBlockReturn)));
-
   mos_printf(mos_ARGV[0], "}\n");
-
   mos_return(mos_ARGV[0]);
 } 
 mos_METHOD_END
-
 
 mos_METHOD(bcMethod,decodeOtherOn_)
 {
   mos_REFT(mos_MIMPL,mos_method)->_func = _mos_mf_bcMethod___applyMethod_;
 }
 mos_METHOD_END
-
 
 mos_OBJECT(bcMethod)
 mos_OBJECT_M(bcMethod,argumentAt_)
@@ -445,6 +414,8 @@ mos_OBJECT_M(bcMethod,lobby_)
 mos_OBJECT_M(bcMethod,dumpToStream_)
 mos_OBJECT_M(bcMethod,decodeOtherOn_)
 mos_OBJECT_M(bcMethod,decompile)
+mos_OBJECT_M(bcMethod,execDebug_)
+mos_OBJECT_M(bcMethod,sendDebug_)
 mos_OBJECT_A(bytecodes,BYTECODES)
 mos_OBJECT_A(constants,CONSTANTS)
 mos_OBJECT_A(hasBlockReturn,HASBLOCKRTN)

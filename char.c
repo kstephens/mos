@@ -1,24 +1,11 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_char_c__
-#define __rcs_id_mos_char_c__
-static const char __rcs_id_mos_char_c[] = "$Id: char.c,v 1.4 2001-09-15 21:59:10 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 #include "mos/mos.h"
 #include "mos/constant.h"
-
-
 #include <ctype.h>
-
 
 mos_char _mos_chars[0x100];
 
-
 #define SELF mos_REFT(mos_MIMPL,mos_char)
 #define X mos_CHAR(mos_MIMPL)
-
 
 mos_METHOD(char,printOn_)
 {

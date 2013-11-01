@@ -1,24 +1,12 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_selsupp_c__
-#define __rcs_id_mos_selsupp_c__
-static const char __rcs_id_mos_selsupp_c[] = "$Id: selsupp.c,v 1.1 2001-09-18 02:46:05 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 /*
 ** Selector support.
 ** Use by both selector.c, selesc.c.
 */
-
-
 #include "mos/mos.h"
 #include "mos/constant.h"
 #include <string.h>
 
-
 const char _mos_selector_op_charset[] = "~!$%^&*+-<>?/,|=";
-
 
 static struct strmap {
   const char *search;
@@ -51,7 +39,6 @@ static struct strmap {
   { 0, 0 }
 };
 
-
 static
 const struct strmap *_mos_map_match(const char *s)
 {
@@ -79,7 +66,6 @@ const struct strmap *_mos_map_match(const char *s)
   
   return 0;
 }
-
 
 const char *_mos_selector_escape(const char *x)
 {

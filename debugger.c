@@ -1,10 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_debugger_c__
-#define __rcs_id_mos_debugger_c__
-static const char __rcs_id_mos_debugger_c[] = "$Id: debugger.c,v 1.3 1999-12-26 20:05:47 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 
 #define OUT mos_send(mos_RCVR, mos_s(output))
@@ -12,8 +5,7 @@ static const char __rcs_id_mos_debugger_c[] = "$Id: debugger.c,v 1.3 1999-12-26 
 mos_ANNOT("Module: debugger")
 mos_ANNOT("Doc: Is the system debugger.")
 
-  mos_ANNOT("Category: Backtrace")
-
+mos_ANNOT("Category: Backtrace")
 mos_ANNOT("Doc: Prints a stack backtrace.")
 mos_METHOD(debugger,backtrace)
 {
@@ -23,11 +15,9 @@ mos_METHOD(debugger,backtrace)
 }
 mos_METHOD_END
 mos_ANNOT_END
+mos_ANNOT_END
 
-  mos_ANNOT_END
-
-  mos_ANNOT("Category: Send Trace")
-
+mos_ANNOT("Category: Send Trace")
 mos_ANNOT("Doc: Returns the current send trace level.")
 mos_METHOD(debugger,sendTrace)
 {
@@ -44,12 +34,9 @@ mos_METHOD(debugger,sendTrace_)
 }
 mos_METHOD_END
 mos_ANNOT_END
+mos_ANNOT_END
 
-  mos_ANNOT_END
-
-
-  mos_ANNOT("Category: Output")
-
+mos_ANNOT("Category: Output")
 mos_ANNOT("Doc: Empties the debugger output buffer.")
 mos_METHOD(debugger,resetOutput)
 {
@@ -66,9 +53,7 @@ mos_METHOD(debugger,flushOutput)
 }
 mos_METHOD_END
 mos_ANNOT_END
-
-  mos_ANNOT_END
-
+mos_ANNOT_END
 
 mos_OBJECT(debugger)
 mos_OBJECT_M(debugger,backtrace)
@@ -106,7 +91,6 @@ mos_INIT(debugger,20)
   mos_send(mos_o(debugger), mos_s(input_), mos_FILE(in));
   mos_send(mos_o(debugger), mos_s(outputStream_), mos_FILE(err));
   mos_send(mos_o(debugger), mos_s(resetOutput));
-  
   return 0;
 }
 

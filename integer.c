@@ -22,7 +22,7 @@ mos_ANNOT("Category: Print")
 
 mos_METHOD(integer,printOn_)
 {
-  mos_return(mos_printf(mos_ARGV[0], "%ld", (long) X));
+  mos_return(mos_printf(mos_ARGV[0], "%I", X));
 }
 mos_METHOD_END
 
@@ -164,7 +164,7 @@ mos_ANNOT_END
 mos_ANNOT_END
 
 __inline
-mos_integer * _mos_integer_make(long _x)
+mos_integer * _mos_integer_make(mos_int _x)
 {
     mos_integer *x = mos_REFT(mos_clone(mos_o(integer)), mos_integer);
     x->_x = _x;
@@ -174,7 +174,7 @@ mos_integer * _mos_integer_make(long _x)
 #ifdef mos_integer_make
 #undef mos_integer_make
 #endif
-mos_value mos_integer_make(long x)
+mos_value mos_integer_make(mos_int x)
 {
   return _mos_MAKE_INT(x);
 }

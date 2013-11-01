@@ -1,13 +1,7 @@
 #ifndef _mos_value_h
-
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_value_h__
-#define __rcs_id_mos_value_h__
-static const char __rcs_id_mos_value_h[] = "$Id: value.h,v 1.2 1999-02-19 09:26:32 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #define _mos_value_h
+
+#include <unistd.h>
 
 struct mos_object;
 typedef struct mos_object mos_object;
@@ -17,6 +11,9 @@ typedef struct mos_objectDesc mos_objectDesc;
 
 struct mos_map;
 typedef struct mos_map mos_map;
+
+typedef ssize_t mos_int;
+typedef size_t  mos_uint;
 
 #if 1
 typedef mos_object *mos_value;

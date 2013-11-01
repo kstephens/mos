@@ -1,10 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_stream_c__
-#define __rcs_id_mos_stream_c__
-static const char __rcs_id_mos_stream_c[] = "$Id: stream.c,v 1.4 2000-03-21 07:13:45 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 
 /******************************************************************/
@@ -208,7 +201,7 @@ mos_ANNOT("Doc: Read a string of specified bytes or return end-of-stream object.
 mos_METHOD(stream,readString_)
 {
   mos_value s;
-  size_t bytes_read;
+  ssize_t bytes_read;
   
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asInteger));
   s = mos_send(mos_string_make(0, 0), mos_s(length_), mos_ARGV[0]);

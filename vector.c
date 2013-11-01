@@ -1,16 +1,5 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_vector_c__
-#define __rcs_id_mos_vector_c__
-static const char __rcs_id_mos_vector_c[] = "$Id: vector.c,v 1.5 2001-09-15 21:59:10 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 #include <string.h>
-
-
-/******************************************************************/
-
 
 #define SELF mos_REFT(mos_MIMPL,mos_vector)
 #define V SELF->_v
@@ -20,26 +9,16 @@ static const char __rcs_id_mos_vector_c[] = "$Id: vector.c,v 1.5 2001-09-15 21:5
 #define I mos_INT(mos_ARGV[0])
 #define J mos_INT(mos_ARGV[1])
 
-
-/******************************************************************/
-
-
 mos_ANNOT("Module: string")
 mos_ANNOT("Doc: Character string object.")
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Coerce")
-
 
 mos_METHOD(vector,asVector)
 {
   mos_return(mos_MIMPL);
 }
 mos_METHOD_END
-
 
 mos_METHOD(vector,asConstant)
 {
@@ -53,15 +32,9 @@ mos_METHOD(vector,asConstant)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Print")
-
 
 mos_METHOD(vector,printOn_)
 {
@@ -77,22 +50,15 @@ mos_METHOD(vector,printOn_)
 }
 mos_METHOD_END
 
-
 mos_METHOD(vector,printShallowOn_)
 {
   mos_return(mos_send(mos_RCVR, mos_s(printIdOn_), mos_ARGV[0]));
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Coder")
-
 
 mos_METHOD(vector,encodeOtherOn_)
 {
@@ -127,10 +93,6 @@ mos_METHOD_END
 
   mos_ANNOT_END
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Length")
 
 
@@ -139,7 +101,6 @@ mos_METHOD(vector,length)
   mos_return(mos_integer_make(L));
 }
 mos_METHOD_END
-
 
 mos_METHOD(vector,length_)
 {
@@ -177,7 +138,6 @@ mos_METHOD(vector,length_)
 }
 mos_METHOD_END
 
-
 mos_METHOD(vector,allocatedLength)
 {
   mos_return(mos_integer_make(AL));
@@ -208,15 +168,9 @@ mos_METHOD(vector,allocatedLength_)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Equal")
-
 
 mos_METHOD(vector,_equal_)
 {
@@ -236,15 +190,9 @@ mos_METHOD(vector,_equal_)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Get")
-
 
 mos_METHOD(vector,get_)
 {
@@ -256,15 +204,9 @@ mos_METHOD(vector,get_)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Subvector")
-
 
 mos_METHOD(vector,sliceFrom_Length_)
 {
@@ -286,15 +228,9 @@ mos_METHOD(vector,sliceFrom_Length_)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Iterate")
-
 
 mos_METHOD(vector,foreachDo_)
 {
@@ -303,7 +239,6 @@ mos_METHOD(vector,foreachDo_)
   mos_vector_LOOP_END
 }
 mos_METHOD_END
-
 
 mos_METHOD(vector,foreachApply_)
 {
@@ -319,7 +254,6 @@ mos_METHOD(vector,foreachApply_)
 }
 mos_METHOD_END
 
-
 mos_METHOD(vector,foreachApplySend_)
 {
   if ( FLAGS & mos_READONLY ) {
@@ -334,15 +268,9 @@ mos_METHOD(vector,foreachApplySend_)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Allocate")
-
 
 mos_METHOD(vector,deepen)
 {
@@ -362,22 +290,15 @@ mos_METHOD(vector,deepen)
 }
 mos_METHOD_END
 
-
 mos_METHOD(vector,makeReadonly)
 {
   FLAGS |= mos_READONLY;
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
 
-
-/******************************************************************/
-
-
   mos_ANNOT("Category: Set")
-
 
 mos_METHOD(vector,append_)
 {
@@ -392,13 +313,11 @@ mos_METHOD(vector,append_)
 }
 mos_METHOD_END
 
-
 mos_METHOD(vector,__COM__)
 {
   mos_return(mos_send(mos_RCVR, mos_s(append_), mos_ARGV[0]));
 }
 mos_METHOD_END
-
 
 mos_METHOD(vector,insert_)
 {
@@ -414,7 +333,6 @@ mos_METHOD(vector,insert_)
 }
 mos_METHOD_END
 
-
 mos_METHOD(vector,set_Value_)
 {
   if ( FLAGS & mos_READONLY ) {
@@ -428,7 +346,6 @@ mos_METHOD(vector,set_Value_)
   V[I] = mos_ARGV[1];
 }
 mos_METHOD_END
-
 
 mos_METHOD(vector,fill_)
 {
@@ -445,23 +362,16 @@ mos_METHOD(vector,fill_)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
-
-
-/******************************************************************/
-
 
   mos_ANNOT("Category: Stack")
   mos_ANNOT("Doc: Methods for stack behavior on top of vector.")
-
 
 mos_METHOD(vector,push_)
 {
   mos_return(mos_send(mos_RCVR, mos_s(append_), mos_ARGV[0]));
 }
 mos_METHOD_END
-
 
 mos_METHOD(vector,top)
 {
@@ -471,7 +381,6 @@ mos_METHOD(vector,top)
   mos_return(V[L - 1]);
 }
 mos_METHOD_END
-
 
 mos_METHOD(vector,pop)
 {
@@ -494,13 +403,8 @@ mos_METHOD(vector,pop)
 }
 mos_METHOD_END
 
-
   mos_ANNOT_END
   mos_ANNOT_END /* End of "Category: Stack" */
-
-
-/******************************************************************/
-
 
 #undef SELF
 #undef V
@@ -543,10 +447,8 @@ mos_OBJECT_END(protos,vector,mos_vector,basicMeta)
 mos_ANNOT_END
 mos_ANNOT_END /* End of "Module: vector" */
 
-
 /******************************************************************/
 /* Low-level constructors */
-
 
 mos_value mos_vector_make(size_t _l, const mos_value *_v)
 {
@@ -557,7 +459,6 @@ mos_value mos_vector_make(size_t _l, const mos_value *_v)
   x->_flags = 0;
   return mos_MAKE_REF(x);
 }
-
 
 mos_value mos_vector_makev(size_t _l, va_list *_vap)
 {
@@ -571,7 +472,6 @@ mos_value mos_vector_makev(size_t _l, va_list *_vap)
   return mos_vector_make(_l, _v);
 }
 
-
 mos_value mos_vector_make_(size_t _l, ...)
 {
   mos_value v;
@@ -583,7 +483,6 @@ mos_value mos_vector_make_(size_t _l, ...)
    
   return v;
 }
-
 
 /******************************************************************/
 /* EOF */

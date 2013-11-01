@@ -1,11 +1,3 @@
-
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_message_h__
-#define __rcs_id_mos_message_h__
-static const char __rcs_id_mos_message_h[] = "$Id: message.h,v 1.3 2001-08-13 09:39:19 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 /*
 ** A message object is created on the stack by mos_send().
 ** It contains all the information needed to lookup and apply a method.

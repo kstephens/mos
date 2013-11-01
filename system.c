@@ -1,12 +1,8 @@
 #include "mos/mos.h"
 #include "mos/slots.h"
 
-/**********************************************************************/
-
 mos_ANNOT("Module: system")
 mos_ANNOT("Doc: Defines the (_ system) object.")
-
-/**********************************************************************/
 
 mos_ANNOT("Category: Meta")
 mos_ANNOT("Doc: Contains the system meta objects.")
@@ -16,8 +12,6 @@ mos_OBJECT_END(system,metas,mos_object,basicMeta)
 mos_ANNOT_END
 mos_ANNOT_END
 
-/**********************************************************************/
-
 mos_ANNOT("Category: Behaviors")
 mos_ANNOT("Doc: Contains the system behavior delegates.")
 mos_OBJECT(behaviors)
@@ -25,8 +19,6 @@ mos_OBJECT_SLOTS(behaviors)
 mos_OBJECT_END(system,behaviors,mos_object,basicMeta)
 mos_ANNOT_END
 mos_ANNOT_END
-
-/**********************************************************************/
 
 mos_ANNOT("Category: Prototypes")
 mos_ANNOT("Doc: Contains the system prototype objects from which new objects are created by cloning.")
@@ -36,8 +28,6 @@ mos_OBJECT_END(system,protos,mos_object,basicMeta)
 mos_ANNOT_END
 mos_ANNOT_END
 
-/**********************************************************************/
-
 mos_ANNOT("Category: Constant")
 mos_ANNOT("Doc: Contains the one-of-a-kind system objects, like @T, @F, @U, and @E.  These objects are never cloned.")
 mos_OBJECT(constants)
@@ -45,8 +35,6 @@ mos_OBJECT_SLOTS(constants)
 mos_OBJECT_END(system,constants,mos_object,basicMeta)
 mos_ANNOT_END
 mos_ANNOT_END
-
-/**********************************************************************/
 
 mos_ANNOT("Category: Empty")
 mos_ANNOT("Doc: Is the object clone to create new objects using it object creation syntax.")
@@ -56,8 +44,6 @@ mos_OBJECT_END(protos,empty,mos_object,basicMeta)
 mos_ANNOT_END
 mos_ANNOT_END
 
-/**********************************************************************/
-
 mos_ANNOT("Category: System")
 mos_ANNOT("Doc: Contains all system objects.")
 mos_OBJECT(system)
@@ -66,8 +52,6 @@ mos_OBJECT_END(_,system,mos_object,basicMeta)
 mos_ANNOT_END
 mos_ANNOT_END
 
-/**********************************************************************/
-
 mos_ANNOT("Category: Core")
 mos_ANNOT("Doc: Contains all core system objects.")
 mos_OBJECT(core)
@@ -75,8 +59,6 @@ mos_OBJECT_SLOTS(core)
 mos_OBJECT_END(system,core,mos_object,basicMeta)
 mos_ANNOT_END
 mos_ANNOT_END
-
-/**********************************************************************/
 
 mos_ANNOT("Category: Lobby")
 mos_ANNOT("Doc: Is the lobby (user namespace).  \
@@ -100,10 +82,9 @@ mos_ANNOT_END
 mos_ANNOT_END
 mos_ANNOT_END
 
-/**********************************************************************/
+mos_ANNOT_END
+mos_ANNOT_END
 
-mos_ANNOT_END
-mos_ANNOT_END
 
 static struct mos_init_s {
   const char *name;

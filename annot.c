@@ -1,11 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_annot_c__
-#define __rcs_id_mos_annot_c__
-static const char __rcs_id_mos_annot_c[] = "$Id: annot.c,v 1.5 2001-09-18 02:46:47 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 #include "mos/mos.h"
 #include "mos/slots.h"
 #include <string.h> /* strcpy, strcat */

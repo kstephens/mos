@@ -1,11 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_clone_c__
-#define __rcs_id_mos_clone_c__
-static const char __rcs_id_mos_clone_c[] = "$Id: clone.c,v 1.5 2007-12-04 07:50:42 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 #include "mos/mos.h"
 #include "mos/memcpy.h"
 
@@ -116,6 +108,7 @@ mos_object *_mos_create(mos_objectDesc *desc)
   if ( desc->_flags & (mos_SEALED) ) {
     mos_object *x;
     mos_objectDesc *nd = _mos_clone_desc(desc);
+    nd->_name = 0;
     nd->_flags &= ~(mos_SEALED|mos_COPY_ON_WRITE);
     x = _mos_allocFlat(nd);
     x->_desc = nd;
@@ -131,12 +124,10 @@ mos_object *_mos_create(mos_objectDesc *desc)
   }
 }
 
-
 mos_value mos_clone(mos_value x)
 {
   return mos_MAKE_REF(_mos_clone(mos_REF(x)));
 }
-
 
 mos_value mos_create(mos_value x)
 {

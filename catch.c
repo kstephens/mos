@@ -1,10 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_catch_c__
-#define __rcs_id_mos_catch_c__
-static const char __rcs_id_mos_catch_c[] = "$Id: catch.c,v 1.4 2000-03-21 07:13:43 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 #include "mos/catch.h"
 #include <stdlib.h> /* abort() */

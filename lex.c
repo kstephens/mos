@@ -1,11 +1,3 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_lex_c__
-#define __rcs_id_mos_lex_c__
-static const char __rcs_id_mos_lex_c[] = "$Id: lex.c,v 1.6 2001-09-15 22:21:03 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 #include "mos/mos.h"
 #include "parse.h"
 #include "mos/expr.h"

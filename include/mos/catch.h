@@ -1,13 +1,6 @@
 #ifndef _mos_catch_h
 #define _mos_catch_h
 
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_catch_h__
-#define __rcs_id_mos_catch_h__
-static const char __rcs_id_mos_catch_h[] = "$Id: catch.h,v 1.3 1999-12-26 20:04:13 stephensk Exp $";
-#endif
-#endif /* __rcs_id__ */
-
 #include "mos/mos.h"
 
 #include <setjmp.h>

@@ -1,13 +1,5 @@
-#ifndef __rcs_id__
-#ifndef __rcs_id_mos_coder_c__
-#define __rcs_id_mos_coder_c__
-static const char __rcs_id_mos_coder_c[] = "$Id: coder.c,v 1.5 2001-09-15 21:59:10 stephens Exp $";
-#endif
-#endif /* __rcs_id__ */
-
-
 #include "mos/mos.h"
-
+#include <stdlib.h> /* abort() */
 
 /******************************************************************************/
 
@@ -70,13 +62,23 @@ mos_ANNOT("Category: Low-level")
 
 mos_METHOD(coder,encodeRawInteger_)
 {
-  unsigned long x = mos_INT(mos_ARGV[0]);
-  unsigned char buf[4];
+  mos_uint x = mos_INT(mos_ARGV[0]);
+  unsigned char buf[sizeof(x) + 1];
   mos_string str = { mos_object_HDR_INIT_STATIC(string), (char *) buf, sizeof(buf), sizeof(buf) };
-  buf[0] = x;
-  buf[1] = x >> 8;
-  buf[2] = x >> 16;
-  buf[3] = x >> 24;
+  switch ( sizeof(buf) ) {
+  default: abort(); break;
+#if 0
+  case 8: buf[8] = x >> 56;
+  case 7: buf[7] = x >> 48;
+  case 6: buf[6] = x >> 40;
+  case 5: buf[5] = x >> 32;
+#endif
+  case 4: buf[4] = x >> 24;
+  case 3: buf[3] = x >> 16;
+  case 2: buf[2] = x >>  8;
+  case 1: buf[1] = x >>  0;
+  }
+  buf[0] = sizeof(x);
   mos_send(STREAM, mos_s(writeString_), mos_MAKE_REF(&str));
 }
 mos_METHOD_END
@@ -84,12 +86,32 @@ mos_METHOD_END
 
 mos_METHOD(coder,decodeRawInteger)
 {
-  unsigned long x;
+  mos_uint x;
+  size_t x_size;
   mos_value str;
   unsigned char *buf;
-  str = mos_send(STREAM, mos_s(readString_), mos_integer_make(4));
+
+  str = mos_send(STREAM, mos_s(readString_), mos_integer_make(1));
   buf = (void *) mos_string_V(str);
-  x = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
+
+  x_size = buf[0];
+  str = mos_send(STREAM, mos_s(readString_), mos_integer_make(x_size));
+  buf = (void *) mos_string_V(str);
+
+  x = 0; buf --;
+  switch ( x_size ) {
+  default: abort(); break;
+#if 0
+  case 8: x |= buf[8] << 56;
+  case 7: x |= buf[7] << 48;
+  case 6: x |= buf[6] << 40;
+  case 5: x |= buf[5] << 32;
+#endif
+  case 4: x |= buf[4] << 24;
+  case 3: x |= buf[3] << 16;
+  case 2: x |= buf[2] <<  8;
+  case 1: x |= buf[1] <<  0;
+  }
   mos_return(mos_integer_make(x));
 }
 mos_METHOD_END
@@ -331,6 +353,7 @@ mos_METHOD(coder,decode)
       /* Decode the reference id */
       id = mos_send(mos_RCVR, mos_s(decodeRawInteger));
       
+      /* FIXME: DOES NOT WORK FOR SELF-REFERENCING OBJECTS. */
       /* Decode the object */
       o = mos_send(mos_RCVR, mos_s(decode));
       

@@ -6,7 +6,7 @@
 
 extern mos_objectDesc *_mos_clone_desc(mos_objectDesc *d);
 
-__inline
+// inline
 void _mos_copyDescForWrite(mos_object *x)
 {
   /* If the object is sealed, don't allow any modifications. */
@@ -24,7 +24,7 @@ void _mos_copyDescForWrite(mos_object *x)
   }
 }
 
-__inline
+// inline
 void _mos_setMeta(mos_value x, mos_value m)
 {
   if ( mos_NE(mos_META(x), m) ) {
@@ -33,7 +33,7 @@ void _mos_setMeta(mos_value x, mos_value m)
   }
 }
 
-__inline
+// inline
 void _mos_reallocSlots(mos_object *x, int nslots)
 {
   mos_value *slots;
@@ -45,7 +45,7 @@ void _mos_reallocSlots(mos_object *x, int nslots)
   x->_desc->_nslots = nslots;
 }
 
-__inline
+// inline
 void _mos_addMethod(mos_object *x, mos_value sel, mos_value meth)
 {
   /* IMPLEMENT: Lookup to make sure that sel doesn't already map to meth. */
@@ -53,7 +53,7 @@ void _mos_addMethod(mos_object *x, mos_value sel, mos_value meth)
   _mos_map_setOrAdd(&(x->_desc->_methods), sel, meth);
 }
 
-__inline
+// inline
 void _mos_removeMethod(mos_object *x, mos_value sel)
 {
   /* IMPLEMENT: Lookup to make sure that sel maps to something. */
@@ -61,7 +61,7 @@ void _mos_removeMethod(mos_object *x, mos_value sel)
   _mos_map_remove(&(x->_desc->_methods), sel);
 }
 
-__inline
+// inline
 int _mos_addReadOnlySlotForced(mos_object *x, mos_value sel, mos_value val)
 {
   int sloti;
@@ -83,7 +83,7 @@ int _mos_addReadOnlySlotForced(mos_object *x, mos_value sel, mos_value val)
   return sloti;
 }
 
-__inline
+// inline
 void _mos_addReadOnlySlot(mos_object *x, mos_value sel, mos_value val)
 {
   _mos_copyDescForWrite(x);
@@ -91,7 +91,7 @@ void _mos_addReadOnlySlot(mos_object *x, mos_value sel, mos_value val)
 }
 
 
-__inline
+// inline
 void _mos_addSlot(mos_object *x, mos_value sel, mos_value val)
 {
   int sloti  = _mos_addReadOnlySlotForced(x, sel, val);
@@ -101,7 +101,7 @@ void _mos_addSlot(mos_object *x, mos_value sel, mos_value val)
   }
 }
 
-__inline
+inline
 void _mos_addSlotIfAbsent(mos_object *x, mos_value sel, mos_value val)
 {
   void *ms;

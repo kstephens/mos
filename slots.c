@@ -3,10 +3,11 @@
 #include "mos/mapfuncs.h"
 #include <stdlib.h>
 
+#define mos_inline
 
 extern mos_objectDesc *_mos_clone_desc(mos_objectDesc *d);
 
-// inline
+mos_inline
 void _mos_copyDescForWrite(mos_object *x)
 {
   /* If the object is sealed, don't allow any modifications. */
@@ -24,7 +25,7 @@ void _mos_copyDescForWrite(mos_object *x)
   }
 }
 
-// inline
+mos_inline
 void _mos_setMeta(mos_value x, mos_value m)
 {
   if ( mos_NE(mos_META(x), m) ) {
@@ -33,7 +34,7 @@ void _mos_setMeta(mos_value x, mos_value m)
   }
 }
 
-// inline
+mos_inline
 void _mos_reallocSlots(mos_object *x, int nslots)
 {
   mos_value *slots;
@@ -45,7 +46,7 @@ void _mos_reallocSlots(mos_object *x, int nslots)
   x->_desc->_nslots = nslots;
 }
 
-// inline
+mos_inline
 void _mos_addMethod(mos_object *x, mos_value sel, mos_value meth)
 {
   /* IMPLEMENT: Lookup to make sure that sel doesn't already map to meth. */
@@ -53,7 +54,7 @@ void _mos_addMethod(mos_object *x, mos_value sel, mos_value meth)
   _mos_map_setOrAdd(&(x->_desc->_methods), sel, meth);
 }
 
-// inline
+mos_inline
 void _mos_removeMethod(mos_object *x, mos_value sel)
 {
   /* IMPLEMENT: Lookup to make sure that sel maps to something. */
@@ -61,7 +62,7 @@ void _mos_removeMethod(mos_object *x, mos_value sel)
   _mos_map_remove(&(x->_desc->_methods), sel);
 }
 
-// inline
+mos_inline
 int _mos_addReadOnlySlotForced(mos_object *x, mos_value sel, mos_value val)
 {
   int sloti;
@@ -83,7 +84,7 @@ int _mos_addReadOnlySlotForced(mos_object *x, mos_value sel, mos_value val)
   return sloti;
 }
 
-// inline
+mos_inline
 void _mos_addReadOnlySlot(mos_object *x, mos_value sel, mos_value val)
 {
   _mos_copyDescForWrite(x);
@@ -91,7 +92,7 @@ void _mos_addReadOnlySlot(mos_object *x, mos_value sel, mos_value val)
 }
 
 
-// inline
+mos_inline
 void _mos_addSlot(mos_object *x, mos_value sel, mos_value val)
 {
   int sloti  = _mos_addReadOnlySlotForced(x, sel, val);

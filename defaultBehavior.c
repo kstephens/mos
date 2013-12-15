@@ -13,7 +13,6 @@ mos_METHOD(defaultBehavior,_finalize_)
 mos_METHOD_END
 mos_ANNOT_END
 
-
 mos_ANNOT("Category: Weak Pointer")
 mos_METHOD(defaultBehavior,asWeakPtr)
 {
@@ -474,12 +473,7 @@ mos_METHOD_END
   mos_ANNOT_END
 
 
-/**************************************************************************/
-
-
-  mos_ANNOT("Category: Coder")
-
-
+mos_ANNOT("Category: Coder")
 mos_METHOD(defaultBehavior,encodeOn_)
 {
   /* If rcvr is named, encode as named, otherwise encode as a raw object */
@@ -491,24 +485,23 @@ mos_METHOD(defaultBehavior,encodeOn_)
   }
 }
 mos_METHOD_END
-
-
 mos_METHOD(defaultBehavior,encodeOtherOn_)
 {
 }
 mos_METHOD_END
-
-
 mos_METHOD(defaultBehavior,decodeOtherOn_)
 {
 }
 mos_METHOD_END
-
-
-  mos_ANNOT_END
-
-
-/**************************************************************************/
+mos_METHOD(defaultBehavior,beforeEncodeOn_)
+{
+}
+mos_METHOD_END
+mos_METHOD(defaultBehavior,afterDecodeOn_)
+{
+}
+mos_METHOD_END
+mos_ANNOT_END
 
 
 mos_OBJECT(defaultBehavior)
@@ -565,6 +558,8 @@ mos_OBJECT_M(defaultBehavior,_addMethodSlot_Value_)
 mos_OBJECT_M(defaultBehavior,encodeOn_)
 mos_OBJECT_M(defaultBehavior,encodeOtherOn_)
 mos_OBJECT_M(defaultBehavior,decodeOtherOn_)
+mos_OBJECT_M(defaultBehavior,beforeEncodeOn_)
+mos_OBJECT_M(defaultBehavior,afterDecodeOn_)
 
 mos_OBJECT_M(defaultBehavior,_annot)
 mos_OBJECT_M(defaultBehavior,_annotFor_)

@@ -4,8 +4,6 @@
 mos_ANNOT("Module: constant")
 mos_ANNOT("Doc: Constant object behavior.")
 
-/******************************************************************/
-
 mos_ANNOT("Category: Clone")
 mos_ANNOT("Doc: Returns the reciever.")
 mos_METHOD(constant,clone)
@@ -14,8 +12,6 @@ mos_METHOD(constant,clone)
 mos_METHOD_END
 mos_ANNOT_END
 mos_ANNOT_END
-
-/******************************************************************/
 
 mos_ANNOT("Category: Complile")
 mos_ANNOT("Doc: Compile the reciever as a literal value (or constant).")

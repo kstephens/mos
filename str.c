@@ -21,6 +21,11 @@ mos_METHOD(string,asString)
   mos_return(mos_MIMPL);
 }
 mos_METHOD_END
+mos_METHOD(string,clone)
+{
+  mos_return(mos_send(mos_RCVR, mos_s(_clone)));
+}
+mos_METHOD_END
 mos_METHOD(string,asConstant)
 {
   if ( ! (FLAGS & mos_READONLY) ) {
@@ -494,6 +499,7 @@ mos_OBJECT_M(string,readString_)
 mos_OBJECT_M(string,readChar)
 mos_OBJECT_M(string,peekChar)
 mos_OBJECT_M(string,asStructuredStream)
+//mos_OBJECT_M(string,clone)
 mos_OBJECT_SLOTS(string)
 mos_OBJECT_END(protos,string,mos_string,basicMeta)
 

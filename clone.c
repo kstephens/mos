@@ -87,6 +87,7 @@ mos_object *_mos_clone(mos_object *x)
   */
   if ( x->_desc->_flags & (mos_SEALED) ) {
     mos_objectDesc *nd = _mos_clone_desc(x->_desc);
+    fprintf(stderr, "  _mos_clone(%p) mos_SEALED\n", x);
     nd->_flags &= ~(mos_SEALED|mos_COPY_ON_WRITE);
     x = _mos_cloneFlat(x);
     x->_desc = nd;

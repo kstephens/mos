@@ -453,6 +453,8 @@ mos_ANNOT_END /* End of "Module: vector" */
 mos_value mos_vector_make(size_t _l, const mos_value *_v)
 {
   mos_vector *x = mos_REFT(mos_clone(mos_o(vector)),mos_vector);
+  if ( ! _v )
+    _v = mos_malloc(sizeof(_v[0]) * _l);
   x->_v = (mos_value*) _v;
   x->_l = _l;
   x->_al = _l;
@@ -483,7 +485,4 @@ mos_value mos_vector_make_(size_t _l, ...)
    
   return v;
 }
-
-/******************************************************************/
-/* EOF */
 

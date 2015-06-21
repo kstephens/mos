@@ -117,9 +117,11 @@ defaults.o : config.h
 LD_MODE = # -static
 LD_C_FLAGS = -I. -Iinclude -Isrc/include -Wall
 
-LIBS_GC = -L../gc -lgc
-LIBS_GC = 
-LIBS_READLINE = -L../readline -lreadline
+#LIBS_GC += -L../gc
+LIBS_GC += -lgc
+#LIBS_GC = 
+#LIBS_READLINE +=  -L../readline
+LIBS_READLINE += -lreadline
 LIBS_HISTORY = -lhistory
 LIBS_HISTORY =
 LIBS_CURSES = -lncurses

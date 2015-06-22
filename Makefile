@@ -232,7 +232,7 @@ DEFSCANFILES = $(YFILES:.y=.c) $(CFILES)
 
 DEFSCANFILES : $(DEFSCANFILES)
 
-defs : # $(DEFSCANFILES)
+defs : $(DEFSCANFILES)
 	-rm $(DEFS)
 	make DEFSCANFILES
 	make config.h init.def annot.def

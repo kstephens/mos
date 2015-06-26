@@ -117,10 +117,8 @@ defaults.o : config.h
 LD_MODE = # -static
 LD_C_FLAGS = -I. -Iinclude -Isrc/include -Wall
 
-#LIBS_GC += -L../gc
-LIBS_GC += -lgc
-#LIBS_GC = 
-#LIBS_READLINE +=  -L../readline
+#LIBS_GC += -lgc
+LIBS_GC = 
 LIBS_READLINE += -lreadline
 LIBS_HISTORY = -lhistory
 LIBS_HISTORY =
@@ -302,6 +300,11 @@ archive : veryclean
 	sleep 10 # wait for .nfs* files to disappear
 	(cd .. && tar -cvf - $(NAME)) | gzip -9 > $(ad)/$(NAME).tgz
 
-ci co :
-	$@ -l -m'Checkpoint' $(SRCFILES)
+VALGRIND_OPTS=-v --track-fds=yes --time-stamp=yes --read-var-info=yes
+#VALGRIND_OPTS+= --keep-stacktraces=alloc-and-free 
+VALGRIND_OPTS+= --track-origins=yes --malloc-fill=5c --free-fill=e3
+VALGRIND_OPTS+= --leak-check=full
+VALGRIND=valgrind $(VALGRIND_OPTS)
 
+valgrind : all
+	$(VALGRIND) ./$(MOS)

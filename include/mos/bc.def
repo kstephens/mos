@@ -1,4 +1,3 @@
-/* $Id: bc.def,v 1.2 1999-02-19 09:26:28 stephensk Exp $ */
 /*
 ** This file enumerates all the bytecodes for the bytecode compiler.
 */

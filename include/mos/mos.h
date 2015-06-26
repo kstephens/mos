@@ -5,7 +5,7 @@
 
 #include "mos/value.h" /* mos_value */
 
-#define mos_ARRAY_LEN(X) (sizeof(X)/sizeof(X[0]))
+#define mos_ARRAY_LEN(X) (sizeof((X))/sizeof((X)[0]))
 
 enum {
   mos_READONLY = 1

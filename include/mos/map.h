@@ -31,7 +31,7 @@ DECL mos_map_slot MAP##_m_slots[] = {
   { mos_UNINITIALIZED } \
 }
 
-#define mos_map_INIT(MAP) { mos_object_HDR_INIT_STATIC(map), MAP##_m_slots, sizeof(MAP##_m_slots)/sizeof(MAP##_m_slots[0]) - 1 }
+#define mos_map_INIT(MAP) { mos_object_HDR_INIT_STATIC(map), MAP##_m_slots, mos_ARRAY_LEN(MAP##_m_slots) - 1 }
 
 #define mos_map_END(DECL,MAP) \
 mos_map_slots_END \
@@ -41,7 +41,7 @@ DECL mos_map MAP = mos_map_INIT(MAP);
 /* Macros to iterate through a map structure */
 
 #define mos_map_LOOP(map,ms) \
-  register mos_map_slot *ms; \
+  mos_map_slot *ms; \
   for ( ms = (map)->_m_slots; mos_INITIALIZED(ms->_key); ms ++ ) {
 
 #define mos_map_LOOP_END }

@@ -1,4 +1,3 @@
-/* $Id: op.def,v 1.2 1999-02-19 09:26:30 stephensk Exp $ */
 /*
 ** This file enumerates all standard C operators
 */

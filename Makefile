@@ -123,7 +123,7 @@ LIBS_READLINE += -lreadline
 LIBS_HISTORY = -lhistory
 LIBS_HISTORY =
 LIBS_CURSES = -lncurses
-LIBS_CURSES =
+#LIBS_CURSES =
 LIBS = $(LIBS_GC) $(LIBS_READLINE) $(LIBS_HISTORY) $(LIBS_CURSES) -lm
 
 CFLAGS_DEBUG = -g
@@ -134,9 +134,6 @@ CFLAGS_OPTIMIZED = $(LD_C_FLAGS) $(CFLAGS_OPTIMIZE) $(LD_MODE)
 CFLAGS_NDEBUG = $(LD_C_FLAGS) $(LD_MODE)
 CFLAGS_DEBUG_OPTIMIZED = $(LD_C_FLAGS) $(CFLAGS_DEBUG) $(CFLAGS_OPTIMIZE) $(LD_MODE)
 CFLAGS = -Werror $(CFLAGS_NDEBUG) $(CFLAGS_DEBUG) $(CFLAGS_OPTIMIZE)
-
-CYGWIN=//e/apps/dev/cygnus/cygwin-b20
-YACC = bison --yacc
 
 #####################################################################
 
@@ -164,14 +161,6 @@ _COMPILE_I_ = $(CC) $(CFLAGS) -c -o $@ $*.i
 _COMPILE_C_ = $(_PREPROC_C_) && $(_COMPILE_I_) && $(RM) $*.i
 _COMPILE_C_ = $(CC) $(CFLAGS) -c -o $@ $*.c
 
-_YACC_FIX_C_=$(MV) y.tab.c $*.c
-#_YACC_FIX_C_=$(CPP) y.tab.c | grep -v -e '^\#' > $*.c
-_YACC_Y_ = $(YACC) -vd $*.y && $(_YACC_FIX_C_) && $(MV) y.tab.h $*.h && $(MV) y.output $*.out
-
-.y.o:
-	$(_YACC_Y_)
-	$(_COMPILE_C_)
-
 .c.o:
 	$(_COMPILE_C_)
 
@@ -183,8 +172,9 @@ _YACC_Y_ = $(YACC) -vd $*.y && $(_YACC_FIX_C_) && $(MV) y.tab.h $*.h && $(MV) y.
 	$(CC) $(CFLAGS) -c -S -o $@ $*.i
 	$(RM) $*.i
 
+BISON = bison -t --locations --token-table
 .y.c .y.h:
-	$(_YACC_Y_)
+	$(BISON) --name-prefix=_mos_yy --defines=$(<:.y=.h) --graph=$(<:.y=.out) --output=$(<:.y=.c) $<
 
 #$(CFILES_NDEBUG:.c=.o) :
 #	$(CPP) $*.c > $*.i

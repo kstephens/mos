@@ -1,3 +1,6 @@
+%parse-param {mos_parse_cntx* cntx}
+%lex-param {mos_parse_cntx *cntx}
+%define api.pure full
 %{
 /*
 **
@@ -6,13 +9,9 @@
 #include "mos/mos.h"
 #include "mos/expr.h"
 #include "mos/lex.h"
+#include "parse.h"
 #include <stdlib.h> /* malloc, free */
 #include <string.h> /* strcat */
-
-#ifndef PARSE_DEBUG
-#define yydebug _mos_yydebug
-#define PARSE_DEBUG yydebug
-#endif
 
 #define nil mos_vector_make(0,0)
 #define undef mos_undef
@@ -23,6 +22,8 @@
 #define vector2(X,Y) mos_vector_make_(2, (X), (Y))
 #define sel(X) mos_vector_V(X)[0]
 #define args(X) mos_vector_V(X)[1]
+
+#define PARSE_DEBUG _mos_yydebug
 
 static
 mos_value exprMsg(mos_value CNTX, mos_value RCVR, mos_value SEL, mos_value ARGS)
@@ -66,19 +67,11 @@ mos_value exprMsg(mos_value CNTX, mos_value RCVR, mos_value SEL, mos_value ARGS)
 #define YYPURE 1
 #endif
 
-#define yylex _mos_yylex
-#define YYLEX_PARAM &yylval, cntx
-
-#define yyparse _mos_yyparse
-#define YYPARSE_PARAM cntx
-
-static int _mos_yyerror(const char *msg, void *cntx)
+static int _mos_yyerror(YYLTYPE *_yylloc, mos_parse_cntx *cntx, const char *msg)
 {
   mos_error(mos_s(parseError), msg);
   return 0;
 }
-#define yyerror(X) _mos_yyerror(X, YYPARSE_PARAM)
-
 
 %}
 
@@ -93,9 +86,9 @@ static int _mos_yyerror(const char *msg, void *cntx)
 
 start :
     /* NOTHING */
-	{ ((mos_parse_cnxt*) cntx)->expr = mos_eos; return(0); }
+	{ cntx->expr = mos_eos; return(0); }
   | expr ';'
-  	{ ((mos_parse_cnxt*) cntx)->expr = $1; return(0); }
+	{ cntx->expr = $1; return(0); }
   | ';' start
   	{ $$ = $2; }
   ;
@@ -302,7 +295,7 @@ mos_ANNOT("Doc: Parse MOS language expressions.")
 mos_METHOD(parser,parseExprFrom_)
 {
   extern int yydebug;
-  mos_parse_cnxt cntx;
+  mos_parse_cntx cntx;
   int yydebug_save;
 
   /* Initialize context. */

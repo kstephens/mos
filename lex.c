@@ -1,7 +1,7 @@
 #include "mos/mos.h"
-#include "parse.h"
 #include "mos/expr.h"
 #include "mos/lex.h"
+#include "parse.h"
 #include <string.h>
 #include <ctype.h>
 #include <math.h> /* pow() */
@@ -69,12 +69,13 @@ static int digitInRadix(int c, int radix)
 }
 
 
-int _mos_yylex(mos_value *_yylval, void *cntx)
+int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
 {
-#define STREAM (((mos_parse_cnxt*) cntx)->stream)
+#define STREAM (cntx->stream)
 #define yylval (*_yylval)
   int c;
   mos_value lexeme;
+#define LEX() _mos_yylex(&yylval, _yylloc, cntx)
 
 #define appendLexeme(X) mos_send(lexeme, mos_s(append_), mos_char_make(X))
 #define isop(X) strchr(_mos_selector_op_charset, (X))
@@ -373,7 +374,7 @@ int _mos_yylex(mos_value *_yylval, void *cntx)
     case 'N': case 'n': {
 	GETC();
 	/* Parse a named object identifier */
-	_mos_yylex(&yylval, cntx);
+	LEX();
 
 	/* Get an object by name */
 	yylval = mos_object_named(yylval);
@@ -387,7 +388,7 @@ int _mos_yylex(mos_value *_yylval, void *cntx)
     case 'G': case 'g': {
 	GETC();
 	/* Parse a getter object */
-	_mos_yylex(&yylval, cntx);
+	LEX();
 
 	/* Get an object by name */
 	yylval = mos_getter_method(mos_INT(yylval));
@@ -401,7 +402,7 @@ int _mos_yylex(mos_value *_yylval, void *cntx)
     case 'S': case 's': {
 	GETC();
 	/* Parse a getter object */
-	_mos_yylex(&yylval, cntx);
+	LEX();
 
 	/* Get an object by name */
 	yylval = mos_setter_method(mos_INT(yylval));
@@ -415,7 +416,7 @@ int _mos_yylex(mos_value *_yylval, void *cntx)
     case '#': {
 	GETC();
 	/* Parse a weak object reference id. */
-	_mos_yylex(&yylval, cntx);
+	LEX();
 
 	/* Transform the weak reference id to a live reference. */
 	yylval = mos_send(yylval, mos_s(asObject));
@@ -428,7 +429,7 @@ int _mos_yylex(mos_value *_yylval, void *cntx)
  
     case '"': {
 	/* @"xxx" -> `("xxx" asSelector) */
-	_mos_yylex(&yylval, cntx);
+        LEX();
 	yylval = mos_exprConstant(mos_send(yylval, mos_s(asSelector)));
 	return(EXPR);
     }

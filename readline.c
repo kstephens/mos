@@ -8,9 +8,7 @@
 #define HAS_HISTORY 1
 #endif
 #if HAS_HISTORY
-#if 0
 #include "readline/history.h" /* add_history() */
-#endif
 #endif
 
 /*************************************************************************/

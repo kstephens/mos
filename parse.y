@@ -63,10 +63,6 @@ mos_value exprMsg(mos_value CNTX, mos_value RCVR, mos_value SEL, mos_value ARGS)
 #endif
 #define YYERROR_VERBOSE 1
 
-#ifndef YYPURE
-#define YYPURE 1
-#endif
-
 static int _mos_yyerror(YYLTYPE *_yylloc, mos_parse_cntx *cntx, const char *msg)
 {
   mos_error(mos_s(parseError), msg);

@@ -2,12 +2,12 @@
 #define _mos_regexp_h
 
 #include <sys/types.h>
-#include <regex.h>
+#include "pcre.h"
 
 typedef struct mos_regexp {
- mos_object_HDR;
- int _rx;
- regex_t _regexp;
+  mos_object_HDR;
+  pcre *_rx;
+  pcre_extra *_rxe;
 } mos_regexp;
 
 #endif

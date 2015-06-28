@@ -8,5 +8,5 @@ Requirements:
 	perl 5.x
 	GNU readline
 	GNU history
-	System V V8 regexp(3) compatable regular expression package.
+	PCRE
 	Boehm GC

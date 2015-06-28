@@ -4,7 +4,7 @@
 
 #define SELF mos_REFT(mos_MIMPL, mos_regexp)
 #define rx SELF->_rx
-#define rb (&SELF->_regexp)
+#define rxe SELF->_rxe
 
 mos_ANNOT("Module: regexp")
 mos_ANNOT("Doc: A regular expression matcher.")
@@ -15,8 +15,12 @@ mos_ANNOT("Doc: free the regexp struct when collected.")
 mos_METHOD(regexp,_regexpFinalize)
 {
   if ( rx ) {
-    regfree(rb);
+    pcre_free(rx);
     rx = 0;
+  }
+  if ( rxe ) {
+    pcre_free(rxe); // pcre_free_study(rxe); // 
+    rxe = 0;
   }
 }
 mos_METHOD_END
@@ -31,7 +35,7 @@ mos_METHOD(regexp,clone)
 mos_METHOD_END
 mos_ANNOT_END
 
-mos_ANNOT("Doc: Return a new regexpr object with the specfied regular expression string.")
+mos_ANNOT("Doc: Return a new regexp object with the specfied regular expression string.")
 mos_METHOD(regexp,new_)
 {
   mos_value x = mos_send(mos_RCVR, mos_s(clone));
@@ -52,10 +56,7 @@ mos_METHOD(regexp,expr_)
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asString));
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asConstant));
 
-  if ( rx ) {
-    regfree(rb);
-    rx = 0;
-  }
+  mos_send(mos_RCVR, mos_s(_regexpFinalize));
 
   mos_return(mos_send(mos_RCVR, mos_s(_expr_), mos_ARGV[0]));
 }
@@ -63,6 +64,21 @@ mos_METHOD_END
 mos_ANNOT_END
 
 mos_ANNOT("Category: Internal")
+mos_METHOD(regexp,_compile)
+{
+  const char *rx_err = 0;
+  int rx_erroffset;
+
+  if ( ! rx ) {
+    rx = pcre_compile(mos_string_V(mos_ARGV[0]), 0,
+                      &rx_err, &rx_erroffset, 0);
+    if ( rx ) {
+      rxe = pcre_study(rx, 0, &rx_err);
+    }
+  }
+}
+mos_METHOD_END
+
 mos_METHOD(regexp,_resultStrings_)
 {
   mos_value rtnval; // , str;
@@ -75,7 +91,7 @@ mos_METHOD(regexp,_resultStrings_)
 
 #if 0
   /* Put the remainder string first */
-  if ( rx && rb->endp[0] ) {
+  if ( rx && rx->endp[0] ) {
     int i = 0;
 
     /* Matched string */
@@ -109,16 +125,20 @@ mos_METHOD(regexp,matches_)
 {
   int result;
   const char *s;
+  int s_len;
+  int ovector[30];
 
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asString));
 
-  s = mos_string_V(mos_ARGV[0]);
+  s     = mos_string_V(mos_ARGV[0]);
+  s_len = mos_string_L(mos_ARGV[0]);
 
-  if ( ! rx ) {
-    rx = regcomp(rb, mos_string_V(mos_ARGV[0]), 0);
-  }
+  mos_send(mos_RCVR, mos_s(_compile));
 
-  if ( s && (result = regexec(rb, s, 0, 0, 0)) ) {
+  if ( s && (result = pcre_exec(rx, rxe,
+                                s, s_len, 0,
+                                0,
+                                ovector, 30)) ) {
 #if 0
     int i;
 
@@ -139,21 +159,23 @@ mos_ANNOT_END
 mos_ANNOT("Doc: Returns a vector containing: the matched string, the string before the matched string, thestring after the matched string,  and any subexpression within (); if the string is matched.  If the string does not match, returns @f.")
 mos_METHOD(regexp,matchesStrings_)
 {
+  int result;
   const char *s;
+  int s_len;
+  int ovector[30];
   mos_value rtnval = mos_false;
 
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asString));
-  s = mos_string_V(mos_ARGV[0]);
+  s     = mos_string_V(mos_ARGV[0]);
+  s_len = mos_string_L(mos_ARGV[0]);
 
-  if ( ! rx ) {
-    rx = regcomp(rb, mos_string_V(mos_ARGV[0]), 0);
-  }
+  mos_send(mos_RCVR, mos_s(_compile));
 
-#if 0
-  if ( s && regexec(rb, s) ) {
-    mos_return(mos_send(mos_RCVR, mos_s(_resultStrings_), mos_ARGV[0]));
+  if ( s && (result = pcre_exec(rx, rxe,
+                                s, s_len, 0,
+                                0,
+                                ovector, 30)) ) {
   }
-#endif
 
   mos_return(rtnval);
 }
@@ -170,6 +192,7 @@ mos_OBJECT_M(regexp,clone)
 mos_OBJECT_M(regexp,new_)
 mos_OBJECT_M(regexp,expr)
 mos_OBJECT_M(regexp,expr_)
+mos_OBJECT_M(regexp,_compile)
 mos_OBJECT_M(regexp,_resultStrings_)
 mos_OBJECT_M(regexp,matches_)
 mos_OBJECT_M(regexp,matchesStrings_)

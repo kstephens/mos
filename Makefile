@@ -115,7 +115,7 @@ defaults.o : config.h
 #####################################################################
 
 LD_MODE = # -static
-LD_C_FLAGS = -I. -Iinclude -Isrc/include -Wall
+LD_C_FLAGS = -I. -Iinclude -Isrc/include -I/opt/local/include -Wall
 
 #LIBS_GC += -lgc
 LIBS_GC = 
@@ -124,7 +124,7 @@ LIBS_HISTORY = -lhistory
 LIBS_HISTORY =
 LIBS_CURSES = -lncurses
 #LIBS_CURSES =
-LIBS = $(LIBS_GC) $(LIBS_READLINE) $(LIBS_HISTORY) $(LIBS_CURSES) -lm
+LIBS = $(LIBS_GC) $(LIBS_READLINE) $(LIBS_HISTORY) $(LIBS_CURSES) -lpcre -lm
 
 CFLAGS_DEBUG = -g
 CFLAGS_OPTIMIZE = # -O2 # -O

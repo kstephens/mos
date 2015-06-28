@@ -190,7 +190,7 @@ mos_INIT(readline,90)
   rl_readline_name = "mos";
 
   /* Tell the completer that we want a crack first. */
-  rl_attempted_completion_function = (CPPFunction *)_mos_completion;
+  rl_attempted_completion_function = _mos_completion;
 
 #if HAS_HISTORY
   /* Initialize the history library */
@@ -205,9 +205,4 @@ mos_INIT(readline,90)
 
   return 0;
 }
-
-
-
-
-
 

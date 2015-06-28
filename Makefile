@@ -291,8 +291,12 @@ archive : veryclean
 	(cd .. && tar -cvf - $(NAME)) | gzip -9 > $(ad)/$(NAME).tgz
 
 VALGRIND_OPTS=-v --track-fds=yes --time-stamp=yes --read-var-info=yes
-#VALGRIND_OPTS+= --keep-stacktraces=alloc-and-free 
-VALGRIND_OPTS+= --track-origins=yes --malloc-fill=5c --free-fill=e3
+VALGRIND_OPTS+= --vgdb=full
+VALGRIND_OPTS+= --num-callers=30
+VALGRIND_OPTS+= --keep-stacktraces=alloc-and-free
+VALGRIND_OPTS+= --show-mismatched-frees=yes
+VALGRIND_OPTS+= --track-origins=yes
+VALGRIND_OPTS+= --malloc-fill=5c --free-fill=e3
 VALGRIND_OPTS+= --leak-check=full
 VALGRIND=valgrind $(VALGRIND_OPTS)
 

@@ -175,7 +175,7 @@ mos_METHOD(stream,writeString_)
 {
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asString));
   if ( F ) 
-    fwrite(mos_string_V(mos_ARGV[0]), sizeof(mos_string_V(mos_ARGV[0])[0]), mos_string_L(mos_ARGV[0]), F);
+    fwrite(mos_string_V(mos_ARGV[0]), sizeof((mos_string_V(mos_ARGV[0]))[0]), mos_string_L(mos_ARGV[0]), F);
 }
 mos_METHOD_END
 mos_ANNOT_END

@@ -1,0 +1,5 @@
+#define mos_VERSION "0.2"
+#define mos_SRC_DIR "/Users/stephens/local/src/mos"
+#define mos_ROOT_DIR "/Users/stephens/local/src/mos"
+#define mos_ANNOT_DIR "lib/mos/annot"
+#define mos_SRC_SUFFIX ".mos"

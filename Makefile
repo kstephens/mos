@@ -305,3 +305,7 @@ VALGRIND=valgrind $(VALGRIND_OPTS)
 
 valgrind : all
 	$(VALGRIND) ./$(MOS)
+
+REFORMAT_FILES:=$(wildcard *.c src/include/mos/*.h)
+reformat:
+	clang-format --verbose -i $(REFORMAT_FILES)

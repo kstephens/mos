@@ -1,0 +1,23 @@
+# Do not modify. Created by annot.pl real.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: real\x7f Doc: A real number.";
+self real _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: constant\x7f Doc: Constant object behavior.\x7f Category: Complile\x7f Doc: Compile the reciever as a literal value (or constant).";
+self real _annot: (_ system annot  _curAnnot) For: "\01compile_";
+;
+_ system annot  _curAnnot: "Module: real\x7f Doc: A real number.\x7f Category: Print";
+self real _annot: (_ system annot  _curAnnot) For: "\01printOn_";
+;
+_ system annot  _curAnnot: "Module: real\x7f Doc: A real number.\x7f Category: Coder";
+self real _annot: (_ system annot  _curAnnot) For: "\01encodeOn_";
+;
+_ system annot  _curAnnot: "Module: real\x7f Doc: A real number.\x7f Category: Equal";
+self real _annot: (_ system annot  _curAnnot) For: "\01_equal_";
+;
+_ system annot  _curAnnot: "Module: real\x7f Doc: A real number.";
+self real _annot: (_ system annot  _curAnnot) For: "\01asReal";
+;
+self real _annot: (_ system annot  _curAnnot) For: "\01asInteger";
+;
+self real _annot: (_ system annot  _curAnnot) For: "\01acos";
+;

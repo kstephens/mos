@@ -1,0 +1,10 @@
+# Do not modify. Created by annot.pl parse.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: parser\x7f Doc: Parse MOS language expressions.";
+self parser _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: parser\x7f Doc: Parse MOS language expressions.\x7f Category: Parse";
+self parser _annot: (_ system annot  _curAnnot) For: "\01parseExprFrom_";
+;
+_ system annot  _curAnnot: "Module: parser\x7f Doc: Parse MOS language expressions.\x7f Doc: Controls parse debug output.";
+self parser _annot: (_ system annot  _curAnnot) For: "\01parseDebug";
+;

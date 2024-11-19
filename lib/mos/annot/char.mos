@@ -1,0 +1,18 @@
+# Do not modify. Created by annot.pl char.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Doc: The interface to the garbage collector.\x7f Doc: Returns the total number of bytes allocated.\x7f Doc: Returns the total number of blocks allocated.\x7f Doc: Returns the total number of collections.\x7f Module: defaultBehavior\x7f Doc: The basic behavior delegate.  MOS does a very low level, behind-the-scenes lookup delegation to this special object when certain messages cannot be found through the usual lookup semantics.  This is primarly for bootstrapping and low-level object messages that all objects must respond to; like @\"_clone\", @\"_meta\", @\"isConstant\", and the basic printing and encoding facilities.\x7f Category: Finalize\x7f Category: Weak Pointer\x7f Module: constant\x7f Doc: Constant object behavior.\x7f Category: Clone\x7f Category: Complile\x7f Category: Coerce\x7f Category: Constant\x7f Module: undef";
+self char _annot: (_ system annot  _curAnnot);
+self char _annot: (_ system annot  _curAnnot) For: "\01printOn_";
+;
+self char _annot: (_ system annot  _curAnnot) For: "\01asChar";
+;
+self char _annot: (_ system annot  _curAnnot) For: "\01asInteger";
+;
+self char _annot: (_ system annot  _curAnnot) For: "\01asString";
+;
+_ system annot  _curAnnot: "Doc: The interface to the garbage collector.\x7f Doc: Returns the total number of bytes allocated.\x7f Doc: Returns the total number of blocks allocated.\x7f Doc: Returns the total number of collections.\x7f Module: defaultBehavior\x7f Doc: The basic behavior delegate.  MOS does a very low level, behind-the-scenes lookup delegation to this special object when certain messages cannot be found through the usual lookup semantics.  This is primarly for bootstrapping and low-level object messages that all objects must respond to; like @\"_clone\", @\"_meta\", @\"isConstant\", and the basic printing and encoding facilities.\x7f Category: Finalize\x7f Category: Weak Pointer\x7f Module: constant\x7f Doc: Constant object behavior.\x7f Category: Clone\x7f Category: Complile\x7f Category: Coerce\x7f Category: Constant\x7f Module: undef\x7f Module: string\x7f Doc: Character string object.  Strings are compact vectors of character objects.\x7f Category: Coerce\x7f Category: Print\x7f Category: Coder\x7f Category: Length\x7f Category: Equal\x7f Category: Get\x7f Category: Subvector\x7f Category: Allocate\x7f Category: Set\x7f Category: Stream\x7f Doc: See _ system proto stream for protocol details.\x7f Category: Output\x7f Category: Escape";
+self char _annot: (_ system annot  _curAnnot) For: "\01escapeC";
+;
+_ system annot  _curAnnot: "Doc: The interface to the garbage collector.\x7f Doc: Returns the total number of bytes allocated.\x7f Doc: Returns the total number of blocks allocated.\x7f Doc: Returns the total number of collections.\x7f Module: defaultBehavior\x7f Doc: The basic behavior delegate.  MOS does a very low level, behind-the-scenes lookup delegation to this special object when certain messages cannot be found through the usual lookup semantics.  This is primarly for bootstrapping and low-level object messages that all objects must respond to; like @\"_clone\", @\"_meta\", @\"isConstant\", and the basic printing and encoding facilities.\x7f Category: Finalize\x7f Category: Weak Pointer\x7f Module: constant\x7f Doc: Constant object behavior.\x7f Category: Clone\x7f Category: Complile\x7f Doc: Compile the reciever as a literal value (or constant).";
+self char _annot: (_ system annot  _curAnnot) For: "\01compile_";
+;

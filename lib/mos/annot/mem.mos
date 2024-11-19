@@ -1,0 +1,16 @@
+# Do not modify. Created by annot.pl mem.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Doc: The interface to the garbage collector.";
+self gc _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Doc: The interface to the garbage collector.\x7f Doc: Returns the total number of bytes allocated.";
+self gc _annot: (_ system annot  _curAnnot) For: "\01bytesAllocated";
+;
+_ system annot  _curAnnot: "Doc: The interface to the garbage collector.\x7f Doc: Returns the total number of blocks allocated.";
+self gc _annot: (_ system annot  _curAnnot) For: "\01blocksAllocated";
+;
+_ system annot  _curAnnot: "Doc: The interface to the garbage collector.\x7f Doc: Returns the total number of collections.";
+self gc _annot: (_ system annot  _curAnnot) For: "\01collections";
+;
+_ system annot  _curAnnot: "Doc: The interface to the garbage collector.\x7f Doc: Forces a collection.";
+self gc _annot: (_ system annot  _curAnnot) For: "\01collect";
+;

@@ -1,0 +1,12 @@
+# Do not modify. Created by annot.pl namedobj.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: namedobj\x7f Doc: All system (non-coder-able) objects have \"@\" as a named object prefix: \n  Methods have names of \"@M <obj> <sel>\" \n  Protos have names of \"@O <parent> <obj>\" \n  Proto descriptors have names of \"@OD <parent> <obj>\" \n  Proto method maps have names of \"@OM <parent> <obj>\" \nBy forcing all static system objects to be named objects, we insure the coder object will properly decode properly into the local environment. \n";
+self named _annot: (_ system annot  _curAnnot);
+self named _annot: (_ system annot  _curAnnot) For: "\01objectNamed_";
+;
+self named _annot: (_ system annot  _curAnnot) For: "\01objectName_";
+;
+self named _annot: (_ system annot  _curAnnot) For: "\01name_Object_";
+;
+self named _annot: (_ system annot  _curAnnot) For: "\01map";
+;

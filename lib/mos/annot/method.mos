@@ -1,0 +1,20 @@
+# Do not modify. Created by annot.pl method.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: method\x7f Doc: Contains all the system method object protos.";
+self methods _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: method\x7f Doc: Is a method object.  Method objects have a meta object that respond to <CODE>@\"applyMethod:\"</CODE>.";
+self method _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: method\x7f Doc: Is a method object.  Method objects have a meta object that respond to <CODE>@\"applyMethod:\"</CODE>.\x7f Doc: Returns the method object.";
+self method _annot: (_ system annot  _curAnnot) For: "\01asMethod";
+;
+_ system annot  _curAnnot: "Module: method\x7f Doc: Is a method object.  Method objects have a meta object that respond to <CODE>@\"applyMethod:\"</CODE>.\x7f Doc: Aborts; because primitive methods should be encoded by name.";
+self method _annot: (_ system annot  _curAnnot) For: "\01encodeOtherOn_";
+;
+_ system annot  _curAnnot: "Module: method\x7f Doc: Is a method object.  Method objects have a meta object that respond to <CODE>@\"applyMethod:\"</CODE>.\x7f Doc: Returns the argument identifier by index.";
+self method _annot: (_ system annot  _curAnnot) For: "\01argumentAt_";
+;
+_ system annot  _curAnnot: "Module: method\x7f Doc: A meta object for all system method objects.  It responds to <code>@\"applyMethod:\"</code> and implements all of the methods in <code>(_ system meta basicMeta)</code>.";
+self methodMeta _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: basicMeta\x7f Doc: Is the basic meta object.  All meta objects respond to @\"lookupMethod:\".  All meta objects implement the methods in the basic meta object.";
+self methodMeta _annot: (_ system annot  _curAnnot) For: "\01lookupMethod_";
+;

@@ -1,0 +1,4 @@
+# Do not modify. Created by annot.pl defaults.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: defaults\x7f Doc: Contains system defaults.";
+self defaults _annot: (_ system annot  _curAnnot);

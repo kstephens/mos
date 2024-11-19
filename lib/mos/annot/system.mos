@@ -1,0 +1,18 @@
+# Do not modify. Created by annot.pl system.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: system\x7f Doc: Defines the (_ system) object.\x7f Category: Meta\x7f Doc: Contains the system meta objects.";
+self metas _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: system\x7f Doc: Defines the (_ system) object.\x7f Category: Behaviors\x7f Doc: Contains the system behavior delegates.";
+self behaviors _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: system\x7f Doc: Defines the (_ system) object.\x7f Category: Prototypes\x7f Doc: Contains the system prototype objects from which new objects are created by cloning.";
+self protos _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: system\x7f Doc: Defines the (_ system) object.\x7f Category: Constant\x7f Doc: Contains the one-of-a-kind system objects, like @T, @F, @U, and @E.  These objects are never cloned.";
+self constants _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: system\x7f Doc: Defines the (_ system) object.\x7f Category: Empty\x7f Doc: Is the object clone to create new objects using it object creation syntax.";
+self empty _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: system\x7f Doc: Defines the (_ system) object.\x7f Category: System\x7f Doc: Contains all system objects.";
+self system _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: system\x7f Doc: Defines the (_ system) object.\x7f Category: Core\x7f Doc: Contains all core system objects.";
+self core _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: system\x7f Doc: Defines the (_ system) object.\x7f Category: Lobby\x7f Doc: Is the lobby (user namespace).  It always contains a reference to the <code>(_ system)</code> object and itself.  The lobby is where you create new slots.\x7f Example:<BR><code>     _ _addSlots: {\n       foo -> 5;\n       bar;\n       baz = 2;\n     };\n\n     _ _loadFile: \"src/delegate.mos\";\n</code>";
+self _ _annot: (_ system annot  _curAnnot);

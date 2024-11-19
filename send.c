@@ -23,9 +23,9 @@ __inline__
 void _mos_basicMeta_lookup(mos_message *msg)
 {
   mos_map_slot *ms;
-  
+
   if ( (ms = _mos_map_find(mos_METHODS(mos_CNTX), mos_SEL)) ) {
-    mos_METH = ms->_value; 
+    mos_METH = ms->_value;
     mos_MIMPL = mos_CNTX;
   }
 }
@@ -40,6 +40,8 @@ void _mos_otherMeta_lookup(mos_message *msg)
 __inline__
 void _mos_lookup(mos_message *msg)
 {
+  assert(mos_CNTX);
+  assert(mos_META(mos_CNTX));
   if ( mos_EQ(mos_META(mos_CNTX), mos_o(basicMeta)) /* || mos_EQ(mos_META(mos_CNTX), mos_o(methodMeta)) */ ) {
    _mos_basicMeta_lookup(msg);
   } else {
@@ -120,19 +122,19 @@ mos_value _mos_send(mos_message *msg)
     _mos_trace_lock --;
   }
 #endif
-  
+
   _mos_lookup(msg);
-  
+
   /* If meta lookup fails, search the defaultBehavior object */
   /* Otherwise use the undef::undefinedMethod to raise an error */
   if ( mos_EQ(mos_METH,mos_undef) ) {
     mos_map_slot *ms;
-    
+
     if ( (ms = FIND(mos_o(defaultBehavior), mos_SEL)) ) {
-      mos_METH = ms->_value; 
+      mos_METH = ms->_value;
       mos_MIMPL = mos_o(defaultBehavior);
     } else {
-      mos_METH = mos_m(undefinedValue,undefinedMethod); 
+      mos_METH = mos_m(undefinedValue,undefinedMethod);
       mos_MIMPL = mos_undef;
     }
   }
@@ -146,7 +148,7 @@ mos_value _mos_send(mos_message *msg)
 #endif
 
   rtnval = _mos_apply(msg);
-  
+
 #if mos_TRACE_ENABLED
   if ( ! _mos_trace_lock && this_traceLevel < this_send_trace ) {
     _mos_trace_lock ++;
@@ -159,7 +161,7 @@ mos_value _mos_send(mos_message *msg)
 #undef mos_MSG
 
   mos_MSG = old_mos_MSG;
-  
+
   return rtnval;
 }
 
@@ -249,7 +251,7 @@ mos_value mos_send(mos_value rcvr, mos_value sel, ...)
 
 #if 0
   mos_value *sp = _mos_sp;
-  
+
 #if 1
   if ( _mos_inited < 2 ) {
     fprintf(stderr, "mos_send(%p, %s, %d, ...)\n", (void*) mos_REF(rcvr), mos_REFT(sel,mos_selector)->_namestr, argc);
@@ -276,11 +278,11 @@ mos_value mos_send(mos_value rcvr, mos_value sel, ...)
 mos_value mos_send_(mos_value cntx, mos_value rcvr, mos_value sel, ...)
 {
   mos_value rtnval;
-  
+
   GET_ARGV
   rtnval = _mos_sendv__(mos_MSG, mos_undef, cntx, rcvr, sel, argc, argv);
   END_ARGV
-  
+
   return rtnval;
 }
 

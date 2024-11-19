@@ -2,9 +2,9 @@
 *.a
 *.dSYM
 defs
-mos
-mos.exe
-selesc
-selesc.exe
-parse.out
+/mos
+/mos.exe
+/selesc
+/selesc.exe
+/parse.out
 /tmp/

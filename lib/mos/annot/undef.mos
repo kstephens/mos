@@ -1,0 +1,19 @@
+# Do not modify. Created by annot.pl undef.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: undef\x7f Doc: The undefined value constant object.";
+self undefinedValue _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: constant\x7f Doc: Constant object behavior.\x7f Category: Complile\x7f Doc: Compile the reciever as a literal value (or constant).";
+self undefinedValue _annot: (_ system annot  _curAnnot) For: "\01compile_";
+;
+_ system annot  _curAnnot: "Module: undef\x7f Doc: The undefined value constant object.\x7f Category: Equal";
+self undefinedValue _annot: (_ system annot  _curAnnot) For: "\01equal_";
+;
+_ system annot  _curAnnot: "Module: undef\x7f Doc: The undefined value constant object.\x7f Doc: The method applied if no method is found.";
+self undefinedValue _annot: (_ system annot  _curAnnot) For: "\01undefinedMethod";
+;
+_ system annot  _curAnnot: "Module: undef\x7f Doc: The undefined value constant object.\x7f Category: Print";
+self undefinedValue _annot: (_ system annot  _curAnnot) For: "\01printOn_";
+;
+_ system annot  _curAnnot: "Module: message\x7f Doc: The message object.Message objects are created by the system whenever a message is sent to an object. Users can dynamically create messages by cloning the message object. \x7f Category: Print\x7f Doc: Formats a message backtrace on a stream object using a formatting selector.";
+self undefinedValue _annot: (_ system annot  _curAnnot) For: "\01backtraceOn_Using_";
+;

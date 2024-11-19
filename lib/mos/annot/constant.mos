@@ -1,0 +1,7 @@
+# Do not modify. Created by annot.pl constant.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: constant\x7f Doc: Constant object behavior.";
+self constant _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: constant\x7f Doc: Constant object behavior.\x7f Category: Complile\x7f Doc: Compile the reciever as a literal value (or constant).";
+self constant _annot: (_ system annot  _curAnnot) For: "\01compile_";
+;

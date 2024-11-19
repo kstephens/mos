@@ -53,13 +53,13 @@ sub get_line {
   if ( s/^\s*\#\s*// ) {
     #print STDERR "$0: # $_\n";
     if ( s/^(\d+)\s*// ) {
-       $in_line = $1;
+      $in_line = $1;
     }
     if ( s/^\"([^\"]*)\"\s*// ) {
       #eof_check();
       $in_file = $1;
       print STDERR "$0: $in_file:$in_line\n" if ( $verbose > 0 );
-     }
+    }
   }
 
   #print STDERR "$_\n";
@@ -67,7 +67,7 @@ sub get_line {
   ++ $in_line;
   print STDERR "." if ( $debug > 2 );
 
- $_;
+  $_;
 }
 
 
@@ -228,11 +228,16 @@ foreach $pass ( 1..2 ) {
   @annots = ();
 
   while ( defined(get_line()) ) {
+    my $orig_line = $_;
     # mos_ANNOT BEGIN
+    if ( s/^\s*mos_ANNOT\s*[(] *$// ) {
+      $_ = $orig_line . get_line();
+      print STDERR "$0: $in_file:$in_line: continuing '$orig_line' with '$_'\n";
+    }
     if ( s/^\s*mos_ANNOT\s*[(]// ) {
       $str = parse_string();
 
-     if ( ! s/\s*[)]\s*;?\s*$// ) {
+      if ( ! s/\s*[)]\s*;?\s*$// ) {
       print STDERR "$0: $in_file:$in_line: Missing ) at mos_ANNOT\n";
     }
     push(@annots, $annot);

@@ -4,12 +4,14 @@
 %define api.pure full
 %{
 
+// clang-format off
 #include "mos/mos.h"
 #include "mos/expr.h"
 #include "mos/lex.h"
 #include "parse.h"
 #include <stdlib.h> /* malloc, free */
 #include <string.h> /* strcat */
+// clang-format on
 
 #define nil mos_vector_make(0,0)
 #define undef mos_undef

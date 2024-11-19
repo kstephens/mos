@@ -1,0 +1,12 @@
+# Do not modify. Created by annot.pl srcInfo.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: srcInfo\x7f Doc: A strInfo object contains a source file name and line number.  They are created by the compiler and are used in the debugger.";
+self sourceInfo _annot: (_ system annot  _curAnnot);
+_ system annot  _curAnnot: "Module: srcInfo\x7f Doc: A strInfo object contains a source file name and line number.  They are created by the compiler and are used in the debugger.\x7f Category: Print";
+self sourceInfo _annot: (_ system annot  _curAnnot) For: "\01printOn_";
+;
+_ system annot  _curAnnot: "Module: srcInfo\x7f Doc: A strInfo object contains a source file name and line number.  They are created by the compiler and are used in the debugger.\x7f Category: Coder";
+self sourceInfo _annot: (_ system annot  _curAnnot) For: "\01encodeOtherOn_";
+;
+self sourceInfo _annot: (_ system annot  _curAnnot) For: "\01decodeOtherOn_";
+;

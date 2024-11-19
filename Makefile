@@ -175,7 +175,7 @@ _COMPILE_C_ = $(CC) $(CFLAGS) -c -o $@ $*.c
 	$(CC) $(CFLAGS) -c -S -o $@ $*.i
 	$(RM) $*.i
 
-BISON = $(BISON_EXE) -t --locations --token-table
+BISON = $(BISON_EXE) -t --locations --token-table  #  -Wcounterexamples
 .y.c .y.h:
 	$(BISON) --name-prefix=_mos_yy --defines=$(<:.y=.h) --graph=$(<:.y=.out) --output=$(<:.y=.c) $<
 	sed -E -i '' -e 's~^(#line .*)~// \1~' $(<:.y=.c)
@@ -278,11 +278,13 @@ $(INC_DIR)/meth.def : meth.pl
 	$(PERL) meth.pl > $@.temp
 	$(MV) $@.temp $@
 
+GARBAGE += selesc$(EXE)
 selesc$(EXE) : selesc.c selsupp.c
 	$(CC) $(LDFLAGS) -o $@ selesc.c selsupp.c
 
 clean :
 	$(RM) -f $(GARBAGE)
+	$(RM) -f parse.h parse.c
 
 veryclean :
 	$(RM) -f $(ALL_GARBAGE)

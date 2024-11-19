@@ -1,0 +1,6 @@
+# Do not modify. Created by annot.pl basicMeta.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: basicMeta\x7f Doc: Is the basic meta object.  All meta objects respond to @\"lookupMethod:\".  All meta objects implement the methods in the basic meta object.";
+self basicMeta _annot: (_ system annot  _curAnnot);
+self basicMeta _annot: (_ system annot  _curAnnot) For: "\01lookupMethod_";
+;

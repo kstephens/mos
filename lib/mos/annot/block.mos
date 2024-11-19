@@ -1,0 +1,8 @@
+# Do not modify. Created by annot.pl block.c
+_ system annot  _addSlots: { _curAnnot };
+_ system annot  _curAnnot: "Module: block\x7f Doc: A block object provides deferred execution of a lexical context.  All initialized block objects respond to @\"value*\" messages.";
+self block _annot: (_ system annot  _curAnnot);
+self block _annot: (_ system annot  _curAnnot) For: "\01_lexicalContext";
+;
+self block _annot: (_ system annot  _curAnnot) For: "\01_methodContext";
+;

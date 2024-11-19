@@ -28,7 +28,7 @@ $annot_value = "$annot_value_path $annot_value_var";
 
 sub eof_check {
   if ( $annot ) {
-    print STDERR "$0: $in_file: $in_line: ", (scalar @annots), " mos_ANNOT_END missing at end of file.\n";
+    print STDERR "$0: $in_file:$in_line: ", (scalar @annots), " mos_ANNOT_END missing at end of file.\n";
     print STDERR "'", join("', '", @annots), "'\n";
     $annot = undef;
     @annots = ();
@@ -49,7 +49,7 @@ sub get_line {
       print STDERR "$0: $in_file\n" if ( $verbose > 0 );
     }
   }
- 
+
   if ( s/^\s*\#\s*// ) {
     #print STDERR "$0: # $_\n";
     if ( s/^(\d+)\s*// ) {
@@ -58,7 +58,7 @@ sub get_line {
     if ( s/^\"([^\"]*)\"\s*// ) {
       #eof_check();
       $in_file = $1;
-      print STDERR "$0: $in_file: $in_line\n" if ( $verbose > 0 );
+      print STDERR "$0: $in_file:$in_line\n" if ( $verbose > 0 );
      }
   }
 
@@ -80,9 +80,9 @@ sub parse_string {
 
   # Eat leading whitespace.
   s/^\s*//;
-  
+
   if ( ! s/^\"// ) {
-    print STDERR "$0: $in_file: $in_line: expected string: found '$_'\n";
+    print STDERR "$0: $in_file:$in_line: expected string: found '$_'\n";
     return undef;
   }
 
@@ -124,12 +124,12 @@ sub parse_string {
 
     # Missing end quote?
     if ( $_ eq '' ) {
-      print STDERR "$0: $in_file: $in_line: terminating \" missing\n";
+      print STDERR "$0: $in_file:$in_line: terminating \" missing\n";
     }
 
     # Next non-end-quote?
   }
-  
+
   print STDERR "parse_string: got '$str'\n" if ( $debug > 1 );
 
   $str;
@@ -169,7 +169,7 @@ sub annot {
 
     $k = $files{$key} if ( defined $key );
     $k = $file if ( ! defined $k );
-    
+
     #print STDERR "object_files{$obj}->{$k}\n";
     $object_files{$obj}->{$k} ++ if ( defined $k );
   }
@@ -199,7 +199,7 @@ sub annot {
     $annot_cur{$FILE} = $a;
     print $FILE "$annot_value: \"$a\";\n";
   }
-  
+
   # self is the object's desc, so use the __annot:(For:) selector
   print $FILE "self $obj _annot: ($annot_value)";
   if ( defined $slot ) {
@@ -233,26 +233,26 @@ foreach $pass ( 1..2 ) {
       $str = parse_string();
 
      if ( ! s/\s*[)]\s*;?\s*$// ) {
-      print STDERR "$0: $in_file: $in_line: Missing ) at mos_ANNOT\n";
+      print STDERR "$0: $in_file:$in_line: Missing ) at mos_ANNOT\n";
     }
     push(@annots, $annot);
     if ( defined($annot) ) {
       $annot .= '\x7f ';
     }
     $annot .= $str;
-    print STDERR "$in_file: $in_line: mos_ANNOT($annot)\n" if ( $debug > 0 );
+    print STDERR "$in_file:$in_line: mos_ANNOT($annot)\n" if ( $debug > 0 );
   # mos_ANNOT END
   } elsif ( s/^\s*mos_ANNOT_END// ) {
     if ( ! @annots ) {
-      print STDERR "$0: $in_file: $in_line: Too many mos_ANNOT_END\n";
+      print STDERR "$0: $in_file:$in_line: Too many mos_ANNOT_END\n";
     }
     $annot = pop(@annots);
-    print STDERR "$in_file: $in_line: mos_ANNOT_END($annot)\n" if ( $debug > 0 );
+    print STDERR "$in_file:$in_line: mos_ANNOT_END($annot)\n" if ( $debug > 0 );
   } elsif ( defined($annot) ) {
     # mos_* imbedded in mos_ANNOT blocks
     my $matched;
 
-    do { 
+    do {
       $matched = 0;
       # mos_METHOD annotation
       if ( s/^\s*mos_METHOD\s*[(]([^)]*)[)]// ) {
@@ -262,7 +262,7 @@ foreach $pass ( 1..2 ) {
 	m/^([^,\s]+)\s*,\s*(.+)$/;
 	$mobj = $1;
 	$msel = $2;
-	print STDERR "$in_file: $in_line: mos_METHOD($mobj,$msel)\n" if ( $debug > 0 );
+	print STDERR "$in_file:$in_line: mos_METHOD($mobj,$msel)\n" if ( $debug > 0 );
 	save_annot("M$mobj,$msel") if ( $pass == 1 );
 	# mos_OBJECT annotation
       } elsif ( s/mos_OBJECT\s*[(]([^)]*)[)]// ) {
@@ -270,7 +270,7 @@ foreach $pass ( 1..2 ) {
 	$_ = $1;
 	s/\s+//;
 	$object = $_;
-	print STDERR "$in_file: $in_line: mos_OBJECT($_)\n" if ( $debug > 0 );
+	print STDERR "$in_file:$in_line: mos_OBJECT($_)\n" if ( $debug > 0 );
 	save_annot("O$object");
 	annot($object, undef, "O$object");
 	# mos_OBJECT annotation END
@@ -282,7 +282,7 @@ foreach $pass ( 1..2 ) {
       } elsif ( defined $object ) {
 	# Static object block
 	if ( 0 ) {
-	  
+
 	  # Slot annotation?
 	} elsif ( s/mos_OBJECT_[AG]\s*[(]([^)]*)[)]// ) {
           $matched = 1;
@@ -291,9 +291,9 @@ foreach $pass ( 1..2 ) {
 	  m/^([^,\s]+)\s*,\s*(.+)$/;
 	  $msel = $1;
 	  $mind = $2;
-	  print STDERR "$in_file: $in_line: $object: mos_OBJECT_[AG]($msel,$mind)\n" if ( $debug > 0 );
+	  print STDERR "$in_file:$in_line: $object: mos_OBJECT_[AG]($msel,$mind)\n" if ( $debug > 0 );
 	  annot($object, $msel);
-	  
+
 	  # Method annotation?
 	} elsif ( s/mos_OBJECT_M\s*[(]([^)]*)[)]// ) {
           $matched = 1;
@@ -302,7 +302,7 @@ foreach $pass ( 1..2 ) {
 	  m/^([^,\s]+)\s*,\s*(.+)$/;
 	  $mobj = $1;
 	  $msel = $2;
-	  print STDERR "$in_file: $in_line: $object: mos_OBJECT_M($mobj,$msel)\n" if ( $debug > 0 );
+	  print STDERR "$in_file:$in_line: $object: mos_OBJECT_M($mobj,$msel)\n" if ( $debug > 0 );
 	  annot($object, $msel, "M$mobj,$msel");
 	}
       }
@@ -333,7 +333,3 @@ foreach $o ( sort keys %object_files ) {
 print "#undef mos_DEF_ANNOT\n";
 
 1;
-
-
-
-

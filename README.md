@@ -122,38 +122,39 @@ _ _loadFile: "src/delegate.mos";
 
 ## Examples
 
-The "`mos>` " string is the MOS system prompt; user input is **bold**, results are **_`italics`_**.
 
-> `mos>` **`"xyz" length;`**
-> **_`3`_**
->
-> `mos>` **`5 neg + 2 * 3;`**
-> **_`-21`_**
->
-> `mos>` **`"xyz" get: 1;`**
-> **_`'y'`_**
->
-> `#| Note: X[Y] is the same as (X get: Y) |#`
-> `mos>` **`"xyz"[1];`**
-> **_`'y'`_**
->
-> `mos>` **`"xyz" set: 1 Value: 'b';`**
-> **_`"xbz"`_**
->
-> `#| Note: X[Y]: Z is the same as (X set: Y Value: Z) |#`
-> `mos>` **`"xyz"[1];`**
-> **_`'y'`_**
->
-> `#| _Constructs a vector object._ |#`
-> `mos>` **`(@V, 1, "xyz", 3)[2];`**
-> **_`"xyz"`_**
->
-> `#| Constructs a map object. |#`
-> `mos>` **`(@M, "a" -> 1, "b" -> 2);`**
-> **_`(@M, "a" -> 1, "b" -> 2)`_**
->
-> `mos>` **`(@M, "a" -> 1, "b" -> 2)["a"];`**
-> **_`1`_**
+``` text
+mos> "xyz" length;
+ 3
+
+mos> 5 neg + 2 * 3;
+ -21
+
+mos> "xyz" get: 1;
+ 'y'
+
+ # Note: X[Y] is the same as (X get: Y):
+mos> "xyz"[1];
+ 'y'
+
+mos> "xyz" set: 1 Value: 'b';
+ "xbz"
+
+ # Note: X[Y]: Z is the same as (X set: Y Value: Z):
+mos> "xyz"[1];
+ 'y'
+
+ # Constructs a vector object.
+mos> (@V, 1, "xyz", 3)[2];
+ "xyz"
+
+ # Constructs a map object. |#`
+mos> (@M, "a" -> 1, "b" -> 2);
+ (@M, "a" -> 1, "b" -> 2)
+
+mos> (@M, "a" -> 1, "b" -> 2)["a"];
+ 1
+```
 
 ### Object Annotations
 

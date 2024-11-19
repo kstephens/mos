@@ -144,11 +144,11 @@ mos> "xyz" set: 1 Value: 'b';
 mos> "xyz"[1];
  'y'
 
- # Constructs a vector object.
+ # Construct a vector object:
 mos> (@V, 1, "xyz", 3)[2];
  "xyz"
 
- # Constructs a map object. |#`
+ # Construct a map object:
 mos> (@M, "a" -> 1, "b" -> 2);
  (@M, "a" -> 1, "b" -> 2)
 

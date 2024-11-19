@@ -178,6 +178,7 @@ _COMPILE_C_ = $(CC) $(CFLAGS) -c -o $@ $*.c
 BISON = $(BISON_EXE) -t --locations --token-table
 .y.c .y.h:
 	$(BISON) --name-prefix=_mos_yy --defines=$(<:.y=.h) --graph=$(<:.y=.out) --output=$(<:.y=.c) $<
+	sed -E -i '' -e 's~^(#line .*)~// \1~' $(<:.y=.c)
 
 #$(CFILES_NDEBUG:.c=.o) :
 #	$(CPP) $*.c > $*.i
@@ -306,6 +307,9 @@ VALGRIND=valgrind $(VALGRIND_OPTS)
 valgrind : all
 	$(VALGRIND) ./$(MOS)
 
-REFORMAT_FILES:=$(wildcard *.c src/include/mos/*.h)
+REFORMAT_FILES:=$(wildcard *.c include/mos/*.h)
 reformat:
 	clang-format --verbose -i $(REFORMAT_FILES)
+
+reformat-undo:
+	git checkout -- $(REFORMAT_FILES)

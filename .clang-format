@@ -32,11 +32,11 @@ AlignConsecutiveMacros:
   AlignFunctionPointers: false
   PadOperators:    false
 AlignConsecutiveShortCaseStatements:
-  Enabled:         false
+  Enabled:         true
   AcrossEmptyLines: false
   AcrossComments:  false
   AlignCaseArrows: false
-  AlignCaseColons: false
+  AlignCaseColons: true
 AlignConsecutiveTableGenBreakingDAGArgColons:
   Enabled:         false
   AcrossEmptyLines: false
@@ -68,11 +68,11 @@ AllowAllParametersOfDeclarationOnNextLine: true
 AllowBreakBeforeNoexceptSpecifier: Never
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseExpressionOnASingleLine: true
-AllowShortCaseLabelsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: true
 AllowShortCompoundRequirementOnASingleLine: true
 AllowShortEnumsOnASingleLine: true
-AllowShortFunctionsOnASingleLine: All
-AllowShortIfStatementsOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: true
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
@@ -101,7 +101,7 @@ BraceWrapping:
   SplitEmptyFunction: true
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
-BreakAdjacentStringLiterals: true
+BreakAdjacentStringLiterals: false
 BreakAfterAttributes: Leave
 BreakAfterJavaFieldAnnotations: false
 BreakAfterReturnType: None
@@ -114,13 +114,13 @@ BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: BeforeColon
 BreakFunctionDefinitionParameters: false
 BreakInheritanceList: BeforeColon
-BreakStringLiterals: true
+BreakStringLiterals: false
 BreakTemplateDeclarations: MultiLine
-ColumnLimit:     80
+ColumnLimit:     120
 CommentPragmas:  '^ IWYU pragma:'
 CompactNamespaces: false
-ConstructorInitializerIndentWidth: 4
-ContinuationIndentWidth: 4
+ConstructorInitializerIndentWidth: 2
+ContinuationIndentWidth: 2
 Cpp11BracedListStyle: true
 DerivePointerAlignment: false
 DisableFormat:   false
@@ -137,15 +137,15 @@ IfMacros:
 IncludeBlocks:   Preserve
 IncludeCategories:
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
-    Priority:        2
+    Priority:        0
     SortPriority:    0
     CaseSensitive:   false
   - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
-    Priority:        3
+    Priority:        0
     SortPriority:    0
     CaseSensitive:   false
   - Regex:           '.*'
-    Priority:        1
+    Priority:        0
     SortPriority:    0
     CaseSensitive:   false
 IncludeIsMainRegex: '(Test)?$'
@@ -194,7 +194,7 @@ PenaltyBreakComment: 300
 PenaltyBreakFirstLessLess: 120
 PenaltyBreakOpenParenthesis: 0
 PenaltyBreakScopeResolution: 500
-PenaltyBreakString: 1000
+PenaltyBreakString: 0
 PenaltyBreakTemplateDeclaration: 10
 PenaltyExcessCharacter: 1000000
 PenaltyIndentedWhitespace: 0
@@ -212,7 +212,7 @@ RequiresExpressionIndentation: OuterScope
 SeparateDefinitionBlocks: Leave
 ShortNamespaceLines: 1
 SkipMacroDefinitionBody: false
-SortIncludes:    CaseSensitive
+SortIncludes:    false
 SortJavaStaticImport: Before
 SortUsingDeclarations: LexicographicNumeric
 SpaceAfterCStyleCast: false
@@ -246,11 +246,11 @@ SpacesInContainerLiterals: true
 SpacesInLineCommentPrefix:
   Minimum:         1
   Maximum:         -1
-SpacesInParens:  Never
+SpacesInParens:  Custom
 SpacesInParensOptions:
   ExceptDoubleParentheses: false
   InCStyleCasts:   false
-  InConditionalStatements: false
+  InConditionalStatements: true
   InEmptyParentheses: false
   Other:           false
 SpacesInSquareBrackets: false
@@ -260,6 +260,26 @@ StatementAttributeLikeMacros:
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
+  - mos_ANNOT
+  - mos_ANNOT_END
+  - mos_METHOD
+  - mos_METHOD_END
+  - mos_OBJECT
+  - mos_OBJECT_METHOD
+  - mos_OBJECT_M
+  - mos_OBJECT_A
+  - mos_OBJECT_S
+  - mos_OBJECT_SLOTS
+  - mos_OBJECT_END
+  - mos_methodMeta_METHODS
+  - mos_basicMeta_METHODS
+  - mos_accessor_METHODS
+  - mos_vector_LOOP
+  - mos_vector_LOOP_END
+  - mos_CATCH_BEGIN
+  - mos_CATCH_CAUGHT
+  - mos_CATCH_END
+  - mos_constant_METHODS
 TableGenBreakInsideDAGArg: DontBreak
 TabWidth:        8
 UseTab:          Never
@@ -270,5 +290,6 @@ WhitespaceSensitiveMacros:
   - NS_SWIFT_NAME
   - PP_STRINGIZE
   - STRINGIZE
+  - MOS_ANNOT
 ...
 

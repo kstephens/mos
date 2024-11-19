@@ -1,3 +1,5 @@
+#include "mos/value.h"
+
 mos_value mos_exprConstant(mos_value X);
 mos_value mos_exprMemo(mos_value X);
 mos_value mos_exprGroup(mos_value X);
@@ -8,7 +10,6 @@ mos_value mos_exprMethodContext();
 mos_value mos_exprVector(mos_value v);
 mos_value mos_exprVectorFill(mos_value v);
 mos_value mos_exprMap();
-
 
 mos_value mos_exprSend(mos_value rcvr, mos_value sel, int nargs, ...);
 mos_value mos_exprSend_(mos_value cntx, mos_value rcvr, mos_value sel, int nargs, ...);

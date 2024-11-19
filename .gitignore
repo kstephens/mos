@@ -1,0 +1,13 @@
+*.o
+*.a
+*.dSYM
+defs
+annot.def
+init.def
+config.h
+mos
+mos.exe
+parse.c
+parse.h
+parse.out
+/tmp/

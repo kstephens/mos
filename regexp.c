@@ -19,7 +19,7 @@ mos_METHOD(regexp,_regexpFinalize)
     rx = 0;
   }
   if ( rxe ) {
-    pcre_free(rxe); // pcre_free_study(rxe); // 
+    pcre_free(rxe); // pcre_free_study(rxe); //
     rxe = 0;
   }
 }
@@ -83,11 +83,12 @@ mos_METHOD(regexp,_resultStrings_)
 {
   mos_value rtnval; // , str;
   const char *s, *s_end;
-  
+
   rtnval = mos_vector_make(0, 0);
-  
+
   s = mos_string_V(mos_ARGV[0]);
   s_end = strchr(s, '\0');
+  (void) s_end;
 
 #if 0
   /* Put the remainder string first */
@@ -97,7 +98,7 @@ mos_METHOD(regexp,_resultStrings_)
     /* Matched string */
     str = mos_string_make(rb->startp[i], rb->endp[i] - rb->startp[i]);
     mos_send(rtnval, mos_s(append_), str);
-	
+
     /* Before match */
     str = mos_string_make(s, rb->startp[0] - s);
     mos_send(rtnval, mos_s(append_), str);
@@ -105,7 +106,7 @@ mos_METHOD(regexp,_resultStrings_)
     /* After match */
     str = mos_string_make(rx->endp[0], s_end - rx->endp[0]);
     mos_send(rtnval, mos_s(append_), str);
-    
+
     /* Put the matched string and subexpression matches */
     for ( i = 1; i < NSUBEXP && rx->startp[i] && rx->endp[i] ; i ++ ) {
       str = mos_string_make(rx->startp[i], rx->endp[i] - rx->startp[i]);

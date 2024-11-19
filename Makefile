@@ -1,5 +1,8 @@
-# 
 #
+#
+export PATH:=/opt/homebrew/Cellar/bison/3.8.2/bin:/opt/homebrew/bin:$(PATH)
+BISON_EXE:=$(shell PATH='/opt/homebrew/Cellar/bison/3.8.2/bin:/opt/homebrew/bin:$(PATH)' which bison)
+
 all:
 
 EXE=#.exe
@@ -8,7 +11,7 @@ NAME = mos
 
 CFILES_OPTIMIZED =
 
-CFILES_DEBUG = 
+CFILES_DEBUG =
 
 GC=../GC
 GC_BEGIN=
@@ -115,10 +118,10 @@ defaults.o : config.h
 #####################################################################
 
 LD_MODE = # -static
-LD_C_FLAGS = -I. -Iinclude -Isrc/include -I/opt/local/include -Wall
+LD_C_FLAGS = -I. -Iinclude -Isrc/include -I/opt/homebrew/include -I/opt/local/include -Wall
 
 #LIBS_GC += -lgc
-LIBS_GC = 
+LIBS_GC =
 LIBS_READLINE += -lreadline
 LIBS_HISTORY = -lhistory
 LIBS_HISTORY =
@@ -129,7 +132,7 @@ LIBS = $(LIBS_GC) $(LIBS_READLINE) $(LIBS_HISTORY) $(LIBS_CURSES) -lpcre -lm
 CFLAGS_DEBUG = -g
 CFLAGS_OPTIMIZE = # -O2 # -O
 
-LDFLAGS = $(LD_C_FLAGS) $(CFLAGS_DEBUG) 
+LDFLAGS = $(LD_C_FLAGS) $(CFLAGS_DEBUG)
 CFLAGS_OPTIMIZED = $(LD_C_FLAGS) $(CFLAGS_OPTIMIZE) $(LD_MODE)
 CFLAGS_NDEBUG = $(LD_C_FLAGS) $(LD_MODE)
 CFLAGS_DEBUG_OPTIMIZED = $(LD_C_FLAGS) $(CFLAGS_DEBUG) $(CFLAGS_OPTIMIZE) $(LD_MODE)
@@ -172,7 +175,7 @@ _COMPILE_C_ = $(CC) $(CFLAGS) -c -o $@ $*.c
 	$(CC) $(CFLAGS) -c -S -o $@ $*.i
 	$(RM) $*.i
 
-BISON = bison -t --locations --token-table
+BISON = $(BISON_EXE) -t --locations --token-table
 .y.c .y.h:
 	$(BISON) --name-prefix=_mos_yy --defines=$(<:.y=.h) --graph=$(<:.y=.out) --output=$(<:.y=.c) $<
 

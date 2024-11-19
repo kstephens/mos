@@ -16,10 +16,7 @@
 
 static
 char *
-_mos_completion_generator (text, state)
-     char *text;
-     int state;
-{
+_mos_completion_generator (const char *text, int state) {
   static int list_index, len;
   static mos_value selectors;
 
@@ -48,9 +45,7 @@ _mos_completion_generator (text, state)
 
 static
 char **
-_mos_completion (text, start, end)
-     char *text;
-     int start, end;
+_mos_completion (const char *text, int start, int end)
 {
   char **matches;
 
@@ -114,7 +109,7 @@ mos_METHOD(readline,readString_)
 {
   mos_value s;
   // size_t bytes_read;
-  
+
   mos_ARGV[0] = mos_send(mos_ARGV[0], mos_s(asInteger));
   s = mos_send(mos_string_make(0, 0), mos_s(length_), mos_ARGV[0]);
   /* IMPLEMENT */
@@ -133,7 +128,7 @@ mos_METHOD(readline,peekChar)
     c = mos_send(mos_RCVR, mos_s(_readline));
     if ( mos_NE(c, mos_eos) ) {
       c = mos_send(mos_send(mos_RCVR, mos_s(_buffer)), mos_s(peekChar));
-    }   
+    }
   }
 
   mos_return(c);

@@ -40,10 +40,10 @@ static int mos_peekc(mos_value stream)
 static int digitInRadix(int c, int radix)
 {
   static char digitMap[0x80];
-  
+
   if ( ! digitMap[0] ) {
     int i;
-    
+
     for ( i = 0; i < 0x80; i ++ ) {
       int x = i;
       if ( '0' <= i && i <= '9' ) {
@@ -60,11 +60,11 @@ static int digitInRadix(int c, int radix)
       digitMap[i] = x;
     }
   }
-  
+
   c = (c > 0 && c < 0x80) ? digitMap[c] : -1;
   if ( c >= radix )
     c = -1;
-  
+
   return c;
 }
 
@@ -100,7 +100,7 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
     int annotation = 0;
 
     GETC();
-    
+
     c = GETC();
     if ( c == '|' ) {
       c = GETC();
@@ -130,9 +130,9 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
 	c = GETC();
 	if ( annotation == 1 ) {
 	}
-      } 
+      }
     }
-    
+
     goto whitespace;
   }
 
@@ -184,7 +184,7 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
     int exp = 0;
     short isReal = 0;
     short digit;
-    
+
     if ( c == '0' ) {
       radix = 8;
       GETC(); c = PEEKC();
@@ -199,7 +199,7 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
     } else
     if ( c == '-' || c == '+' || c == '.' ) { /* could be "->" or "-1234" */
       int nc;
-      
+
       GETC();
       nc = PEEKC();
       if ( ! isdigit(nc) ) {
@@ -218,12 +218,12 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
       }
       c = nc;
     }
-    
+
     while ( (digit = digitInRadix(c, readRadix)) >= 0 ) {
       *(digits ++) = digit;
       GETC(); c = PEEKC();
     }
-    
+
     if ( c == '.' ) {
       doFractional:
 
@@ -236,33 +236,33 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
 	GETC(); c = PEEKC();
       }
     }
-      
+
     if ( radix == 10 ) {
       if ( c == 'e' || c == 'E' || c == 'f' || c == 'F' || c == 'g' || c == 'G' ) {
 	int exp2 = 0;
 	int exp2Neg = 0;
-	
+
 	isReal = 1;
 	GETC(); c = PEEKC();
-	
+
 	if ( c == '-' || c == '+' ) {
 	  exp2Neg = c == '-';
 	  GETC(); c = PEEKC();
 	}
-	
+
 	while ( (digit = digitInRadix(c, radix)) >= 0 ) {
 	  exp2 *= radix;
 	  exp2 += digit;
 	  GETC(); c = PEEKC();
 	}
-	
+
 	if ( exp2Neg ) exp2 = - exp2;
 	exp += exp2;
       }
     }
-    
+
     /* Let's do the number contruction here with the digits and exponent */
-    
+
     if ( isReal ) { doReal: {
       double n = 0;
       double p = pow((double) radix, (double) exp);
@@ -276,7 +276,7 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
     } } else {
       long n = 0;
       DIGIT *d = dbuf;
-      
+
       while ( d < digits ) {
         /* Check for overflow */
         if ( n > n * radix ) {
@@ -295,7 +295,7 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
   if ( c == '"' || c == '\'' ) {
     /* STRING || CHAR */
     int term = c;
-    
+
     lexeme = mos_string_make(0,0);
     GETC();
     while ( (c = GETC()) != EOF && c != term ) {
@@ -329,48 +329,53 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
     c = PEEKC();
 
     switch ( c ) {
+    case '\'': {
+	GETC();
+	yylval = mos_undef;
+	return(MEMO);
+    }
     case 'U': case 'u': {
 	GETC();
 	yylval = mos_undef;
 	return(CONSTANT);
     }
     break;
-    
+
     case 'E': case 'e': {
 	GETC();
 	yylval = mos_eos;
 	return(CONSTANT);
     }
     break;
-    
+
     case 'T': case 't': {
 	GETC();
 	yylval = mos_true;
 	return(CONSTANT);
     }
     break;
-    
+
     case 'F': case 'f': {
 	GETC();
 	yylval = mos_false;
 	return(CONSTANT);
     }
     break;
-    
+
     case 'V': case 'v': {
 	GETC();
 	yylval = mos_exprVector(mos_o(vector));
 	return(EXPR);
     }
     break;
-    
+
     case 'M': case 'm': {
 	GETC();
 	yylval = mos_exprMap();
 	return(EXPR);
     }
     break;
-    
+
     case 'N': case 'n': {
 	GETC();
 	/* Parse a named object identifier */
@@ -383,8 +388,8 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
 	yylval = mos_exprConstant(yylval);
 	return(EXPR);
     }
-    break; 
-    
+    break;
+
     case 'G': case 'g': {
 	GETC();
 	/* Parse a getter object */
@@ -397,8 +402,8 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
 	yylval = mos_exprConstant(yylval);
 	return(EXPR);
     }
-    break; 
-    
+    break;
+
     case 'S': case 's': {
 	GETC();
 	/* Parse a getter object */
@@ -411,8 +416,8 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
 	yylval = mos_exprConstant(yylval);
 	return(EXPR);
     }
-    break; 
-    
+    break;
+
     case '#': {
 	GETC();
 	/* Parse a weak object reference id. */
@@ -426,7 +431,7 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
 	return(EXPR);
     }
     break;
- 
+
     case '"': {
 	/* @"xxx" -> `("xxx" asSelector) */
         LEX();
@@ -435,7 +440,7 @@ int _mos_yylex(mos_value *_yylval, void *_yylloc, mos_parse_cntx *cntx)
     }
     break;
     }
-    
+
     yylval = mos_undef;
     return('@');
   } else {

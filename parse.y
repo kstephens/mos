@@ -1,10 +1,8 @@
+%require "3.2"
 %parse-param {mos_parse_cntx* cntx}
-%lex-param {mos_parse_cntx *cntx}
+%lex-param {mos_parse_cntx* cntx}
 %define api.pure full
 %{
-/*
-**
-*/
 
 #include "mos/mos.h"
 #include "mos/expr.h"
@@ -42,11 +40,11 @@ mos_value exprMsg(mos_value CNTX, mos_value RCVR, mos_value SEL, mos_value ARGS)
 
   /* SEL = mos_exprConstant(SEL); */
   CNTX = mos_exprSend_V(CNTX, RCVR, SEL, ARGS);
-  
+
   if ( PARSE_DEBUG ) {
     mos_printf(mos_FILE(err), "parse: got %MW\n", mos_s(printExprOn_), CNTX);
   }
-  
+
   return CNTX;
 }
 
@@ -73,7 +71,7 @@ static int _mos_yyerror(YYLTYPE *_yylloc, mos_parse_cntx *cntx, const char *msg)
 
 %start start
 
-%token ERROR NAME KEYWORD CAPWORD OPERATOR STRING CONSTANT EXPR
+%token ERROR NAME KEYWORD CAPWORD OPERATOR STRING CONSTANT MEMO EXPR
 %left KEYWORD
 %left '['
 %left OPERATOR
@@ -86,19 +84,19 @@ start :
   | expr ';'
 	{ cntx->expr = $1; return(0); }
   | ';' start
-  	{ $$ = $2; }
+  	{ (void) yynerrs; $$ = $2; }
   ;
-  
+
 expr :
     msg
   ;
-  
+
 
 msg :
     keyword_expr
   ;
 
-keyword_expr : 
+keyword_expr :
     keyword_expr sel_expr_list
     	{ $$ = exprMsg(undef, $1, sel($2), args($2)); }
   | sel_expr_list
@@ -115,7 +113,7 @@ sel_expr_list :
   ;
 
 array_expr :
-    array_expr '[' expr ']' 
+    array_expr '[' expr ']'
 	{ $$ = exprMsg(undef, $1, mos_s(get_), vector1($3)); }
   | array_expr '[' expr ']' ':' op_expr
 	{ $$ = exprMsg(undef, $1, mos_s(set_Value_), vector2($3, $6)); }
@@ -150,17 +148,17 @@ resend :
   	{ $$ = $2; }
   ;
 */
-    
+
 rootexpr :
     CONSTANT { $$ = mos_exprConstant($1); }
   | STRING { $$ = mos_exprConstant($1); }
-  | '`' expr { $$ = mos_exprMemo($2); }
+  | MEMO expr { $$ = mos_exprMemo($2); }
   | EXPR
   | object
   | block
   | '(' expr ')' { $$ = mos_exprGroup($2); }
   ;
-  
+
 object :
     '{' slots object_body '}'
   	{ $$ = mos_exprObject($2, $3); }
@@ -172,11 +170,11 @@ object_body :
   | '@' stmts
   	{ $$ = $2; }
   ;
-  
-slots : 
+
+slots :
     /* NOTHING */
         { $$ = nil; }
-  | regular_slot 
+  | regular_slot
   	{ $$ = vector1($1); }
   | regular_slot ';' slots
   	{ $$ = cons($1, $3); }
@@ -187,7 +185,7 @@ slots :
   ;
 
 regular_slot :
-    NAME OPERATOR expr 
+    NAME OPERATOR expr
     	{
 	  if ( mos_EQ($2, mos_s(__ASN__)) ) {
 	    $$ = mos_exprReadOnlySlot($1, $3);
@@ -200,7 +198,7 @@ regular_slot :
 	    return -1;
 	  }
 	}
-  | NAME 
+  | NAME
     	{ $$ = mos_exprSlot($1, undef); }
   ;
 
@@ -214,10 +212,10 @@ sel_name_list :
     	{ $$ = selExpr($1, nil); }
   | OPERATOR NAME
     	{ $$ = selExpr($1, vector1($2)); }
-  | KEYWORD NAME capword_name_list 
+  | KEYWORD NAME capword_name_list
         { $$ = $3; cons($1, sel($3)); cons($2, args($3)); }
   ;
-  
+
 capword_name_list :
     /* NOTHING */
 	{ $$ = selExpr(mos_string_make(0,0),nil); }
@@ -245,11 +243,11 @@ local :
     regular_slot
         { $$ = $1; }
    ;
-  
+
 stmts :
     /* NOTHING */
      	{ $$ = nil; }
-  | expr 
+  | expr
    	{ $$ = vector1($1); }
   | expr ';' stmts
    	{ $$ = cons($1, $3); }
@@ -274,6 +272,7 @@ block :
   ;
 %%
 
+#include "mos/lex.h"
 
 /******************************************************************/
 
